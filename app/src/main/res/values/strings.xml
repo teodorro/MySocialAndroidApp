@@ -1,0 +1,100 @@
+<resources>
+    <string name="app_name">MySocialAndroidApp</string>
+    <string name="app_label">MySocial</string>
+    <string name="action_settings">Settings</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="hello_feed_fragment">Hello feed fragment</string>
+    <string name="hello_auth_fragment">Hello auth fragment</string>
+
+    <string name="login">Login</string>
+    <string name="login2">Log in</string>
+    <string name="name">Name</string>
+    <string name="sign_in">Sign in</string>
+    <string name="sign_up">Sign up</string>
+    <string name="sign_out">Sign out</string>
+    <string name="password">Password</string>
+    <string name="errorLoginPassword">Wrong login or password. Or some other error</string>
+    <string name="enterLoginPassword">Please enter login and password</string>
+
+    <string name="channel_remote_name">Server notifications</string>
+    <string name="channel_remote_description">Notifications from remote server</string>
+
+    <string name="description_photo">Photo</string>
+    <string name="remove">Remove</string>
+    <string name="description_take_photo">Take photo</string>
+    <string name="description_select_photo">Select photo</string>
+
+    <string name="validation_signup_login_blank">Login should not be blank</string>
+    <string name="validation_signup_login_spaces">Login should not contain spaces</string>
+    <string name="validation_signup_password_empty">Password should not be empty</string>
+    <string name="validation_signup_name_blank">Name should not be blank</string>
+    <string name="validation_signup_login_already_exists">Such login already exists</string>
+
+    <string name="posts">Posts</string>
+    <string name="events">Events</string>
+    <string name="jobs">Jobs</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="menu_posts">Posts</string>
+    <string name="menu_wall">Wall</string>
+    <string name="menu_events">Events</string>
+    <string name="menu_jobs">Jobs</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">nav_header_subtitle</string>
+    <string name="nav_header_desc">Navigation header</string>
+
+    <string name="title_authentication">Authentication</string>
+    <string name="title_registration">Registration</string>
+    <string name="title_avatar">Choose avatar</string>
+    <string name="title_new_post">New post</string>
+    <string name="title_wall">Wall</string>
+    <string name="title_mentions">Mentions</string>
+    <string name="title_jobs">Jobs</string>
+    <string name="title_new_job">New job</string>
+    <string name="title_events">Events</string>
+    <string name="title_new_event">New event</string>
+    <string name="title_users">Users</string>
+    <string name="title_speakers">Speakers</string>
+
+    <string name="notification_user_liked">User %1$s liked %2$s\'s post</string>
+    <string name="description_post_author_avatar">Post author avatar</string>
+    <string name="description_post_menu">Post menu</string>
+    <string name="description_post_like">Like</string>
+    <string name="description_post_share">Share</string>
+    <string name="description_post_save">Save</string>
+    <string name="description_event_participate">Participate</string>
+    <string name="new_posts">New posts</string>
+    <string name="add_post">Add post</string>
+    <string name="add_job">Add job</string>
+    <string name="add_event">Add event</string>
+    <string name="menu_remove">Remove</string>
+    <string name="menu_likes">Likes</string>
+    <string name="menu_mentions">Mentions</string>
+    <string name="menu_speakers">Speakers</string>
+    <string name="menu_participants">Participants</string>
+    <string name="menu_edit">Edit</string>
+    <string name="menu_save">Save</string>
+    <string name="post_text">Post Text</string>
+    <string name="users">Users</string>
+
+    <string name="description_job_menu">Job menu</string>
+    <string name="position">Position</string>
+    <string name="start">Start</string>
+    <string name="finish">Finish</string>
+    <string name="link">Link</string>
+    <string name="create_job">Create</string>
+    <string name="datetime">Datetime</string>
+    <string name="content">Content</string>
+
+    <string name="retry_loading">Retry</string>
+    <string name="empty_posts">There are no posts.\nIf you create a new post, it will appear here</string>
+    <string name="error_loading">Error loading data</string>
+
+    <string name="take_part">Take part</string>
+    <string name="i_am_in">I\'m in</string>
+
+    <string name="date">Date: </string>
+</resources>

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/postsFragment">
+    <fragment
+        android:id="@+id/postsFragment"
+        android:name="com.example.mysocialandroidapp.activity.PostsFragment"
+        android:label="fragment_posts"
+        tools:layout="@layout/fragment_posts" >
+        <action
+            android:id="@+id/action_postsFragment_to_regFragment"
+            app:destination="@id/regFragment" />
+        <action
+            android:id="@+id/action_postsFragment_to_authFragment"
+            app:destination="@id/authFragment" />
+        <action
+            android:id="@+id/action_postsFragment_to_usersFragment"
+            app:destination="@id/usersFragment" />
+        <action
+            android:id="@+id/action_postsFragment_to_newPostFragment"
+            app:destination="@id/newPostFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/jobsFragment"
+        android:name="com.example.mysocialandroidapp.activity.JobsFragment"
+        android:label="fragment_jobs"
+        tools:layout="@layout/fragment_jobs" >
+        <action
+            android:id="@+id/action_jobsFragment_to_newJobFragment"
+            app:destination="@id/newJobFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/wallFragment"
+        android:name="com.example.mysocialandroidapp.activity.WallFragment"
+        android:label="fragment_wall"
+        tools:layout="@layout/fragment_wall" >
+        <action
+            android:id="@+id/action_wallFragment_to_usersFragment"
+            app:destination="@id/usersFragment" />
+        <action
+            android:id="@+id/action_wallFragment_to_newPostFragment"
+            app:destination="@id/newPostFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/anotherUserJobsFragment"
+        android:name="com.example.mysocialandroidapp.activity.AnotherUserJobsFragment"
+        android:label="fragment_another_user_jobs"
+        tools:layout="@layout/fragment_another_user_jobs" >
+        <action
+            android:id="@+id/action_anotherUserJobsFragment_to_anotherUserWallFragment"
+            app:destination="@id/anotherUserWallFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/authFragment"
+        android:name="com.example.mysocialandroidapp.activity.AuthFragment"
+        android:label="fragment_auth"
+        tools:layout="@layout/fragment_auth" >
+        <action
+            android:id="@+id/action_authFragment_to_postsFragment"
+            app:destination="@id/postsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/avatarFragment"
+        android:name="com.example.mysocialandroidapp.activity.AvatarFragment"
+        android:label="fragment_avatar"
+        tools:layout="@layout/fragment_avatar" />
+    <fragment
+        android:id="@+id/regFragment"
+        android:name="com.example.mysocialandroidapp.activity.RegFragment"
+        android:label="fragment_reg"
+        tools:layout="@layout/fragment_reg" >
+        <action
+            android:id="@+id/action_regFragment_to_avatarFragment"
+            app:destination="@id/avatarFragment" />
+        <action
+            android:id="@+id/action_regFragment_to_postsFragment"
+            app:destination="@id/postsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/usersFragment"
+        android:name="com.example.mysocialandroidapp.activity.UsersFragment"
+        android:label="fragment_users"
+        tools:layout="@layout/fragment_users" >
+        <action
+            android:id="@+id/action_usersFragment_to_anotherUserWallFragment"
+            app:destination="@id/anotherUserWallFragment" />
+        <action
+            android:id="@+id/action_usersFragment_to_wallFragment"
+            app:destination="@id/wallFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/anotherUserWallFragment"
+        android:name="com.example.mysocialandroidapp.activity.AnotherUserWallFragment"
+        android:label="fragment_another_user_wall"
+        tools:layout="@layout/fragment_another_user_wall" >
+        <action
+            android:id="@+id/action_anotherUserWallFragment_to_anotherUserJobsFragment"
+            app:destination="@id/anotherUserJobsFragment" />
+        <action
+            android:id="@+id/action_anotherUserWallFragment_to_usersFragment"
+            app:destination="@id/usersFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newJobFragment"
+        android:name="com.example.mysocialandroidapp.activity.NewJobFragment"
+        android:label="fragment_new_job"
+        tools:layout="@layout/fragment_new_job" />
+    <fragment
+        android:id="@+id/newPostFragment"
+        android:name="com.example.mysocialandroidapp.activity.NewPostFragment"
+        android:label="fragment_new_post"
+        tools:layout="@layout/fragment_new_post" >
+        <action
+            android:id="@+id/action_newPostFragment_to_checkUsersFragment"
+            app:destination="@id/checkUsersFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/checkUsersFragment"
+        android:name="com.example.mysocialandroidapp.activity.CheckUsersFragment"
+        android:label="fragment_check_users"
+        tools:layout="@layout/fragment_check_users" />
+    <fragment
+        android:id="@+id/eventsFragment"
+        android:name="com.example.mysocialandroidapp.activity.EventsFragment"
+        android:label="fragment_events"
+        tools:layout="@layout/fragment_events" >
+        <action
+            android:id="@+id/action_eventsFragment_to_usersFragment"
+            app:destination="@id/usersFragment" />
+        <action
+            android:id="@+id/action_eventsFragment_to_newEventFragment"
+            app:destination="@id/newEventFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newEventFragment"
+        android:name="com.example.mysocialandroidapp.activity.NewEventFragment"
+        android:label="fragment_new_event"
+        tools:layout="@layout/fragment_new_event" >
+        <action
+            android:id="@+id/action_newEventFragment_to_checkUsersFragment"
+            app:destination="@id/checkUsersFragment" />
+    </fragment>
+</navigation>

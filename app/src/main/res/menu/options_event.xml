@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:id="@+id/owned">
+        <item
+            android:id="@+id/edit"
+            android:title="@string/menu_edit" />
+        <item
+            android:id="@+id/remove"
+            android:title="@string/menu_remove" />
+    </group>
+    <group android:id="@+id/all_public">
+        <item
+            android:id="@+id/participants"
+            android:title="@string/menu_participants" />
+        <item
+            android:id="@+id/likes"
+            android:title="@string/menu_likes" />
+        <item
+            android:id="@+id/speakers"
+            android:title="@string/menu_speakers" />
+    </group>
+</menu>

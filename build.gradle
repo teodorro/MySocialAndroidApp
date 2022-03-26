@@ -1,0 +1,23 @@
+buildscript {
+    ext {
+        ext.kotlin_version = "1.6.10"
+        ext.hilt_version = "2.41"
+        ext.tools_version = "7.1.2"
+        ext.gservices_version = "4.3.10"
+    }
+    repositories {
+        google()
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+    }
+    dependencies {
+        classpath "com.android.tools.build:gradle:$tools_version"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10"
+        classpath "com.google.dagger:hilt-android-gradle-plugin:$hilt_version"
+        classpath "com.google.gms:google-services:$gservices_version"
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
