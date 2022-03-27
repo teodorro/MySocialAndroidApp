@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.mysocialandroidapp.R
 import com.example.mysocialandroidapp.adapter.JobsAdapter
@@ -23,9 +24,7 @@ class AnotherUserJobsFragment : Fragment() {
     private var _binding: FragmentAnotherUserJobsBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModelUser: AnotherUserJobsViewModel by viewModels(
-        ownerProducer = ::requireParentFragment
-    )
+    private val viewModelUser: AnotherUserJobsViewModel by hiltNavGraphViewModels(R.id.nav_graph)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

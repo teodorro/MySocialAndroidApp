@@ -8,11 +8,11 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.mysocialandroidapp.R
 import com.example.mysocialandroidapp.adapter.OnPostInteractionListener
 import com.example.mysocialandroidapp.adapter.PostsAdapter
-import com.example.mysocialandroidapp.auth.AppAuth
 import com.example.mysocialandroidapp.databinding.FragmentPostsBinding
 import com.example.mysocialandroidapp.dto.Post
 import com.example.mysocialandroidapp.enumeration.UserListType
@@ -24,9 +24,7 @@ class PostsFragment : Fragment() {
     private var _binding: FragmentPostsBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: PostsViewModel by viewModels(
-        ownerProducer = ::requireParentFragment
-    )
+    private val viewModel: PostsViewModel by hiltNavGraphViewModels(R.id.nav_graph)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,7 +55,7 @@ class PostsFragment : Fragment() {
                 )
             }
         },
-            AppAuth.currentAuthorId)
+            viewModel.appAuth.authStateFlow.value!!.id)
         binding.postsList.adapter = adapter
 
         viewModel.postsFeed.observe(viewLifecycleOwner) { x ->

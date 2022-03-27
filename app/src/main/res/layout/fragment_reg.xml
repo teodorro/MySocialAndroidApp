@@ -13,7 +13,6 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginHorizontal="48dp"
         android:layout_marginTop="@dimen/common_spacing"
-        android:background="#E6E6E6"
         android:contentDescription="@string/description_photo"
         app:layout_constraintDimensionRatio="H,1:1"
         app:layout_constraintEnd_toEndOf="parent"
@@ -31,16 +30,6 @@
         app:layout_constraintBottom_toBottomOf="@+id/photo"
         app:layout_constraintEnd_toEndOf="@+id/photo" />
 
-    <TextView
-        android:id="@+id/textview_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/name"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginBottom="@dimen/small_spacing"
-        app:layout_constraintBottom_toBottomOf="@+id/editText_name"
-        app:layout_constraintRight_toLeftOf="@+id/editText_name" />
-
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/editText_name"
@@ -54,15 +43,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/materialButtonLoadAvatar"/>
 
-    <TextView
-        android:id="@+id/textview_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/login"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginBottom="@dimen/small_spacing"
-        app:layout_constraintBottom_toBottomOf="@+id/editText_login"
-        app:layout_constraintRight_toLeftOf="@+id/editText_login"  />
 
     <EditText
         android:id="@+id/editText_login"
@@ -76,35 +56,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText_name"/>
 
-    <TextView
-        android:id="@+id/textview_password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/password"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginBottom="@dimen/small_spacing"
-        app:layout_constraintBottom_toBottomOf="@+id/editText_Password"
-        app:layout_constraintRight_toLeftOf="@+id/editText_Password"/>
-
     <EditText
-        android:id="@+id/editText_Password"
+        android:id="@+id/editText_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:hint="@string/password"
         android:inputType="textPassword"
         android:layout_marginTop="@dimen/activity_vertical_margin"
-        app:layout_constraintTop_toBottomOf="@+id/editText_login"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/button_signup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/sign_up"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editText_Password" />
+        app:layout_constraintTop_toBottomOf="@+id/editText_login" />
+
+    <EditText
+        android:id="@+id/editText_repeat_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/repeat_password"
+        android:inputType="textPassword"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_password" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

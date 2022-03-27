@@ -11,6 +11,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AnotherUserWallViewModel @Inject constructor(
+    val appAuth: AppAuth,
 ) : ViewModel() {
     private val _postsFeed = MutableLiveData<PostsFeedModel>()
     val postsFeed: LiveData<PostsFeedModel>
@@ -19,7 +20,7 @@ class AnotherUserWallViewModel @Inject constructor(
     var userId: Long = 0
 
     init {
-        loadPosts(AppAuth.currentAuthorId)
+        loadPosts(appAuth.authStateFlow.value!!.id)
     }
 
     fun loadPosts(userId: Long) {

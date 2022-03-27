@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.mysocialandroidapp.R
 import com.example.mysocialandroidapp.adapter.OnUserClickListener
@@ -31,9 +32,7 @@ class UsersFragment : Fragment(), OnUserClickListener {
     private var _binding: FragmentUsersBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: UsersViewModel by viewModels(
-        ownerProducer = ::requireParentFragment
-    )
+    private val viewModel: UsersViewModel by hiltNavGraphViewModels(R.id.nav_graph)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,7 +62,7 @@ class UsersFragment : Fragment(), OnUserClickListener {
 
     override fun onUserClicked(user: User) {
         val userIdBundle = bundleOf(USER_ID to user.id)
-        if (user.id == AppAuth.currentAuthorId) {
+        if (user.id == viewModel.appAuth.authStateFlow.value!!.id) {
             findNavController().navigate(R.id.action_usersFragment_to_wallFragment, userIdBundle)
         } else {
             findNavController().navigate(

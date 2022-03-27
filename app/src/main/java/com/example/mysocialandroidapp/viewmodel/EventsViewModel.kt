@@ -12,6 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EventsViewModel @Inject constructor(
+    val appAuth: AppAuth,
 ) : ViewModel() {
     private val _eventsFeed = MutableLiveData<EventsFeedModel>()
     val eventsFeed: LiveData<EventsFeedModel>
@@ -20,10 +21,10 @@ class EventsViewModel @Inject constructor(
     var userId: Long = 0
 
     init {
-        loadEvents(AppAuth.currentAuthorId)
+        loadEvents()
     }
 
-    fun loadEvents(userId: Long) {
+    fun loadEvents() {
         val eventsFeed = Samples.getEvents()
         _eventsFeed.value = EventsFeedModel(eventsFeed, eventsFeed?.isEmpty())
     }

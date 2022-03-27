@@ -11,7 +11,9 @@
     <dimen name="icon_button_min_size">48dp</dimen>
     <dimen name="posts_avatar_size">48dp</dimen>
     <dimen name="posts_avatar_small_size">24dp</dimen>
-    <dimen name="bigger_margin">48dp</dimen>
+    <dimen name="big_margin">48dp</dimen>
+    <dimen name="bigger_margin">32dp</dimen>
+
     <dimen name="coords_text_size">12sp</dimen>
 
 </resources>

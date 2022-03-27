@@ -11,6 +11,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class JobsViewModel @Inject constructor(
+    val appAuth: AppAuth,
 ) : ViewModel()  {
     private val _jobsFeed = MutableLiveData<JobsFeedModel>()
     val jobsFeed: LiveData<JobsFeedModel>
@@ -19,7 +20,7 @@ class JobsViewModel @Inject constructor(
     var userId: Long = 0
 
     init {
-        loadJobs(AppAuth.currentAuthorId)
+        loadJobs(appAuth.authStateFlow.value!!.id)
     }
 
     fun loadJobs(userId: Long) {

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.mysocialandroidapp.R
 import com.example.mysocialandroidapp.adapter.EventsAdapter
@@ -30,9 +31,7 @@ class EventsFragment : Fragment() {
     private var _binding: FragmentEventsBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: EventsViewModel by viewModels(
-        ownerProducer = ::requireParentFragment
-    )
+    private val viewModel: EventsViewModel by hiltNavGraphViewModels(R.id.nav_graph)
 
 
     override fun onCreateView(
@@ -42,8 +41,7 @@ class EventsFragment : Fragment() {
         (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.title_events)
         _binding = FragmentEventsBinding.inflate(inflater, container, false)
 
-        viewModel.userId = AppAuth.currentAuthorId
-        viewModel.loadEvents(viewModel.userId)
+        viewModel.loadEvents()
 
         val adapter = EventsAdapter(object : OnEventInteractionListener {
             override fun onRemove(event: Event) {

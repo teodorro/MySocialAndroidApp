@@ -5,6 +5,7 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.mysocialandroidapp.R
 import com.example.mysocialandroidapp.adapter.CheckUsersAdapter
@@ -22,9 +23,7 @@ class CheckUsersFragment : Fragment(), OnUserCheckListener {
     private var _binding: FragmentCheckUsersBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: CheckUsersViewModel by viewModels(
-        ownerProducer = ::requireParentFragment
-    )
+    private val viewModel: CheckUsersViewModel by hiltNavGraphViewModels(R.id.nav_graph)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

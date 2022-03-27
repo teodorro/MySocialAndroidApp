@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.mysocialandroidapp.R
 import com.example.mysocialandroidapp.adapter.JobsAdapter
@@ -22,9 +23,7 @@ class JobsFragment : Fragment()  {
     private var _binding: FragmentJobsBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: JobsViewModel by viewModels(
-        ownerProducer = ::requireParentFragment
-    )
+    private val viewModel: JobsViewModel by hiltNavGraphViewModels(R.id.nav_graph)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,7 +32,7 @@ class JobsFragment : Fragment()  {
         (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.title_jobs)
         _binding = FragmentJobsBinding.inflate(inflater, container, false)
 
-        viewModel.userId = AppAuth.currentAuthorId
+        viewModel.userId = viewModel.appAuth.authStateFlow.value!!.id
         viewModel.loadJobs(viewModel.userId)
 
         val adapter = JobsAdapter(object : OnJobInteractionListener {

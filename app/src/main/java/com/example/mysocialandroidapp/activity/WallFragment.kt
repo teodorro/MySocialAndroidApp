@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.mysocialandroidapp.R
 import com.example.mysocialandroidapp.adapter.OnPostInteractionListener
@@ -24,9 +25,7 @@ class WallFragment : Fragment() {
     private var _binding: FragmentWallBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: WallViewModel by viewModels(
-        ownerProducer = ::requireParentFragment
-    )
+    private val viewModel: WallViewModel by hiltNavGraphViewModels(R.id.nav_graph)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,7 +34,7 @@ class WallFragment : Fragment() {
         (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.title_wall)
         _binding = FragmentWallBinding.inflate(inflater, container, false)
 
-        viewModel.userId = AppAuth.currentAuthorId
+        viewModel.userId = viewModel.appAuth.authStateFlow.value!!.id
         viewModel.loadPosts(viewModel.userId)
 
         val adapter = PostsAdapter(object : OnPostInteractionListener {
