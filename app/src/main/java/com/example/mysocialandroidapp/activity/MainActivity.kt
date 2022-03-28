@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.activity.viewModels
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
@@ -15,22 +16,27 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.example.mysocialandroidapp.R
 import com.example.mysocialandroidapp.auth.AppAuth
 import com.example.mysocialandroidapp.databinding.ActivityMainBinding
 import com.example.mysocialandroidapp.databinding.NavHeaderMainBinding
+import com.example.mysocialandroidapp.util.DrawerNavigator
 import com.example.mysocialandroidapp.viewmodel.AuthViewModel
 import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity @Inject constructor() : AppCompatActivity() {
+class MainActivity @Inject constructor(
+) : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     @Inject
     lateinit var appAuth: AppAuth
     @Inject
     lateinit var firebaseMessaging: FirebaseMessaging
+    @Inject
+    lateinit var drawerNavigator: DrawerNavigator
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
@@ -54,6 +60,7 @@ class MainActivity @Inject constructor() : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+        binding.navView.setNavigationItemSelectedListener(this)
         // endregion
 
         this.supportActionBar?.title = ""
@@ -108,7 +115,7 @@ class MainActivity @Inject constructor() : AppCompatActivity() {
                 with(headerBinding){
                     textViewName.text = "Not authenticated"
                     textViewLogin.text = ""
-                    imageViewAvatar.setImageResource(R.drawable.ic_baseline_person_24)
+                    imageViewAvatar.setImageResource(R.mipmap.ic_launcher_round)
                 }
             }
         }
@@ -143,6 +150,21 @@ class MainActivity @Inject constructor() : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun getCurrentFragment() : Fragment? {
+        val navHostFragment: Fragment? =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main)
+        return navHostFragment?.childFragmentManager?.fragments?.get(0)
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        var curFragment = getCurrentFragment()
+        if (curFragment != null)
+            drawerNavigator.navigate(getCurrentFragment()!!, item, findNavController(R.id.nav_host_fragment_content_main))
+        else
+            Toast.makeText(this, getString(R.string.unknown_error), Toast.LENGTH_SHORT).show()
+        return true
     }
 
 }

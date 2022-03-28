@@ -83,8 +83,10 @@ class AuthViewModel @Inject constructor(
 
     fun initUser(userId: Long) =
         viewModelScope.launch {
-            if (userId == 0L)
+            if (userId == 0L) {
+                auth.setUser(0, "", "", null, emptyList())
                 return@launch
+            }
             val responseUser = apiService.getUserById(userId)
             if (responseUser.isSuccessful){
                 val body = responseUser.body() ?: throw ApiError(responseUser.code(), responseUser.message())
@@ -97,6 +99,7 @@ class AuthViewModel @Inject constructor(
 
     fun signOut() {
         auth.removeAuth()
+        initUser(0)
     }
 
     fun signUp(login: String, password: String, name: String, uri: Uri?) =

@@ -21,6 +21,9 @@
         <action
             android:id="@+id/action_postsFragment_to_newPostFragment"
             app:destination="@id/newPostFragment" />
+        <action
+            android:id="@+id/action_postsFragment_to_wallFragment"
+            app:destination="@id/wallFragment" />
     </fragment>
     <fragment
         android:id="@+id/jobsFragment"
@@ -42,6 +45,9 @@
         <action
             android:id="@+id/action_wallFragment_to_newPostFragment"
             app:destination="@id/newPostFragment" />
+        <action
+            android:id="@+id/action_wallFragment_to_postsFragment"
+            app:destination="@id/postsFragment" />
     </fragment>
     <fragment
         android:id="@+id/anotherUserJobsFragment"

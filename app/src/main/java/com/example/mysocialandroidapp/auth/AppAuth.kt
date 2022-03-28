@@ -39,7 +39,6 @@ import javax.inject.Singleton
 class AppAuth @Inject constructor(
     @ApplicationContext private val context: Context,
 ) {
-//    var authStateFlow: LiveData<AuthState> = MutableLiveData(AuthState(123, "asd"))
     private val prefs = context.getSharedPreferences(
         "auth",
         Context.MODE_PRIVATE)

@@ -90,13 +90,11 @@
     <string name="create_job">Create</string>
     <string name="datetime">Datetime</string>
     <string name="content">Content</string>
-
     <string name="retry_loading">Retry</string>
     <string name="empty_posts">There are no posts.\nIf you create a new post, it will appear here</string>
     <string name="error_loading">Error loading data</string>
-
     <string name="take_part">Take part</string>
     <string name="i_am_in">I\'m in</string>
-
     <string name="date">Date: </string>
+    <string name="unknown_error">Unknown error</string>
 </resources>
