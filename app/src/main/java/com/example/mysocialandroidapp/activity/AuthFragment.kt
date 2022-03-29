@@ -67,7 +67,7 @@ class AuthFragment : Fragment() {
                         .show()
                 }
             } else {
-                Toast.makeText(this.context, R.string.enterLoginPassword, Toast.LENGTH_LONG)
+                 Toast.makeText(this.context, R.string.enterLoginPassword, Toast.LENGTH_LONG)
                     .show()
             }
         }

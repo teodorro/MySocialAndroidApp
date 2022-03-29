@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.mysocialandroidapp.R
 import com.example.mysocialandroidapp.adapter.OnPostInteractionListener
@@ -18,7 +19,9 @@ import com.example.mysocialandroidapp.databinding.FragmentWallBinding
 import com.example.mysocialandroidapp.dto.Post
 import com.example.mysocialandroidapp.enumeration.UserListType
 import com.example.mysocialandroidapp.viewmodel.WallViewModel
+import com.example.mysocialandroidapp.viewmodel.emptyPost
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class WallFragment : Fragment() {
@@ -34,18 +37,20 @@ class WallFragment : Fragment() {
         (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.title_wall)
         _binding = FragmentWallBinding.inflate(inflater, container, false)
 
-        viewModel.userId = viewModel.appAuth.authStateFlow.value!!.id
-        viewModel.loadPosts(viewModel.userId)
+        viewModel.userId = viewModel.appAuth.userFlow.value.id
+        val currentUserId = viewModel.appAuth.authStateFlow.value.id
 
         val adapter = PostsAdapter(object : OnPostInteractionListener {
             override fun onRemove(post: Post) {
+                viewModel.removeById(post.id)
             }
 
             override fun onEdit(post: Post) {
-                findNavController().navigate(R.id.action_wallFragment_to_newPostFragment)
+                viewModel.edit(post)
             }
 
             override fun onLike(post: Post) {
+                viewModel.likeById(post.id)
             }
 
             override fun onShowUsers(post: Post, userListType: UserListType) {
@@ -67,9 +72,20 @@ class WallFragment : Fragment() {
         }, viewModel.userId)
         binding.postsList.adapter = adapter
 
-        viewModel.postsFeed.observe(viewLifecycleOwner) { x ->
-            adapter.submitList(x.posts)
+        binding.swiperefresh.setOnRefreshListener {
+            viewModel.refreshPosts()
+            adapter.refresh()
         }
+
+        lifecycleScope.launchWhenCreated {
+            viewModel.data.collectLatest(adapter::submitData)
+        }
+
+        binding.fab.setOnClickListener {
+            viewModel.edit(emptyPost)
+            findNavController().navigate(R.id.action_wallFragment_to_newPostFragment)
+        }
+        adapter.refresh()
 
         return binding.root
     }

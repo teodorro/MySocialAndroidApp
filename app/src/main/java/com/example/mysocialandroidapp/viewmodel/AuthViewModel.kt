@@ -70,6 +70,7 @@ class AuthViewModel @Inject constructor(
 
     fun signIn(login: String, password: String) =
         viewModelScope.launch {
+            auth.removeAuth() // to refresh data for repeating unsuccessful login. Otherwise no toast.message
             val responseSignIn = apiService.signIn(login, password)
             if (!responseSignIn.isSuccessful) {
                 auth.setAuth(0, "")

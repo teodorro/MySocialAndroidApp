@@ -78,10 +78,12 @@ class MainActivity @Inject constructor(
         authViewModel.signOutEvent.observe(this) {
             authViewModel.signOut()
             navView.menu.setGroupVisible(R.id.authenticated, false)
+            navView.menu.setGroupVisible(R.id.unauthenticated, true)
         }
 
         authViewModel.authenticatedEvent.observe(this) {
             navView.menu.setGroupVisible(R.id.authenticated, true)
+            navView.menu.setGroupVisible(R.id.unauthenticated, false)
         }
 
         firebaseMessaging.token.addOnCompleteListener { task ->
@@ -160,8 +162,14 @@ class MainActivity @Inject constructor(
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         var curFragment = getCurrentFragment()
-        if (curFragment != null)
-            drawerNavigator.navigate(getCurrentFragment()!!, item, findNavController(R.id.nav_host_fragment_content_main))
+        if (curFragment != null) {
+            drawerNavigator.navigate(
+                getCurrentFragment()!!,
+                item,
+                findNavController(R.id.nav_host_fragment_content_main)
+            )
+            binding.drawerLayout.close()
+        }
         else
             Toast.makeText(this, getString(R.string.unknown_error), Toast.LENGTH_SHORT).show()
         return true

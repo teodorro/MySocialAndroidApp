@@ -4,13 +4,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mysocialandroidapp.BuildConfig
 import com.example.mysocialandroidapp.R
 import com.example.mysocialandroidapp.databinding.PostItemBinding
 import com.example.mysocialandroidapp.dto.Post
 import com.example.mysocialandroidapp.enumeration.UserListType
+import com.example.mysocialandroidapp.util.loadCircleCrop
 
 interface OnPostInteractionListener {
     fun onLike(post: Post) {}
@@ -22,20 +25,18 @@ interface OnPostInteractionListener {
 class PostsAdapter (
     private val onInteractionListener: OnPostInteractionListener,
     private val userId: Long
-) : ListAdapter<Post, PostsAdapter.PostViewHolder>(PostDiffCallback()) {
+) : PagingDataAdapter<Post, PostsAdapter.PostViewHolder>(PostDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
-        var binding =
-            PostItemBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
+        val binding = PostItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return PostViewHolder(binding, onInteractionListener, userId)
     }
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
-        val item = getItem(position)
-        holder.bind(item)
+//        val item = getItem(position)
+//        holder.bind(item)
+        getItem(position)?.let {
+            holder.bind(it)
+        }
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -65,6 +66,7 @@ class PostsAdapter (
             binding.apply {
                 author.text = post.author
                 content.text = post.content
+                avatar.loadCircleCrop("${BuildConfig.BASE_URL}/avatars/${post.authorAvatar}")
                 like.isChecked = post.likedByMe
                 like.text = "${post.likeOwnerIds.size}"
                 published.text = post.published

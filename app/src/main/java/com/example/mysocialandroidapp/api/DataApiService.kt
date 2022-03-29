@@ -68,69 +68,69 @@ interface DataApiService {
 
     //endregion
 
-//
-//    //region POSTS
-//
-//    @GET("posts")
-//    suspend fun getPostsAll(): Response<List<Post>>
-//
-//    @GET("posts/latest")
-//    suspend fun getPostsLatest(@Query("count") count: Int): Response<List<Post>>
-//
-//    @GET("posts/{id}/before")
-//    suspend fun getPostsBefore(
-//        @Path("id") id: Long,
-//        @Query("count") count: Int
-//    ): Response<List<Post>>
-//
-//    @GET("posts/{id}/after")
-//    suspend fun getPostsAfter(
-//        @Path("id") id: Long,
-//        @Query("count") count: Int
-//    ): Response<List<Post>>
-//
-//    @GET("posts/{id}")
-//    suspend fun getPostById(@Path("id") id: Long): Response<Post>
-//
-//    @GET("posts/{id}/newer")
-//    suspend fun getPostsNewer(@Path("id") id: Long): Response<List<Post>>
-//
-//    @POST("posts")
-//    suspend fun savePosts(@Body post: Post): Response<Post>
-//
-//    @POST("posts/{id}/likes")
-//    suspend fun likeById(@Path("id") id: Long): Response<Post>
-//
-//    @DELETE("posts/{id}/likes")
-//    suspend fun dislikeById(@Path("id") id: Long): Response<Post>
-//
-//    @DELETE("posts/{id}")
-//    suspend fun removePostById(@Path("id") id: Long): Response<Unit>
-//
-//    //endregion
-//
-//
-//    //region WALL
-//
-//    @GET("my/wall/latest")
-//    suspend fun getMyWallPostsLatest(@Query("count") count: Int): Response<List<Post>>
-//
-//    @GET("{id}/wall/latest")
-//    suspend fun getWallPostsLatest(@Path("id") id: Long, @Query("count") count: Int): Response<List<Post>>
-//
-//    @GET("{id}/wall")
-//    suspend fun getWallPosts(@Path("id") id: Long): Response<List<Post>>
-//
-//    @GET("{id}/wall/{wall_post_id}")
-//    suspend fun getWallPostById(@Path("id") id: Long, @Path("wall_post_id") wall_post_id: Long): Response<Post>
-//
-//    @POST("{id}/wall/{wall_post_id}/likes")
-//    suspend fun likeWallPostById(@Path("id") id: Long, @Path("wall_post_id") wall_post_id: Long): Response<Post>
-//
-//    @DELETE("{id}/wall/{wall_post_id}/likes")
-//    suspend fun dislikeWallPostById(@Path("id") id: Long, @Path("wall_post_id") wall_post_id: Long): Response<Post>
-//
-//    //endregion
+
+    //region POSTS
+
+    @GET("posts")
+    suspend fun getPostsAll(): Response<List<Post>>
+
+    @GET("posts/latest")
+    suspend fun getPostsLatest(@Query("count") count: Int): Response<List<Post>>
+
+    @GET("posts/{id}/before")
+    suspend fun getPostsBefore(
+        @Path("id") id: Long,
+        @Query("count") count: Int
+    ): Response<List<Post>>
+
+    @GET("posts/{id}/after")
+    suspend fun getPostsAfter(
+        @Path("id") id: Long,
+        @Query("count") count: Int
+    ): Response<List<Post>>
+
+    @GET("posts/{id}")
+    suspend fun getPostById(@Path("id") id: Long): Response<Post>
+
+    @GET("posts/{id}/newer")
+    suspend fun getPostsNewer(@Path("id") id: Long): Response<List<Post>>
+
+    @POST("posts")
+    suspend fun savePosts(@Body post: Post): Response<Post>
+
+    @POST("posts/{id}/likes")
+    suspend fun likeById(@Path("id") id: Long): Response<Post>
+
+    @DELETE("posts/{id}/likes")
+    suspend fun dislikeById(@Path("id") id: Long): Response<Post>
+
+    @DELETE("posts/{id}")
+    suspend fun removePostById(@Path("id") id: Long): Response<Unit>
+
+    //endregion
+
+
+    //region WALL
+
+    @GET("my/wall/latest")
+    suspend fun getMyWallPostsLatest(@Query("count") count: Int): Response<List<Post>>
+
+    @GET("{id}/wall/latest")
+    suspend fun getWallPostsLatest(@Path("id") id: Long, @Query("count") count: Int): Response<List<Post>>
+
+    @GET("{id}/wall")
+    suspend fun getWallPosts(@Path("id") id: Long): Response<List<Post>>
+
+    @GET("{id}/wall/{wall_post_id}")
+    suspend fun getWallPostById(@Path("id") id: Long, @Path("wall_post_id") wall_post_id: Long): Response<Post>
+
+    @POST("{id}/wall/{wall_post_id}/likes")
+    suspend fun likeWallPostById(@Path("id") id: Long, @Path("wall_post_id") wall_post_id: Long): Response<Post>
+
+    @DELETE("{id}/wall/{wall_post_id}/likes")
+    suspend fun dislikeWallPostById(@Path("id") id: Long, @Path("wall_post_id") wall_post_id: Long): Response<Post>
+
+    //endregion
 //
 //
 //    //region JOB

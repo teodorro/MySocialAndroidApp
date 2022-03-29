@@ -67,9 +67,9 @@ class AnotherUserWallFragment : Fragment() {
 
         binding.username.text = Samples.getUsers().first { x -> x.id == viewModelUser.userId }.name
 
-        viewModelUser.postsFeed.observe(viewLifecycleOwner) { x ->
-            adapter.submitList(x.posts)
-        }
+//        viewModelUser.postsFeed.observe(viewLifecycleOwner) { x ->
+//            adapter.submitList(x.posts)
+//        }
 
         return binding.root
     }
