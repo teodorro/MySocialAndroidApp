@@ -39,18 +39,6 @@ class PostsViewModel @Inject constructor(
     private val workManager: WorkManager,
     val appAuth: AppAuth,
 ) : ViewModel() {
-//    private val _postsFeed = MutableLiveData<PostsFeedModel>()
-//    val postsFeed: LiveData<PostsFeedModel>
-//        get() = _postsFeed
-//
-//    init {
-//        loadPosts()
-//    }
-//
-//    private fun loadPosts() {
-//        val posts = Samples.getPosts()
-//        _postsFeed.value = PostsFeedModel(posts, posts?.isEmpty())
-//    }
 
     private val cached = repository
         .data
@@ -100,14 +88,6 @@ class PostsViewModel @Inject constructor(
 
     fun edit(post: Post) {
         _edited.value = post
-    }
-
-    fun changeContent(content: String) {
-        val text = content.trim()
-        if (edited.value?.content == text) {
-            return
-        }
-        _edited.value = edited.value?.copy(content = text, author = appAuth.userFlow.value.name, authorId = appAuth.userFlow.value.id)
     }
 
     fun likeById(id: Long) {

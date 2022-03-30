@@ -20,7 +20,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@sample/posts.json/data/authorAvatar" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/author"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -28,6 +28,8 @@
             android:layout_marginEnd="@dimen/common_spacing"
             android:ellipsize="end"
             android:singleLine="true"
+            android:textStyle="bold"
+            android:textSize="@dimen/post_user_text_size"
             app:layout_constraintEnd_toStartOf="@id/menu"
             app:layout_constraintStart_toEndOf="@id/avatar"
             app:layout_constraintTop_toTopOf="parent"
@@ -78,50 +80,31 @@
             app:layout_constraintTop_toBottomOf="@id/header"
             tools:text="@sample/posts.json/data/content" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constrLayoutLink"
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/link"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="match_parent"
+            android:paddingVertical="@dimen/small_spacing"
+            android:scaleType="center"
+            android:autoLink="web"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/content"
+            tools:text="@sample/posts.json/data/link" />
+        />
+
+        <TextView
+            android:id="@+id/coords"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="center"
+            android:textSize="@dimen/coords_text_size"
+            android:textColor="@color/coordinates_text_color"
             android:paddingVertical="@dimen/small_spacing"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/content">
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/link"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="center"
-                android:autoLink="web"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="@sample/posts.json/data/link" />/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constrLayoutCoords"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:paddingVertical="@dimen/small_spacing"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constrLayoutLink">
-
-            <TextView
-                android:id="@+id/coords"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="center"
-                android:textSize="@dimen/coords_text_size"
-                android:textColor="@color/coordinates_text_color"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="@sample/posts.json/data/coords"  />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintTop_toBottomOf="@+id/link"
+            tools:text="@sample/posts.json/data/coords"  />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constrLayoutAttachment"
@@ -129,7 +112,7 @@
             android:layout_height="0dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constrLayoutCoords">
+            app:layout_constraintTop_toBottomOf="@+id/coords">
 
             <ImageView
                 android:id="@+id/attachment"

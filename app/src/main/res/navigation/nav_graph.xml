@@ -23,7 +23,12 @@
             app:destination="@id/newPostFragment" />
         <action
             android:id="@+id/action_postsFragment_to_wallFragment"
-            app:destination="@id/wallFragment" />
+            app:destination="@id/wallFragment"
+            app:popUpTo="@id/wallFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_postsFragment_to_anotherUserWallFragment"
+            app:destination="@id/anotherUserWallFragment" />
     </fragment>
     <fragment
         android:id="@+id/jobsFragment"
@@ -47,7 +52,9 @@
             app:destination="@id/newPostFragment" />
         <action
             android:id="@+id/action_wallFragment_to_postsFragment"
-            app:destination="@id/postsFragment" />
+            app:destination="@id/postsFragment"
+            app:popUpTo="@id/postsFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/anotherUserJobsFragment"
@@ -57,6 +64,16 @@
         <action
             android:id="@+id/action_anotherUserJobsFragment_to_anotherUserWallFragment"
             app:destination="@id/anotherUserWallFragment" />
+        <action
+            android:id="@+id/action_anotherUserJobsFragment_to_postsFragment"
+            app:destination="@id/postsFragment"
+            app:popUpTo="@id/postsFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_anotherUserJobsFragment_to_wallFragment"
+            app:destination="@id/wallFragment"
+            app:popUpTo="@id/wallFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/authFragment"
@@ -94,7 +111,14 @@
             app:destination="@id/anotherUserWallFragment" />
         <action
             android:id="@+id/action_usersFragment_to_wallFragment"
-            app:destination="@id/wallFragment" />
+            app:destination="@id/wallFragment"
+            app:popUpTo="@id/wallFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_usersFragment_to_postsFragment"
+            app:destination="@id/postsFragment"
+            app:popUpTo="@id/postsFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/anotherUserWallFragment"
@@ -107,6 +131,16 @@
         <action
             android:id="@+id/action_anotherUserWallFragment_to_usersFragment"
             app:destination="@id/usersFragment" />
+        <action
+            android:id="@+id/action_anotherUserWallFragment_to_wallFragment"
+            app:destination="@id/wallFragment"
+            app:popUpTo="@id/wallFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_anotherUserWallFragment_to_postsFragment"
+            app:destination="@id/postsFragment"
+            app:popUpTo="@id/postsFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/newJobFragment"
@@ -119,8 +153,18 @@
         android:label="fragment_new_post"
         tools:layout="@layout/fragment_new_post" >
         <action
-            android:id="@+id/action_newPostFragment_to_checkUsersFragment"
-            app:destination="@id/checkUsersFragment" />
+            android:id="@+id/action_newPostFragment_to_mentionsFragment"
+            app:destination="@id/mentionsFragment" />
+        <action
+            android:id="@+id/action_newPostFragment_to_wallFragment"
+            app:destination="@id/wallFragment"
+            app:popUpTo="@id/wallFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_newPostFragment_to_postsFragment"
+            app:destination="@id/postsFragment"
+            app:popUpTo="@id/postsFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/checkUsersFragment"
@@ -147,5 +191,21 @@
         <action
             android:id="@+id/action_newEventFragment_to_checkUsersFragment"
             app:destination="@id/checkUsersFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mentionsFragment"
+        android:name="com.example.mysocialandroidapp.activity.MentionsFragment"
+        android:label="fragment_mentions"
+        tools:layout="@layout/fragment_mentions" >
+        <action
+            android:id="@+id/action_mentionsFragment_to_wallFragment"
+            app:destination="@id/wallFragment"
+            app:popUpTo="@id/wallFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_mentionsFragment_to_postsFragment"
+            app:destination="@id/postsFragment"
+            app:popUpTo="@id/postsFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

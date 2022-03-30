@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.lifecycleScope
@@ -20,6 +21,7 @@ import com.example.mysocialandroidapp.dto.Post
 import com.example.mysocialandroidapp.enumeration.UserListType
 import com.example.mysocialandroidapp.viewmodel.WallViewModel
 import com.example.mysocialandroidapp.viewmodel.emptyPost
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
@@ -38,7 +40,6 @@ class WallFragment : Fragment() {
         _binding = FragmentWallBinding.inflate(inflater, container, false)
 
         viewModel.userId = viewModel.appAuth.userFlow.value.id
-        val currentUserId = viewModel.appAuth.authStateFlow.value.id
 
         val adapter = PostsAdapter(object : OnPostInteractionListener {
             override fun onRemove(post: Post) {
@@ -71,6 +72,16 @@ class WallFragment : Fragment() {
             }
         }, viewModel.userId)
         binding.postsList.adapter = adapter
+
+        viewModel.dataState.observe(viewLifecycleOwner) { state ->
+            binding.progress.isVisible = state.loading
+            binding.swiperefresh.isRefreshing = state.refreshing
+            if (state.error) {
+                Snackbar.make(binding.root, R.string.error_loading, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.retry_loading) { viewModel.loadPosts() }
+                    .show()
+            }
+        }
 
         binding.swiperefresh.setOnRefreshListener {
             viewModel.refreshPosts()

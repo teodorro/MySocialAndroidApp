@@ -6,8 +6,11 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mysocialandroidapp.BuildConfig
+import com.example.mysocialandroidapp.R
 import com.example.mysocialandroidapp.databinding.CheckUserItemBinding
 import com.example.mysocialandroidapp.dto.User
+import com.example.mysocialandroidapp.util.loadCircleCrop
 
 interface OnUserCheckListener {
     fun onCheckUser(user: User)
@@ -60,6 +63,11 @@ class CheckUsersAdapter (
                 userId = user.id
                 checked.isVisible = checkListener.isCheckboxVisible(user)
                 checked.isChecked = checkListener.isCheckboxChecked(user)
+                if (user.avatar != null) {
+                    avatar.loadCircleCrop("${BuildConfig.BASE_URL}/avatars/${user.avatar}")
+                } else {
+                    avatar.setImageResource(R.mipmap.ic_launcher_round)
+                }
             }
 
             binding.checked.setOnClickListener {

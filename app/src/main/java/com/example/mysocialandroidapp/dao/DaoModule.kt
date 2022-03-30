@@ -17,4 +17,7 @@ class DaoModule {
 
     @Provides
     fun providePostWorkDao(db: AppDb): PostWorkDao = db.postWorkDao()
+
+    @Provides
+    fun provideUserDao(db: AppDb): UserDao = db.userDao()
 }

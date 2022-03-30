@@ -29,7 +29,7 @@ class PostRepositoryImpl @Inject constructor(
     appDb: AppDb,
     postRemoteKeyDao: PostRemoteKeyDao,
     private val apiService: DataApiService,
-//    private val userDao: UserDao,
+    private val userDao: UserDao,
 ) : PostRepository {
 
     @OptIn(ExperimentalPagingApi::class)
@@ -41,27 +41,27 @@ class PostRepositoryImpl @Inject constructor(
         pagingData.map(PostEntity::toDto)
     }
 
-//    override val allUsers = userDao.getAll()
-//        .map(List<UserEntity>::toDto)
-//        .flowOn(Dispatchers.Default)
-//
-//    override suspend fun getUsers() {
-//        try {
-//            // получить всех пользователей с сервера
-//            val response = apiService.getUsersAll()
-//            if (!response.isSuccessful) {
-//                throw ApiError(response.code(), response.message())
-//            }
-//
-//            // обновить базу. Новые добавить, несовпадающие заменить.
-//            val body = response.body() ?: throw ApiError(response.code(), response.message())
-//            userDao.insert(body.toEntity())
-//        } catch (e: IOException) {
-//            throw NetworkError
-//        } catch (e: Exception) {
-//            throw UnknownError
-//        }
-//    }
+    override val allUsers = userDao.getAll()
+        .map(List<UserEntity>::toDto)
+        .flowOn(Dispatchers.Default)
+
+    override suspend fun getUsers() {
+        try {
+            // получить всех пользователей с сервера
+            val response = apiService.getUsersAll()
+            if (!response.isSuccessful) {
+                throw ApiError(response.code(), response.message())
+            }
+
+            // обновить базу. Новые добавить, несовпадающие заменить.
+            val body = response.body() ?: throw ApiError(response.code(), response.message())
+            userDao.insert(body.toEntity())
+        } catch (e: IOException) {
+            throw NetworkError
+        } catch (e: Exception) {
+            throw UnknownError
+        }
+    }
 
     override fun getNewerCount(postId: Long): Flow<Int> = flow {
         while (true) {

@@ -15,7 +15,6 @@ data class PostWorkEntity(
     val authorAvatar: String?,
     val content: String,
     val published: String,
-//    val published: Instant,
     @Embedded
     var coords: CoordinatesEmbeddable? = null,
     val link: String?,

@@ -88,7 +88,7 @@ class AppAuth @Inject constructor(
         sendPushToken()
     }
 
-    fun setUser(id: Long, login: String, name: String, avatar: Any?, authorities: List<String>){
+    fun setUser(id: Long, login: String, name: String, avatar: String?, authorities: List<String>){
         _userFlow.value = User(id, login, name, avatar, authorities)
     }
 

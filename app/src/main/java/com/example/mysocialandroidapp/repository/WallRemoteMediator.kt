@@ -23,7 +23,6 @@ class WallRemoteMediator(
     private val userId: Long
 ) : RemoteMediator<Int, PostEntity>() {
 
-
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, PostEntity>
@@ -32,18 +31,15 @@ class WallRemoteMediator(
             val response = when (loadType) {
                 LoadType.REFRESH -> {
                     if (state.firstItemOrNull() != null) {
-                        service.getPostsAfter(state.firstItemOrNull()!!.id, state.config.pageSize)
+                        service.getWallPosts(userId)
                     } else
-                        service.getPostsLatest(state.config.initialLoadSize)
+                        service.getWallPostsLatest(userId, state.config.initialLoadSize)
                 }
                 LoadType.PREPEND -> {
                     return MediatorResult.Success(endOfPaginationReached = true)
                 }
                 LoadType.APPEND -> {
-                    val id = postRemoteKeyDao.min() ?: return MediatorResult.Success(
-                        endOfPaginationReached = false
-                    )
-                    service.getPostsBefore(id, state.config.pageSize)
+                    return MediatorResult.Success(endOfPaginationReached = true)
                 }
             }
 

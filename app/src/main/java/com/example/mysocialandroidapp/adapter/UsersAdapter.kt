@@ -5,8 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mysocialandroidapp.BuildConfig
+import com.example.mysocialandroidapp.R
 import com.example.mysocialandroidapp.databinding.UserItemBinding
 import com.example.mysocialandroidapp.dto.User
+import com.example.mysocialandroidapp.util.loadCircleCrop
 
 interface OnUserClickListener {
     fun onUserClicked(user: User)
@@ -55,6 +58,11 @@ class UsersAdapter (
             binding.apply {
                 username.text = user.name
                 userId = user.id
+                if (user.avatar != null) {
+                    avatar.loadCircleCrop("${BuildConfig.BASE_URL}/avatars/${user.avatar}")
+                } else {
+                    avatar.setImageResource(R.mipmap.ic_launcher_round)
+                }
             }
 
             itemView.setOnClickListener {

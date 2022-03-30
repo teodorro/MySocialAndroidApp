@@ -12,7 +12,10 @@ import com.example.mysocialandroidapp.dto.*
 import com.example.mysocialandroidapp.entity.*
 import com.example.mysocialandroidapp.enumeration.AttachmentType
 import com.example.mysocialandroidapp.error.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -28,6 +31,7 @@ class WallRepositoryImpl @Inject constructor(
     private val appDb: AppDb,
     private val postRemoteKeyDao: PostRemoteKeyDao,
     private val apiService: DataApiService,
+    private val userDao: UserDao,
 ): WallRepository {
 
     @OptIn(ExperimentalPagingApi::class)
@@ -127,7 +131,7 @@ class WallRepositoryImpl @Inject constructor(
 
     override suspend fun save(post: Post) {
         try {
-            val response = apiService.savePosts(post)
+            val response = apiService.savePost(post)
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }
@@ -184,5 +188,26 @@ class WallRepositoryImpl @Inject constructor(
         }
     }
 
+    override val allUsers = userDao.getAll()
+        .map(List<UserEntity>::toDto)
+        .flowOn(Dispatchers.Default)
+
+    override suspend fun getUsers() {
+        try {
+            // получить всех пользователей с сервера
+            val response = apiService.getUsersAll()
+            if (!response.isSuccessful) {
+                throw ApiError(response.code(), response.message())
+            }
+
+            // обновить базу. Новые добавить, несовпадающие заменить.
+            val body = response.body() ?: throw ApiError(response.code(), response.message())
+            userDao.insert(body.toEntity())
+        } catch (e: IOException) {
+            throw NetworkError
+        } catch (e: Exception) {
+            throw UnknownError
+        }
+    }
 
 }

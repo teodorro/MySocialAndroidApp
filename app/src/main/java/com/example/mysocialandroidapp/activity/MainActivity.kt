@@ -147,6 +147,14 @@ class MainActivity @Inject constructor(
                 true
             }
             R.id.signout -> {
+                var curFragment = getCurrentFragment()
+                if (curFragment != null) {
+                    drawerNavigator.navigate(
+                        getCurrentFragment()!!,
+                        R.id.postsFragment,
+                        findNavController(R.id.nav_host_fragment_content_main)
+                    )
+                }
                 authViewModel.signOutInvoke()
                 true
             }
@@ -165,7 +173,7 @@ class MainActivity @Inject constructor(
         if (curFragment != null) {
             drawerNavigator.navigate(
                 getCurrentFragment()!!,
-                item,
+                item.itemId,
                 findNavController(R.id.nav_host_fragment_content_main)
             )
             binding.drawerLayout.close()

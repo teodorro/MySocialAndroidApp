@@ -71,6 +71,17 @@ class PostsFragment : Fragment() {
                     listTypeBundle
                 )
             }
+            override fun onUserClick(post: Post) {
+                if (post.authorId == userId) {
+                    findNavController().navigate(R.id.action_postsFragment_to_wallFragment)
+                } else {
+                    val userIdBundle = bundleOf(USER_ID to post.authorId)
+                    findNavController().navigate(
+                        R.id.action_postsFragment_to_anotherUserWallFragment,
+                        userIdBundle
+                    )
+                }
+            }
         }, userId)
         binding.postsList.adapter = adapter
 

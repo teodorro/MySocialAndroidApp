@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.mysocialandroidapp.dto.Post
 import com.example.mysocialandroidapp.entity.PostEntity.Companion.fromDto
+import com.example.mysocialandroidapp.util.DateStringFormatter
 
 @Entity
 data class PostEntity(
@@ -26,7 +27,9 @@ data class PostEntity(
     var attachment: AttachmentEmbeddable?,
     val wasSeen: Boolean = false,
 ) {
-    fun toDto() = Post(id, authorId, author, authorAvatar, content, published, likedByMe,
+    fun toDto() = Post(id, authorId, author, authorAvatar, content,
+        published,
+        likedByMe,
         coords?.toDto(), link,
         mentionIds,
         mentionedMe,
@@ -35,7 +38,8 @@ data class PostEntity(
 
     companion object {
         fun fromDto(dto: Post, wasSeen: Boolean) =
-            PostEntity(dto.id, dto.authorId, dto.author, dto.authorAvatar, dto.content, dto.published,
+            PostEntity(dto.id, dto.authorId, dto.author, dto.authorAvatar, dto.content,
+                dto.published,
                 CoordinatesEmbeddable.fromDto(dto.coords), dto.link,
                 dto.mentionIds,
                 dto.mentionedMe,

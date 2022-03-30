@@ -13,6 +13,7 @@ import com.example.mysocialandroidapp.R
 import com.example.mysocialandroidapp.databinding.PostItemBinding
 import com.example.mysocialandroidapp.dto.Post
 import com.example.mysocialandroidapp.enumeration.UserListType
+import com.example.mysocialandroidapp.util.DateStringFormatter
 import com.example.mysocialandroidapp.util.loadCircleCrop
 
 interface OnPostInteractionListener {
@@ -20,6 +21,7 @@ interface OnPostInteractionListener {
     fun onEdit(post: Post) {}
     fun onRemove(post: Post) {}
     fun onShowUsers(post: Post, userListType: UserListType){}
+    fun onUserClick(post: Post) {}
 }
 
 class PostsAdapter (
@@ -32,8 +34,6 @@ class PostsAdapter (
     }
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
-//        val item = getItem(position)
-//        holder.bind(item)
         getItem(position)?.let {
             holder.bind(it)
         }
@@ -66,22 +66,32 @@ class PostsAdapter (
             binding.apply {
                 author.text = post.author
                 content.text = post.content
-                avatar.loadCircleCrop("${BuildConfig.BASE_URL}/avatars/${post.authorAvatar}")
+                if (post.authorAvatar != null) {
+                    avatar.loadCircleCrop("${BuildConfig.BASE_URL}/avatars/${post.authorAvatar}")
+                } else {
+                    avatar.setImageResource(R.mipmap.ic_launcher_round)
+                }
+
                 like.isChecked = post.likedByMe
                 like.text = "${post.likeOwnerIds.size}"
-                published.text = post.published
+                published.text = DateStringFormatter.getSimpleFromInstance(post.published)
                 link.text = post.link
                 if (post.link.isNullOrBlank()) {
-                    link.visibility = View.INVISIBLE
+                    link.visibility = View.GONE
                 }
                 if (post.coords != null){
                     coords.text = "${post.coords!!.lat}° N, ${post.coords!!.long}° E"
                 } else{
-                    coords.visibility = View.INVISIBLE
+                    coords.visibility = View.GONE
                 }
                 if (attachment != null){
                     //TODO set attachment source
                 }
+
+                author.setOnClickListener {
+                    onInteractionListener.onUserClick(post)
+                }
+
                 menu.visibility = View.VISIBLE
 
                 menu.setOnClickListener {

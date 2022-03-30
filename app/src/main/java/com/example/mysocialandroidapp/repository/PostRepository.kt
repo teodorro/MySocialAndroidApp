@@ -16,6 +16,6 @@ interface PostRepository {
     suspend fun updateWasSeen()
     suspend fun removeWork(postId: Long)
     suspend fun clearLocalTable()
-//    val allUsers: Flow<List<User>>
-//    suspend fun getUsers()
+    val allUsers: Flow<List<User>>
+    suspend fun getUsers()
 }

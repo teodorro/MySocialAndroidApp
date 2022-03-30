@@ -38,7 +38,7 @@ class UsersFragment : Fragment(), OnUserClickListener {
         super.onCreate(savedInstanceState)
         arguments?.let {
             userListType = it.get(USER_LIST_TYPE) as UserListType
-            viewModel.setUsers(it.get(USER_IDS) as Set<Long>)
+            viewModel.userIds = it.get(USER_IDS) as Set<Long>
         }
     }
 
@@ -53,7 +53,7 @@ class UsersFragment : Fragment(), OnUserClickListener {
         val adapter = UsersAdapter(this)
         binding.usersList.adapter = adapter
 
-        viewModel.usersFeed.observe(viewLifecycleOwner) { x ->
+        viewModel.data.observe(viewLifecycleOwner) { x ->
             adapter.submitList(x.users)
         }
 

@@ -96,7 +96,7 @@ interface DataApiService {
     suspend fun getPostsNewer(@Path("id") id: Long): Response<List<Post>>
 
     @POST("posts")
-    suspend fun savePosts(@Body post: Post): Response<Post>
+    suspend fun savePost(@Body post: Post): Response<Post>
 
     @POST("posts/{id}/likes")
     suspend fun likeById(@Path("id") id: Long): Response<Post>

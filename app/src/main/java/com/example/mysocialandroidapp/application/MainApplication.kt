@@ -3,6 +3,7 @@ package com.example.mysocialandroidapp.application
 import android.app.Application
 import androidx.work.*
 import com.example.mysocialandroidapp.auth.AppAuth
+import com.example.mysocialandroidapp.samples.Samples2
 import com.example.mysocialandroidapp.work.RefreshPostsWorker
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
@@ -19,12 +20,22 @@ class MainApplication : Application()  {
     lateinit var auth: AppAuth
     @Inject
     lateinit var workManager: WorkManager
+    @Inject
+    lateinit var samples: Samples2
 
 
     override fun onCreate() {
         super.onCreate()
         setupAuth()
         setupWork()
+
+        //loadSamples()
+    }
+
+    private fun loadSamples() {
+        appScope.launch {
+            samples.loadSampleData2()
+        }
     }
 
     private fun setupAuth() {

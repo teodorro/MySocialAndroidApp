@@ -2,12 +2,10 @@ package com.example.mysocialandroidapp.viewmodel
 
 import android.net.Uri
 import androidx.core.net.toFile
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import androidx.paging.filter
 import androidx.paging.map
 import androidx.work.*
 import com.example.mysocialandroidapp.auth.AppAuth
@@ -15,12 +13,12 @@ import com.example.mysocialandroidapp.dto.MediaUpload
 import com.example.mysocialandroidapp.dto.Post
 import com.example.mysocialandroidapp.model.PhotoModel
 import com.example.mysocialandroidapp.model.PostFeedModelState
-import com.example.mysocialandroidapp.model.PostsFeedModel
+import com.example.mysocialandroidapp.model.UsersFeedModel
 import com.example.mysocialandroidapp.repository.WallRepository
-import com.example.mysocialandroidapp.samples.Samples
 import com.example.mysocialandroidapp.util.SingleLiveEvent
 import com.example.mysocialandroidapp.work.RemovePostWorker
 import com.example.mysocialandroidapp.work.SavePostWorker
+import com.example.mysocialandroidapp.util.DateStringFormatter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -29,6 +27,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.io.File
 import java.time.Instant
+import java.util.*
 import javax.inject.Inject
 
 
@@ -40,6 +39,7 @@ val emptyPost = Post(
     authorAvatar = "",
     likedByMe = false,
     published = Instant.now().toString(),
+//    published = DateStringFormatter.getSimpleFromInstance(Instant.now().toString()),
     coords = null,
     link = null,
     mentionIds = mutableSetOf(),
@@ -104,14 +104,18 @@ class WallViewModel @Inject constructor(
             }
         }
 
+    val allUsers: LiveData<UsersFeedModel> = repository.allUsers
+        .map { users ->
+            UsersFeedModel(
+                users,
+                users.isEmpty()
+            )
+        }.asLiveData()
+
     private val _photo = MutableLiveData(noPhoto)
     val photo: LiveData<PhotoModel>
         get() = _photo
 
-
-    init {
-        //loadPosts()
-    }
 
 
     fun loadPosts() = viewModelScope.launch {
@@ -206,6 +210,14 @@ class WallViewModel @Inject constructor(
 
     fun changePhoto(uri: Uri?, file: File?) {
         _photo.value = PhotoModel(uri, file)
+    }
+
+    fun changeContent(content: String) {
+        val text = content.trim()
+        if (edited.value?.content == text) {
+            return
+        }
+        _edited.value = edited.value?.copy(content = text, author = appAuth.userFlow.value.name, authorId = appAuth.userFlow.value.id)
     }
 
 
