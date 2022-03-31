@@ -204,6 +204,8 @@ class WallViewModel @Inject constructor(
             }
         }
         _edited.value = emptyPost
+        _edited.value?.let { it ->
+            it.copy(mentionIds = mutableSetOf(), mentionedMe = false) }
         _photo.value = noPhoto
     }
 

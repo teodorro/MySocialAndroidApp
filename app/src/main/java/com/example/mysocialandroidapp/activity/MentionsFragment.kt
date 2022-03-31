@@ -11,7 +11,6 @@ import com.example.mysocialandroidapp.adapter.CheckUsersAdapter
 import com.example.mysocialandroidapp.adapter.OnUserCheckListener
 import com.example.mysocialandroidapp.databinding.FragmentCheckUsersBinding
 import com.example.mysocialandroidapp.dto.User
-import com.example.mysocialandroidapp.enumeration.UserListType
 import com.example.mysocialandroidapp.viewmodel.WallViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,6 +21,8 @@ class MentionsFragment : Fragment(), OnUserCheckListener {
     private val binding get() = _binding!!
 
     private val viewModel: WallViewModel by hiltNavGraphViewModels(R.id.nav_graph)
+
+    private var mentionedIds: MutableSet<Long> = mutableSetOf()
 
 
     override fun onCreateView(
@@ -34,6 +35,7 @@ class MentionsFragment : Fragment(), OnUserCheckListener {
         val adapter = CheckUsersAdapter(this)
         binding.mentionsList.adapter = adapter
 
+        mentionedIds = viewModel.edited.value!!.mentionIds.toMutableSet()
         viewModel.allUsers.observe(viewLifecycleOwner) { x ->
             adapter.submitList(x.users)
         }
@@ -42,7 +44,13 @@ class MentionsFragment : Fragment(), OnUserCheckListener {
     }
 
     override fun onCheckUser(user: User) {
-        viewModel.edited.value?.mentionIds?.let {
+//        viewModel.edited.value?.mentionIds?.let {
+//            if (it.contains(user.id))
+//                it.remove(user.id)
+//            else
+//                it.add(user.id)
+//        }
+        mentionedIds.let {
             if (it.contains(user.id))
                 it.remove(user.id)
             else
@@ -55,7 +63,13 @@ class MentionsFragment : Fragment(), OnUserCheckListener {
     }
 
     override fun isCheckboxChecked(user: User): Boolean {
-        return viewModel.edited.value?.mentionIds?.any { id -> id == user.id } ?: false
+//        return viewModel.edited.value?.mentionIds?.any { id -> id == user.id } ?: false
+        return mentionedIds.any { id -> id == user.id } ?: false
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -67,6 +81,14 @@ class MentionsFragment : Fragment(), OnUserCheckListener {
         when (item.itemId){
             R.id.save -> {
                 binding.let{
+                    mentionedIds.forEach { id ->
+                        viewModel.edited.value?.mentionIds?.let {
+                            if (it.contains(id))
+                                it.remove(id)
+                            else
+                                it.add(id)
+                        }
+                    }
                     findNavController().navigateUp()
                 }
                 true

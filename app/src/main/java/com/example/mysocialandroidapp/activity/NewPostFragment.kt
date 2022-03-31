@@ -1,10 +1,12 @@
 package com.example.mysocialandroidapp.activity
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.*
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
@@ -52,10 +54,12 @@ class NewPostFragment : Fragment() {
                 .crop()
                 .compress(2048)
                 .galleryOnly()
-                .galleryMimeTypes(arrayOf(
-                    "image/png",
-                    "image/jpeg",
-                ))
+                .galleryMimeTypes(
+                    arrayOf(
+                        "image/png",
+                        "image/jpeg",
+                    )
+                )
                 .start(photoRequestCode)
         }
 
@@ -94,9 +98,9 @@ class NewPostFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId){
+        when (item.itemId) {
             R.id.save -> {
-                binding.let{
+                binding.let {
                     viewModel.changeContent(it.edit.text.toString())
                     viewModel.save()
                     AndroidUtils.hideKeyboard(requireView())
@@ -114,7 +118,10 @@ class NewPostFragment : Fragment() {
         binding.editMentions.setOnClickListener {
             var userIds = setOf<Long>()
             val listTypeBundle = bundleOf(USER_IDS to userIds)
-            findNavController().navigate(R.id.action_newPostFragment_to_mentionsFragment, listTypeBundle)
+            findNavController().navigate(
+                R.id.action_newPostFragment_to_mentionsFragment,
+                listTypeBundle
+            )
         }
     }
 
@@ -138,6 +145,23 @@ class NewPostFragment : Fragment() {
             viewModel.changePhoto(uri, file)
             return
         }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        val callback: OnBackPressedCallback =
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    viewModel.edited.value?.let { it ->
+                        it.copy(mentionIds = mutableSetOf(), mentionedMe = false) }
+                    // Leave empty do disable back press or
+                    // write your code which you want
+                }
+            }
+        requireActivity().onBackPressedDispatcher.addCallback(
+            this,
+            callback
+        )
     }
 
     override fun onDestroyView() {
