@@ -4,6 +4,7 @@ import android.content.Context
 import com.example.mysocialandroidapp.api.DataApiService
 import com.example.mysocialandroidapp.auth.AppAuth
 import com.example.mysocialandroidapp.auth.AuthState
+import com.example.mysocialandroidapp.dto.Job
 import com.example.mysocialandroidapp.dto.Post
 import com.example.mysocialandroidapp.error.ApiError
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -33,24 +34,35 @@ class Samples2 @Inject constructor(
 
 
     suspend fun loadSampleData2() {
-        var user = "Jack Sparrow"
-        signUpUser("sparrow", "sparrow", user)
-        Thread.sleep(500)
-        addPosts1(user)
-        signOut()
+        var user = ""
+        var userId = 1L
 
         user = "Captain Barbossa"
         signUpUser("barbossa", "barbossa", user)
         Thread.sleep(500)
-        addPosts2(user)
+        addPosts2(user, userId++)
+        signOut()
+
+        user = "Jack Sparrow"
+        signUpUser("sparrow", "sparrow", user)
+        Thread.sleep(500)
+        addPosts1(user, userId++)
+        addJobs1(user, userId)
+        signOut()
+
+        user = "Will Turner"
+        signUpUser("turner", "turner", user)
+        Thread.sleep(500)
+        addPosts3(user, userId++)
+        addJobs3(user, userId)
 //        signOut()
     }
 
-    private suspend fun addPosts2(user: String) {
+    private suspend fun addPosts2(user: String, userId: Long) {
         apiService.savePost(
             Post(
                 0,
-                2,
+                userId,
                 user,
                 "",
                 "You know, the problem with being the last of anything, by and by there will be none left at all.",
@@ -67,7 +79,7 @@ class Samples2 @Inject constructor(
         apiService.savePost(
             Post(
                 0,
-                2,
+                userId,
                 user,
                 "",
                 "Deceitful and black-hearted, perhaps we are. But we would never go against the Code. Well, perhaps for good reasons. But mostly never.",
@@ -83,14 +95,14 @@ class Samples2 @Inject constructor(
         )
     }
 
-    private suspend fun addPosts1(user: String) {
+    private suspend fun addPosts1(user: String, userId: Long) {
         apiService.savePost(
             Post(
                 0,
-                1,
+                userId,
                 user,
                 "",
-                "This is the day you will always remember as the day you almost caught Captain Jack Sparrow.",
+                "Gentlemen, m'lady. You will always remember this as the day that you almost caught Captain Jack Sparrow!",
                 Instant.now().toString(),
                 false,
                 null,
@@ -105,7 +117,7 @@ class Samples2 @Inject constructor(
         apiService.savePost(
             Post(
                 0,
-                1,
+                userId,
                 user,
                 "",
                 "The problem is not the problem. The problem is your attitude about the problem.",
@@ -123,7 +135,7 @@ class Samples2 @Inject constructor(
         apiService.savePost(
             Post(
                 0,
-                1,
+                userId,
                 user,
                 "",
                 "Well, then, I confess, it is my intention to commandeer one of these ships, pick up a crew in Tortuga, raid, pillage, plunder and otherwise pilfer my weasely black guts out.",
@@ -141,7 +153,7 @@ class Samples2 @Inject constructor(
         apiService.savePost(
             Post(
                 0,
-                1,
+                userId,
                 user,
                 "",
                 "When you marooned me on that godforsaken spit of land, you forgot one very important thing, mate. I'm Captain Jack Sparrow.",
@@ -153,6 +165,84 @@ class Samples2 @Inject constructor(
                 true,
                 setOf(1),
                 null
+            )
+        )
+    }
+
+    private suspend fun addJobs1(user: String, userId: Long) {
+        apiService.saveJob(
+            Job(
+                0,
+                "Black Pearl",
+                "Captain",
+                Instant.now().epochSecond - 90000,
+                Instant.now().epochSecond - 40000,
+                "http://maps.google.com"
+            )
+        )
+        apiService.saveJob(
+            Job(
+                0,
+                "",
+                "Unemployed",
+                Instant.now().epochSecond - 40000,
+            )
+        )
+    }
+
+    private suspend fun addPosts3(user: String, userId: Long) {
+        apiService.savePost(
+            Post(
+                0,
+                userId,
+                user,
+                "",
+                "I practice three hours a day so that when I meet a pirate, I can kill it!",
+                Instant.now().toString(),
+                true,
+                null,
+                null,
+                mutableSetOf(1),
+                true,
+                setOf(1),
+                null
+            )
+        )
+        apiService.savePost(
+            Post(
+                0,
+                userId,
+                user,
+                "",
+                "The blade is folded steel. That's gold filigree laid into the handle. If I may. Perfectly balanced. The tang is nearly the full width of the blade.",
+                Instant.now().toString(),
+                true,
+                null,
+                null,
+                mutableSetOf(1),
+                true,
+                setOf(1),
+                null
+            )
+        )
+    }
+
+    private suspend fun addJobs3(user: String, userId: Long) {
+        apiService.saveJob(
+            Job(
+                0,
+                "Forge",
+                "Blacksmith",
+                Instant.now().epochSecond - 90000,
+                Instant.now().epochSecond - 80000,
+            )
+        )
+        apiService.saveJob(
+            Job(
+                0,
+                "Sea",
+                "Pirate",
+                Instant.now().epochSecond - 80000,
             )
         )
     }

@@ -97,4 +97,7 @@
     <string name="i_am_in">I\'m in</string>
     <string name="date">Date: </string>
     <string name="unknown_error">Unknown error</string>
+    <string name="minus"> - </string>
+    <string name="now">Now</string>
+
 </resources>

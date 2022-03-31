@@ -24,10 +24,12 @@ class AnotherUserWallViewModel @Inject constructor(
     private val workManager: WorkManager,
     val appAuth: AppAuth,
 ) : ViewModel() {
+
     var userId: Long = 0
         set(value) {
             field = value
             viewModelScope.launch {
+                usersRepository.getUsers()
                 usersRepository.data.collect{ x ->
                     var user = x.first { y -> y.id == userId }
                     _username.value = user.name

@@ -16,6 +16,8 @@ import com.example.mysocialandroidapp.auth.AppAuth
 import com.example.mysocialandroidapp.databinding.FragmentJobsBinding
 import com.example.mysocialandroidapp.dto.Job
 import com.example.mysocialandroidapp.viewmodel.JobsViewModel
+import com.example.mysocialandroidapp.viewmodel.emptyJob
+import com.example.mysocialandroidapp.viewmodel.emptyPost
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -32,31 +34,29 @@ class JobsFragment : Fragment()  {
         (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.title_jobs)
         _binding = FragmentJobsBinding.inflate(inflater, container, false)
 
-        viewModel.userId = viewModel.appAuth.authStateFlow.value!!.id
-        viewModel.loadJobs(viewModel.userId)
+        viewModel.userId = viewModel.appAuth.userFlow.value.id
 
         val adapter = JobsAdapter(object : OnJobInteractionListener {
             override fun onRemove(job: Job) {
+                viewModel.removeById(job.id)
             }
             override fun onEdit(job: Job) {
+                viewModel.edit(job)
                 findNavController().navigate(R.id.action_jobsFragment_to_newJobFragment)
             }
-        },
-            viewModel.userId)
+        })
         binding.jobsList.adapter = adapter
 
-        viewModel.jobsFeed.observe(viewLifecycleOwner) { x ->
+        viewModel.data.observe(viewLifecycleOwner) { x ->
             adapter.submitList(x.jobs)
         }
 
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         binding.fab.setOnClickListener {
+            viewModel.edit(emptyJob)
             findNavController().navigate(R.id.action_jobsFragment_to_newJobFragment)
         }
+
+        return binding.root
     }
 
     override fun onDestroyView() {

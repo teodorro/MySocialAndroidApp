@@ -36,13 +36,4 @@ class UsersViewModel @Inject constructor(
         } catch (e: Exception) {
         }
     }
-
-//    private val _usersFeed = MutableLiveData<UsersFeedModel>()
-//    val usersFeed: LiveData<UsersFeedModel>
-//        get() = _usersFeed
-//
-//    fun setUsers(userIds: Set<Long>){
-//        val userList = Samples.getUsers().filter { x -> userIds.contains(x.id) }
-//        _usersFeed.value = UsersFeedModel(userList, userList.isEmpty())
-//    }
 }

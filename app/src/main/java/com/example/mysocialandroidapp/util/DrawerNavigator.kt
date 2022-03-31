@@ -31,8 +31,29 @@ class DrawerNavigator @Inject constructor(
 
             }
             R.id.jobsFragment -> {
-
+                navigateToJobs()
             }
+        }
+    }
+
+    private fun navigateToJobs() {
+        when (_fragmentFrom){
+            is WallFragment -> _navController.navigate(
+                R.id.action_wallFragment_to_jobsFragment)
+            is UsersFragment -> _navController.navigate(
+                R.id.action_usersFragment_to_jobsFragment)
+            is AnotherUserWallFragment -> _navController.navigate(
+                R.id.action_anotherUserWallFragment_to_jobsFragment)
+            is NewPostFragment -> _navController.navigate(
+                R.id.action_newPostFragment_to_jobsFragment)
+            is MentionsFragment -> _navController.navigate(
+                R.id.action_mentionsFragment_to_jobsFragment)
+            is PostsFragment -> _navController.navigate(
+                R.id.action_postsFragment_to_jobsFragment)
+            is AnotherUserJobsFragment -> _navController.navigate(
+                R.id.action_anotherUserJobsFragment_to_jobsFragment)
+            is NewJobFragment -> _navController.navigate(
+                R.id.action_newJobFragment_to_jobsFragment)
         }
     }
 
@@ -48,6 +69,12 @@ class DrawerNavigator @Inject constructor(
                 R.id.action_newPostFragment_to_wallFragment)
             is MentionsFragment -> _navController.navigate(
                 R.id.action_mentionsFragment_to_wallFragment)
+            is JobsFragment -> _navController.navigate(
+                R.id.action_jobsFragment_to_wallFragment)
+            is AnotherUserJobsFragment -> _navController.navigate(
+                R.id.action_anotherUserJobsFragment_to_wallFragment)
+            is NewJobFragment -> _navController.navigate(
+                R.id.action_newJobFragment_to_wallFragment)
         }
     }
 
@@ -63,6 +90,12 @@ class DrawerNavigator @Inject constructor(
                 R.id.action_newPostFragment_to_postsFragment)
             is MentionsFragment -> _navController.navigate(
                 R.id.action_mentionsFragment_to_postsFragment)
+            is JobsFragment -> _navController.navigate(
+                R.id.action_jobsFragment_to_postsFragment)
+            is AnotherUserJobsFragment -> _navController.navigate(
+                R.id.action_anotherUserJobsFragment_to_postsFragment)
+            is NewJobFragment -> _navController.navigate(
+                R.id.action_newJobFragment_to_postsFragment)
         }
     }
 }
