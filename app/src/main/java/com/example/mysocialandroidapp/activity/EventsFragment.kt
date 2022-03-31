@@ -7,8 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
+import androidx.lifecycle.asLiveData
 import androidx.navigation.fragment.findNavController
 import com.example.mysocialandroidapp.R
 import com.example.mysocialandroidapp.adapter.EventsAdapter
@@ -23,7 +25,12 @@ import com.example.mysocialandroidapp.dto.Post
 import com.example.mysocialandroidapp.enumeration.UserListType
 import com.example.mysocialandroidapp.viewmodel.EventsViewModel
 import com.example.mysocialandroidapp.viewmodel.WallViewModel
+import com.example.mysocialandroidapp.viewmodel.emptyEvent
+import com.example.mysocialandroidapp.viewmodel.emptyPost
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.toList
 
 
 @AndroidEntryPoint
@@ -41,17 +48,25 @@ class EventsFragment : Fragment() {
         (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.title_events)
         _binding = FragmentEventsBinding.inflate(inflater, container, false)
 
-        viewModel.loadEvents()
+        viewModel.clearLocalTable()
+        val userId = viewModel.appAuth.authStateFlow.value.id
 
         val adapter = EventsAdapter(object : OnEventInteractionListener {
             override fun onRemove(event: Event) {
+                viewModel.removeById(event.id)
             }
 
             override fun onEdit(event: Event) {
+                viewModel.edit(event)
                 findNavController().navigate(R.id.action_eventsFragment_to_newEventFragment)
             }
 
             override fun onLike(event: Event) {
+                viewModel.likeById(event.id)
+            }
+
+            override fun onParticipate(event: Event) {
+                viewModel.participateById(event.id)
             }
 
             override fun onShowUsers(event: Event, userListType: UserListType) {
@@ -71,12 +86,33 @@ class EventsFragment : Fragment() {
                     listTypeBundle
                 )
             }
-        }, viewModel.userId)
+        }, userId)
         binding.eventsList.adapter = adapter
 
-        viewModel.eventsFeed.observe(viewLifecycleOwner) { x ->
+        viewModel.dataState.observe(viewLifecycleOwner) { state ->
+            binding.progress.isVisible = state.loading
+            binding.swiperefresh.isRefreshing = state.refreshing
+            if (state.error) {
+                Snackbar.make(binding.root, R.string.error_loading, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.retry_loading) { viewModel.loadPosts() }
+                    .show()
+            }
+        }
+
+//        binding.swiperefresh.setOnRefreshListener {
+//            viewModel.refreshPosts()
+//            adapter.refresh()
+//        }
+
+        viewModel.data.observe(viewLifecycleOwner) { x ->
             adapter.submitList(x.events)
         }
+
+        binding.fab.setOnClickListener {
+            viewModel.edit(emptyEvent)
+            findNavController().navigate(R.id.action_eventsFragment_to_newEventFragment)
+        }
+//        adapter.refresh()
 
         return binding.root
     }

@@ -28,11 +28,36 @@ class DrawerNavigator @Inject constructor(
                 navigateToWall()
             }
             R.id.eventsFragment -> {
-
+                navigateToEvents()
             }
             R.id.jobsFragment -> {
                 navigateToJobs()
             }
+        }
+    }
+
+    private fun navigateToEvents() {
+        when (_fragmentFrom){
+            is WallFragment -> _navController.navigate(
+                R.id.action_wallFragment_to_eventsFragment)
+            is UsersFragment -> _navController.navigate(
+                R.id.action_usersFragment_to_eventsFragment)
+            is AnotherUserWallFragment -> _navController.navigate(
+                R.id.action_anotherUserWallFragment_to_eventsFragment)
+            is NewPostFragment -> _navController.navigate(
+                R.id.action_newPostFragment_to_eventsFragment)
+            is MentionsFragment -> _navController.navigate(
+                R.id.action_mentionsFragment_to_eventsFragment)
+            is PostsFragment -> _navController.navigate(
+                R.id.action_postsFragment_to_eventsFragment)
+            is AnotherUserJobsFragment -> _navController.navigate(
+                R.id.action_anotherUserJobsFragment_to_eventsFragment)
+            is NewJobFragment -> _navController.navigate(
+                R.id.action_newJobFragment_to_eventsFragment)
+            is NewEventFragment -> _navController.navigate(
+                R.id.action_newEventFragment_to_eventsFragment)
+            is JobsFragment -> _navController.navigate(
+                R.id.action_jobsFragment_to_eventsFragment)
         }
     }
 
@@ -54,6 +79,10 @@ class DrawerNavigator @Inject constructor(
                 R.id.action_anotherUserJobsFragment_to_jobsFragment)
             is NewJobFragment -> _navController.navigate(
                 R.id.action_newJobFragment_to_jobsFragment)
+            is NewEventFragment -> _navController.navigate(
+                R.id.action_newEventFragment_to_jobsFragment)
+            is EventsFragment -> _navController.navigate(
+                R.id.action_eventsFragment_to_jobsFragment)
         }
     }
 
@@ -75,6 +104,10 @@ class DrawerNavigator @Inject constructor(
                 R.id.action_anotherUserJobsFragment_to_wallFragment)
             is NewJobFragment -> _navController.navigate(
                 R.id.action_newJobFragment_to_wallFragment)
+            is NewEventFragment -> _navController.navigate(
+                R.id.action_newEventFragment_to_wallFragment)
+            is EventsFragment -> _navController.navigate(
+                R.id.action_eventsFragment_to_wallFragment)
         }
     }
 
@@ -96,6 +129,10 @@ class DrawerNavigator @Inject constructor(
                 R.id.action_anotherUserJobsFragment_to_postsFragment)
             is NewJobFragment -> _navController.navigate(
                 R.id.action_newJobFragment_to_postsFragment)
+            is NewEventFragment -> _navController.navigate(
+                R.id.action_newEventFragment_to_postsFragment)
+            is EventsFragment -> _navController.navigate(
+                R.id.action_eventsFragment_to_postsFragment)
         }
     }
 }

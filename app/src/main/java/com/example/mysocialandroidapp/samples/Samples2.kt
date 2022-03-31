@@ -4,9 +4,12 @@ import android.content.Context
 import com.example.mysocialandroidapp.api.DataApiService
 import com.example.mysocialandroidapp.auth.AppAuth
 import com.example.mysocialandroidapp.auth.AuthState
+import com.example.mysocialandroidapp.dto.Event
 import com.example.mysocialandroidapp.dto.Job
 import com.example.mysocialandroidapp.dto.Post
+import com.example.mysocialandroidapp.enumeration.EventType
 import com.example.mysocialandroidapp.error.ApiError
+import com.example.mysocialandroidapp.util.DateStringFormatter
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.*
 import retrofit2.Response
@@ -55,6 +58,7 @@ class Samples2 @Inject constructor(
         Thread.sleep(500)
         addPosts3(user, userId++)
         addJobs3(user, userId)
+        addEvents3(user, userId)
 //        signOut()
     }
 
@@ -243,6 +247,29 @@ class Samples2 @Inject constructor(
                 "Sea",
                 "Pirate",
                 Instant.now().epochSecond - 80000,
+            )
+        )
+    }
+
+    private suspend fun addEvents3(user: String, userId: Long) {
+        apiService.saveEvent(
+            Event(
+                0,
+                userId,
+                user,
+                null,
+                "Everyone stay calm! We are taking over the ship!",
+                Instant.now().toString(),
+                Instant.now().toString(),
+                null,
+                EventType.OFFLINE,
+                emptySet(),
+                false,
+                mutableSetOf(),
+                emptySet(),
+                false,
+                null,
+                null
             )
         )
     }

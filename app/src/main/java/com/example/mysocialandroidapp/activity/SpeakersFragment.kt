@@ -4,48 +4,39 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.viewModels
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.mysocialandroidapp.R
 import com.example.mysocialandroidapp.adapter.CheckUsersAdapter
 import com.example.mysocialandroidapp.adapter.OnUserCheckListener
-import com.example.mysocialandroidapp.databinding.FragmentCheckUsersBinding
+import com.example.mysocialandroidapp.databinding.FragmentSpeakersBinding
 import com.example.mysocialandroidapp.dto.User
-import com.example.mysocialandroidapp.enumeration.UserListType
-import com.example.mysocialandroidapp.viewmodel.CheckUsersViewModel
+import com.example.mysocialandroidapp.viewmodel.EventsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
-class CheckUsersFragment : Fragment(), OnUserCheckListener {
-    private var userListType: UserListType? = null
 
-    private var _binding: FragmentCheckUsersBinding? = null
+@AndroidEntryPoint
+class SpeakersFragment : Fragment(), OnUserCheckListener {
+    private var _binding: FragmentSpeakersBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: CheckUsersViewModel by hiltNavGraphViewModels(R.id.nav_graph)
+    private val viewModel: EventsViewModel by hiltNavGraphViewModels(R.id.nav_graph)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-        arguments?.let {
-            viewModel.setSelectedUsers(it.get(USER_IDS) as Set<Long>)
-            viewModel.initAllUsers()
-        }
-    }
+    private var speakerIds: MutableSet<Long> = mutableSetOf()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.title_mentions)
-
-        _binding = FragmentCheckUsersBinding.inflate(inflater, container, false)
+        _binding = FragmentSpeakersBinding.inflate(inflater, container, false)
 
         val adapter = CheckUsersAdapter(this)
         binding.mentionsList.adapter = adapter
 
-        viewModel.allUsersFeed.observe(viewLifecycleOwner) { x ->
+        speakerIds = viewModel.edited.value!!.speakerIds.toMutableSet()
+        viewModel.allUsers.observe(viewLifecycleOwner) { x ->
             adapter.submitList(x.users)
         }
 
@@ -53,7 +44,12 @@ class CheckUsersFragment : Fragment(), OnUserCheckListener {
     }
 
     override fun onCheckUser(user: User) {
-        viewModel.selectedUsersFeed
+        speakerIds.let {
+            if (it.contains(user.id))
+                it.remove(user.id)
+            else
+                it.add(user.id)
+        }
     }
 
     override fun isCheckboxVisible(user: User): Boolean {
@@ -61,7 +57,12 @@ class CheckUsersFragment : Fragment(), OnUserCheckListener {
     }
 
     override fun isCheckboxChecked(user: User): Boolean {
-        return viewModel.selectedUsersFeed.value?.users?.any { x -> x.id == user.id } ?: false
+        return speakerIds.any { id -> id == user.id } ?: false
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -73,6 +74,14 @@ class CheckUsersFragment : Fragment(), OnUserCheckListener {
         when (item.itemId){
             R.id.save -> {
                 binding.let{
+                    speakerIds.forEach { id ->
+                        viewModel.edited.value?.speakerIds?.let {
+                            if (it.contains(id))
+                                it.remove(id)
+                            else
+                                it.add(id)
+                        }
+                    }
                     findNavController().navigateUp()
                 }
                 true

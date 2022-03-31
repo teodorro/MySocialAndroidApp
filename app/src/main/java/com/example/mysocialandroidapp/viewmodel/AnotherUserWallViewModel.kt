@@ -110,21 +110,4 @@ class AnotherUserWallViewModel @Inject constructor(
         }
     }
 
-
-//    private val _postsFeed = MutableLiveData<PostsFeedModel>()
-//    val postsFeed: LiveData<PostsFeedModel>
-//        get() = _postsFeed
-//
-//    var userId: Long = 0
-//
-//    init {
-//        appAuth.authStateFlow.value.let{
-//            loadPosts(it.id)
-//        }
-//    }
-//
-//    fun loadPosts(userId: Long) {
-//        val posts = Samples.getWall(userId)
-//        _postsFeed.value = PostsFeedModel(posts, posts?.isEmpty())
-//    }
 }

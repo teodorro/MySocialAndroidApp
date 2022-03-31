@@ -4,17 +4,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mysocialandroidapp.BuildConfig
 import com.example.mysocialandroidapp.R
 import com.example.mysocialandroidapp.databinding.EventItemBinding
 import com.example.mysocialandroidapp.dto.Event
 import com.example.mysocialandroidapp.enumeration.UserListType
+import com.example.mysocialandroidapp.util.DateStringFormatter
+import com.example.mysocialandroidapp.util.loadCircleCrop
+import java.time.format.DateTimeFormatter
 
 
 interface OnEventInteractionListener {
     fun onLike(event: Event) {}
+    fun onParticipate(event: Event) {}
     fun onEdit(event: Event) {}
     fun onRemove(event: Event) {}
     fun onShowUsers(event: Event, userListType: UserListType){}
@@ -23,6 +29,7 @@ interface OnEventInteractionListener {
 class EventsAdapter (
     private val onInteractionListener: OnEventInteractionListener,
     private val userId: Long
+//) : PagingDataAdapter<Event, EventsAdapter.EventViewHolder>(EventDiffCallback()) {
 ) : ListAdapter<Event, EventsAdapter.EventViewHolder>(EventDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
         var binding =
@@ -35,8 +42,9 @@ class EventsAdapter (
     }
 
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
-        val item = getItem(position)
-        holder.bind(item)
+        getItem(position)?.let {
+            holder.bind(it)
+        }
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -65,22 +73,29 @@ class EventsAdapter (
         fun bind(event: Event) {
             binding.apply {
                 author.text = event.author
+                if (event.authorAvatar != null) {
+                    avatar.loadCircleCrop("${BuildConfig.BASE_URL}/avatars/${event.authorAvatar}")
+                } else {
+                    avatar.setImageResource(R.mipmap.ic_launcher_round)
+                }
                 content.text = event.content
                 like.isChecked = event.likedByMe
                 like.text = "${event.likeOwnerIds.size}"
-                published.text = event.published
-                dateTime.text = event.datetime
+                if (!event.published.isNullOrBlank())
+                    published.text = DateStringFormatter.getSimpleFromInstance(event.published)
+                if (!event.datetime.isNullOrBlank())
+                    dateTime.text = DateStringFormatter.getSimpleFromInstance(event.datetime)
                 speakers.text = "${event.speakerIds.size}"
-                participants.text = "${event.participantsIds.size}"
-                participants.isChecked = event.participatedByMe
+                participate.text = "${event.participantsIds.size}"
+                participate.isChecked = event.participatedByMe
                 link.text = event.link
                 if (event.link.isNullOrBlank()) {
-                    link.visibility = View.INVISIBLE
+                    link.visibility = View.GONE
                 }
                 if (event.coords != null){
                     coords.text = "${event.coords!!.lat}° N, ${event.coords!!.long}° E"
                 } else{
-                    coords.visibility = View.INVISIBLE
+                    coords.visibility = View.GONE
                 }
                 if (attachment != null){
                     //TODO set attachment source
@@ -123,6 +138,15 @@ class EventsAdapter (
                 like.setOnClickListener {
                     onInteractionListener.onLike(event)
                     like.isChecked = !like.isChecked
+                }
+
+                participate.setOnClickListener {
+                    onInteractionListener.onParticipate(event)
+                    participate.isChecked = !participate.isChecked
+                }
+
+                speakers.setOnClickListener {
+                    onInteractionListener.onShowUsers(event, UserListType.SPEAKERS)
                 }
             }
 

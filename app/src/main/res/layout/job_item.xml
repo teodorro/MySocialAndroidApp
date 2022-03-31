@@ -24,7 +24,7 @@
                 android:paddingStart="@dimen/smaller_spacing"
                 android:paddingTop="14dp"
                 android:paddingEnd="@dimen/small_spacing"
-                android:text="@string/name"
+                android:text="@string/job_item_name"
                 android:textAlignment="textEnd" />
 
             <com.google.android.material.textview.MaterialTextView
@@ -49,7 +49,7 @@
                 android:paddingStart="@dimen/smaller_spacing"
                 android:paddingTop="4dp"
                 android:paddingEnd="@dimen/small_spacing"
-                android:text="@string/position"
+                android:text="@string/job_item_position"
                 android:textAlignment="textEnd" />
 
             <com.google.android.material.textview.MaterialTextView

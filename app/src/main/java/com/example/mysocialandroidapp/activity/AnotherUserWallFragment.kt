@@ -64,7 +64,7 @@ class AnotherUserWallFragment : Fragment() {
                     listTypeBundle
                 )
             }
-        }, viewModel.userId)
+        }, 0) // 0 to hide author menu items
         binding.postsList.adapter = adapter
 
         viewModel.dataState.observe(viewLifecycleOwner) { state ->

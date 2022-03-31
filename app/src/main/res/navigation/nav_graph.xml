@@ -34,6 +34,11 @@
             app:destination="@id/jobsFragment"
             app:popUpTo="@id/jobsFragment"
             app:popUpToInclusive="true"  />
+        <action
+            android:id="@+id/action_postsFragment_to_eventsFragment"
+            app:destination="@id/eventsFragment"
+            app:popUpTo="@id/eventsFragment"
+            app:popUpToInclusive="true"  />
     </fragment>
     <fragment
         android:id="@+id/jobsFragment"
@@ -52,6 +57,11 @@
             android:id="@+id/action_jobsFragment_to_wallFragment"
             app:destination="@id/wallFragment"
             app:popUpTo="@id/wallFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_jobsFragment_to_eventsFragment"
+            app:destination="@id/eventsFragment"
+            app:popUpTo="@id/eventsFragment"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
@@ -74,6 +84,11 @@
             android:id="@+id/action_wallFragment_to_jobsFragment"
             app:destination="@id/jobsFragment"
             app:popUpTo="@id/jobsFragment"
+            app:popUpToInclusive="true"  />
+        <action
+            android:id="@+id/action_wallFragment_to_eventsFragment"
+            app:destination="@id/eventsFragment"
+            app:popUpTo="@id/eventsFragment"
             app:popUpToInclusive="true"  />
     </fragment>
     <fragment
@@ -98,6 +113,11 @@
             android:id="@+id/action_anotherUserJobsFragment_to_jobsFragment"
             app:destination="@id/jobsFragment"
             app:popUpTo="@id/jobsFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_anotherUserJobsFragment_to_eventsFragment"
+            app:destination="@id/eventsFragment"
+            app:popUpTo="@id/eventsFragment"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
@@ -146,7 +166,14 @@
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_usersFragment_to_jobsFragment"
-            app:destination="@id/jobsFragment" />
+            app:destination="@id/jobsFragment"
+            app:popUpTo="@id/jobsFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_usersFragment_to_eventsFragment"
+            app:destination="@id/eventsFragment"
+            app:popUpTo="@id/eventsFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/anotherUserWallFragment"
@@ -171,7 +198,14 @@
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_anotherUserWallFragment_to_jobsFragment"
-            app:destination="@id/jobsFragment" />
+            app:destination="@id/jobsFragment"
+            app:popUpTo="@id/jobsFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_anotherUserWallFragment_to_eventsFragment"
+            app:destination="@id/eventsFragment"
+            app:popUpTo="@id/eventsFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/newJobFragment"
@@ -192,6 +226,11 @@
             android:id="@+id/action_newJobFragment_to_wallFragment"
             app:destination="@id/wallFragment"
             app:popUpTo="@id/wallFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_newJobFragment_to_eventsFragment"
+            app:destination="@id/eventsFragment"
+            app:popUpTo="@id/eventsFragment"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
@@ -217,12 +256,12 @@
             app:destination="@id/jobsFragment"
             app:popUpTo="@id/jobsFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_newPostFragment_to_eventsFragment"
+            app:destination="@id/eventsFragment"
+            app:popUpTo="@id/eventsFragment"
+            app:popUpToInclusive="true" />
     </fragment>
-    <fragment
-        android:id="@+id/checkUsersFragment"
-        android:name="com.example.mysocialandroidapp.activity.CheckUsersFragment"
-        android:label="fragment_check_users"
-        tools:layout="@layout/fragment_check_users" />
     <fragment
         android:id="@+id/eventsFragment"
         android:name="com.example.mysocialandroidapp.activity.EventsFragment"
@@ -234,6 +273,21 @@
         <action
             android:id="@+id/action_eventsFragment_to_newEventFragment"
             app:destination="@id/newEventFragment" />
+        <action
+            android:id="@+id/action_eventsFragment_to_wallFragment"
+            app:destination="@id/wallFragment"
+            app:popUpTo="@id/wallFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_eventsFragment_to_postsFragment"
+            app:destination="@id/postsFragment"
+            app:popUpTo="@id/postsFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_eventsFragment_to_jobsFragment"
+            app:destination="@id/jobsFragment"
+            app:popUpTo="@id/jobsFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/newEventFragment"
@@ -241,8 +295,28 @@
         android:label="fragment_new_event"
         tools:layout="@layout/fragment_new_event" >
         <action
-            android:id="@+id/action_newEventFragment_to_checkUsersFragment"
-            app:destination="@id/checkUsersFragment" />
+            android:id="@+id/action_newEventFragment_to_eventsFragment"
+            app:destination="@id/eventsFragment"
+            app:popUpTo="@id/eventsFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_newEventFragment_to_wallFragment"
+            app:destination="@id/wallFragment"
+            app:popUpTo="@id/wallFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_newEventFragment_to_postsFragment"
+            app:destination="@id/postsFragment"
+            app:popUpTo="@id/postsFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_newEventFragment_to_jobsFragment"
+            app:destination="@id/jobsFragment"
+            app:popUpTo="@id/jobsFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_newEventFragment_to_speakersFragment"
+            app:destination="@id/speakersFragment" />
     </fragment>
     <fragment
         android:id="@+id/mentionsFragment"
@@ -261,6 +335,37 @@
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_mentionsFragment_to_jobsFragment"
+            app:destination="@id/jobsFragment"
+            app:popUpTo="@id/jobsFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_mentionsFragment_to_eventsFragment"
+            app:destination="@id/eventsFragment"
+            app:popUpTo="@id/eventsFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/speakersFragment"
+        android:name="com.example.mysocialandroidapp.activity.SpeakersFragment"
+        android:label="fragment_speakers"
+        tools:layout="@layout/fragment_speakers" >
+        <action
+            android:id="@+id/action_speakersFragment_to_eventsFragment"
+            app:destination="@id/eventsFragment"
+            app:popUpTo="@id/eventsFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_speakersFragment_to_wallFragment"
+            app:destination="@id/wallFragment"
+            app:popUpTo="@id/wallFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_speakersFragment_to_postsFragment"
+            app:destination="@id/postsFragment"
+            app:popUpTo="@id/postsFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_speakersFragment_to_jobsFragment"
             app:destination="@id/jobsFragment"
             app:popUpTo="@id/jobsFragment"
             app:popUpToInclusive="true" />

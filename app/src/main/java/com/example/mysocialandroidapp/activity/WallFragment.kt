@@ -39,6 +39,8 @@ class WallFragment : Fragment() {
         (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.title_wall)
         _binding = FragmentWallBinding.inflate(inflater, container, false)
 
+        viewModel.clearLocalTable()
+
         viewModel.userId = viewModel.appAuth.userFlow.value.id
 
         val adapter = PostsAdapter(object : OnPostInteractionListener {

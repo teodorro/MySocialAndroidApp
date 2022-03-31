@@ -11,13 +11,23 @@ import androidx.navigation.fragment.findNavController
 import com.example.mysocialandroidapp.R
 import com.example.mysocialandroidapp.databinding.FragmentNewEventBinding
 import com.example.mysocialandroidapp.databinding.FragmentNewPostBinding
+import com.example.mysocialandroidapp.util.AndroidUtils
+import com.example.mysocialandroidapp.util.StringArg
 import com.example.mysocialandroidapp.viewmodel.EventsViewModel
 import com.example.mysocialandroidapp.viewmodel.WallViewModel
+import com.github.dhaval2404.imagepicker.ImagePicker
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
 class NewEventFragment : Fragment() {
+    private val photoRequestCode = 1
+    private val cameraRequestCode = 2
+
+    companion object {
+        var Bundle.textArg: String? by StringArg
+    }
+
     private var _binding: FragmentNewEventBinding? = null
     private val binding get() = _binding!!
 
@@ -35,8 +45,53 @@ class NewEventFragment : Fragment() {
         _binding = FragmentNewEventBinding.inflate(inflater, container, false)
         (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.title_new_event)
 
-        binding.edit.setText(getString(R.string.hello_blank_fragment))
-        binding.edit.requestFocus()
+        arguments?.textArg
+            ?.let(binding.content::setText)
+
+        binding.content.setText(viewModel.edited.value?.content)
+        binding.date.setText(viewModel.edited.value?.datetime.toString())
+        binding.position.setText(viewModel.edited.value?.coords?.toString())
+        //binding.link.setText(viewModel.edited.value?.link)
+
+        binding.content.requestFocus()
+
+        binding.pickPhoto.setOnClickListener {
+            ImagePicker.with(this)
+                .crop()
+                .compress(2048)
+                .galleryOnly()
+                .galleryMimeTypes(arrayOf(
+                    "image/png",
+                    "image/jpeg",
+                ))
+                .start(photoRequestCode)
+        }
+
+        binding.takePhoto.setOnClickListener {
+            ImagePicker.with(this)
+                .crop()
+                .compress(2048)
+                .cameraOnly()
+                .start(cameraRequestCode)
+        }
+
+        binding.removePhoto.setOnClickListener {
+            viewModel.changePhoto(null, null)
+        }
+
+        viewModel.eventCreated.observe(viewLifecycleOwner) {
+            findNavController().navigateUp()
+        }
+
+        viewModel.photo.observe(viewLifecycleOwner) {
+            if (it.uri == null) {
+                binding.photoContainer.visibility = View.GONE
+                return@observe
+            }
+
+            binding.photoContainer.visibility = View.VISIBLE
+            binding.photo.setImageURI(it.uri)
+        }
 
         return binding.root
     }
@@ -50,7 +105,15 @@ class NewEventFragment : Fragment() {
         when (item.itemId){
             R.id.save -> {
                 binding.let{
-                    findNavController().navigateUp()
+                    viewModel.changeContent(
+                        it.content.text.toString(),
+                        it.position.text.toString(),
+                        it.date.text.toString(),
+                        it.link.text.toString(),
+                    )
+
+                    viewModel.save()
+                    AndroidUtils.hideKeyboard(requireView())
                 }
                 true
             }
@@ -64,7 +127,7 @@ class NewEventFragment : Fragment() {
         binding.editSpeakers.setOnClickListener {
             var userIds = setOf<Long>()
             val listTypeBundle = bundleOf(USER_IDS to userIds)
-            findNavController().navigate(R.id.action_newEventFragment_to_checkUsersFragment, listTypeBundle)
+            findNavController().navigate(R.id.action_newEventFragment_to_speakersFragment, listTypeBundle)
         }
     }
 

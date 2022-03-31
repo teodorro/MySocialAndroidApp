@@ -84,6 +84,8 @@
 
     <string name="description_job_menu">Job menu</string>
     <string name="position">Position</string>
+    <string name="job_item_position">Position:</string>
+    <string name="job_item_name">Name</string>
     <string name="start">Start</string>
     <string name="finish">Finish</string>
     <string name="link">Link</string>

@@ -222,19 +222,16 @@ class WallViewModel @Inject constructor(
         _edited.value = edited.value?.copy(content = text, author = appAuth.userFlow.value.name, authorId = appAuth.userFlow.value.id)
     }
 
-
-//    private val _postsFeed = MutableLiveData<PostsFeedModel>()
-//    val postsFeed: LiveData<PostsFeedModel>
-//        get() = _postsFeed
-//
-//    var userId: Long = 0
-//
-//    init {
-//        loadPosts(appAuth.authStateFlow.value!!.id)
-//    }
-//
-//    fun loadPosts(userId: Long) {
-//        val posts = Samples.getWall(userId)
-//        _postsFeed.value = PostsFeedModel(posts, posts?.isEmpty())
-//    }
+    fun clearLocalTable(){
+        viewModelScope.launch {
+            try {
+                _dataState.value = PostFeedModelState(loading = true)
+                repository.clearLocalTable()
+                _edited.value = edited.value?.copy(likedByMe = true)
+                _dataState.value = PostFeedModelState()
+            } catch (e: Exception) {
+                _dataState.value = PostFeedModelState(error = true)
+            }
+        }
+    }
 }

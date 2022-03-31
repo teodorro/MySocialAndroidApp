@@ -29,6 +29,8 @@
             android:layout_marginEnd="@dimen/common_spacing"
             android:ellipsize="end"
             android:singleLine="true"
+            android:textStyle="bold"
+            android:textSize="@dimen/post_user_text_size"
             app:layout_constraintEnd_toStartOf="@id/menu"
             app:layout_constraintStart_toEndOf="@id/avatar"
             app:layout_constraintTop_toTopOf="parent"
@@ -124,51 +126,29 @@
             tools:text="@sample/posts.json/data/likes" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constrLayoutLink"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:paddingVertical="@dimen/small_spacing"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constrLayoutDateAndSpeakers">
-
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/link"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:autoLink="web"
                 android:scaleType="center"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constrLayoutDateAndSpeakers"
                 tools:text="@sample/posts.json/data/link" />
             />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constrLayoutCoords"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:paddingVertical="@dimen/small_spacing"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constrLayoutLink">
-
             <TextView
                 android:id="@+id/coords"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="center"
                 android:textSize="@dimen/coords_text_size"
+                android:paddingVertical="@dimen/small_spacing"
                 android:textColor="@color/coordinates_text_color"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/link"
                 tools:text="@sample/posts.json/data/coords"  />
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constrLayoutAttachment"
@@ -176,7 +156,7 @@
             android:layout_height="0dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constrLayoutCoords">
+            app:layout_constraintTop_toBottomOf="@+id/coords">
 
             <ImageView
                 android:id="@+id/attachment"
@@ -210,7 +190,7 @@
             tools:text="@sample/posts.json/data/likes" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/participants"
+            android:id="@+id/participate"
             style="@style/Widget.AppTheme.LikeCheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
