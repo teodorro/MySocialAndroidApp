@@ -58,11 +58,16 @@ class AnotherUserWallFragment : Fragment() {
             override fun onShowUsers(post: Post, userListType: UserListType) {
                 val userIds = when (userListType) {
                     UserListType.LIKES -> post.likeOwnerIds
+                    UserListType.MENTIONS -> post.mentionIds
                     else -> emptySet()
                 }
-                val listTypeBundle = bundleOf(USER_LIST_TYPE to userListType, USER_IDS to userIds, POST_ID to post.id)
+                val listTypeBundle = bundleOf(
+                    USER_LIST_TYPE to userListType,
+                    USER_IDS to userIds,
+                    POST_ID to post.id
+                )
                 findNavController().navigate(
-                    R.id.action_wallFragment_to_usersFragment,
+                    R.id.action_anotherUserWallFragment_to_usersFragment,
                     listTypeBundle
                 )
             }
