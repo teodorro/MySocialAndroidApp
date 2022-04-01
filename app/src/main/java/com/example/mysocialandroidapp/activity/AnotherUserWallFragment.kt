@@ -44,6 +44,7 @@ class AnotherUserWallFragment : Fragment() {
         _binding = FragmentAnotherUserWallBinding.inflate(inflater, container, false)
         (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.title_wall)
 
+        var currentUserId = viewModel.appAuth.userFlow.value.id
         viewModel.loadPosts()
 
         val adapter = PostsAdapter(object : OnPostInteractionListener {
@@ -52,6 +53,7 @@ class AnotherUserWallFragment : Fragment() {
             override fun onEdit(post: Post) {
             }
             override fun onLike(post: Post) {
+                viewModel.likeById(currentUserId, post)
             }
             override fun onShowUsers(post: Post, userListType: UserListType) {
                 val userIds = when (userListType) {

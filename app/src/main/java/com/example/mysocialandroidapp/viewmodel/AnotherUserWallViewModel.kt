@@ -97,15 +97,18 @@ class AnotherUserWallViewModel @Inject constructor(
         }
     }
 
-    fun likeById(id: Long) {
+    fun likeById(likedUserId: Long, post: Post) {
         viewModelScope.launch {
             try {
+                _edited.value = post
                 _dataState.value = PostFeedModelState(loading = true)
-                repository.likeById(userId, id)
+                repository.likeById(likedUserId, post.id)
                 _edited.value = edited.value?.copy(likedByMe = true)
                 _dataState.value = PostFeedModelState()
             } catch (e: Exception) {
                 _dataState.value = PostFeedModelState(error = true)
+            } finally {
+                _edited.value = emptyPost
             }
         }
     }
