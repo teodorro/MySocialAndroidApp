@@ -27,9 +27,9 @@ class AnotherUserJobsViewModel @Inject constructor(
             field = value
             viewModelScope.launch {
                 usersRepository.data.collect{ x ->
-                    var user = x.first { y -> y.id == userId }
-                    _username.value = user.name
-                    _avatar.value = user.avatar
+                    var user = x.firstOrNull() { y -> y.id == userId }
+                    _username.value = user?.name
+                    _avatar.value = user?.avatar
                 }
             }
             viewModelScope.launch {

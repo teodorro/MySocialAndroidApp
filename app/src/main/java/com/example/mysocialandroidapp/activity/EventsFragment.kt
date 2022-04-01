@@ -62,11 +62,11 @@ class EventsFragment : Fragment() {
             }
 
             override fun onLike(event: Event) {
-                viewModel.likeById(event.id)
+                viewModel.likeById(event)
             }
 
             override fun onParticipate(event: Event) {
-                viewModel.participateById(event.id)
+                viewModel.participateById(event)
             }
 
             override fun onShowUsers(event: Event, userListType: UserListType) {
