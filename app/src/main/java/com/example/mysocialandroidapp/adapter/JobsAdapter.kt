@@ -23,7 +23,8 @@ interface OnJobInteractionListener {
 
 
 class JobsAdapter(
-    private val onInteractionListener: OnJobInteractionListener
+    private val onInteractionListener: OnJobInteractionListener,
+    private val showPopupMenu: Boolean,
 ) : ListAdapter<Job, JobsAdapter.JobViewHolder>(JobDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JobViewHolder {
         var binding =
@@ -32,7 +33,7 @@ class JobsAdapter(
                 parent,
                 false
             )
-        return JobViewHolder(parent.context, binding, onInteractionListener)
+        return JobViewHolder(parent.context, binding, onInteractionListener, showPopupMenu)
     }
 
     override fun onBindViewHolder(holder: JobViewHolder, position: Int) {
@@ -41,7 +42,7 @@ class JobsAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-        return position;
+        return position
     }
 
 
@@ -60,6 +61,7 @@ class JobsAdapter(
         private val context: Context,
         private val binding: JobItemBinding,
         private val onInteractionListener: OnJobInteractionListener,
+        private val showPopupMenu: Boolean,
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(job: Job) {
@@ -77,25 +79,28 @@ class JobsAdapter(
                 else
                     link.text = job.link
 
-                menu.setOnClickListener {
-                    PopupMenu(it.context, it).apply {
-                        inflate(R.menu.options_job)
+                if (!showPopupMenu)
+                    menu.visibility = View.GONE
+                else
+                    menu.setOnClickListener {
+                        PopupMenu(it.context, it).apply {
+                            inflate(R.menu.options_job)
 
-                        setOnMenuItemClickListener { item ->
-                            when (item.itemId) {
-                                R.id.remove -> {
-                                    onInteractionListener.onRemove(job)
-                                    true
+                            setOnMenuItemClickListener { item ->
+                                when (item.itemId) {
+                                    R.id.remove -> {
+                                        onInteractionListener.onRemove(job)
+                                        true
+                                    }
+                                    R.id.edit -> {
+                                        onInteractionListener.onEdit(job)
+                                        true
+                                    }
+                                    else -> false
                                 }
-                                R.id.edit -> {
-                                    onInteractionListener.onEdit(job)
-                                    true
-                                }
-                                else -> false
                             }
-                        }
-                    }.show()
-                }
+                        }.show()
+                    }
             }
 
         }

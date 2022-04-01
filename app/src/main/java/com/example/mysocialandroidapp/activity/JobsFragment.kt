@@ -44,7 +44,7 @@ class JobsFragment : Fragment()  {
                 viewModel.edit(job)
                 findNavController().navigate(R.id.action_jobsFragment_to_newJobFragment)
             }
-        })
+        }, showPopupMenu = true)
         binding.jobsList.adapter = adapter
 
         viewModel.data.observe(viewLifecycleOwner) { x ->

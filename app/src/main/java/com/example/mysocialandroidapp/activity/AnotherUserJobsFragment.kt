@@ -46,7 +46,7 @@ class AnotherUserJobsFragment : Fragment() {
             override fun onEdit(job: Job) {
                 findNavController().navigate(R.id.action_jobsFragment_to_newJobFragment)
             }
-        })
+        }, showPopupMenu = false)
         binding.jobsList.adapter = adapter
 
         viewModel.data.observe(viewLifecycleOwner) { x ->
