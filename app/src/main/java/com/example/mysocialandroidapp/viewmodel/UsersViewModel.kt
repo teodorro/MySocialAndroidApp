@@ -2,7 +2,9 @@ package com.example.mysocialandroidapp.viewmodel
 
 import androidx.lifecycle.*
 import com.example.mysocialandroidapp.auth.AppAuth
+import com.example.mysocialandroidapp.model.PostFeedModelState
 import com.example.mysocialandroidapp.model.UsersFeedModel
+import com.example.mysocialandroidapp.model.UsersFeedModelState
 import com.example.mysocialandroidapp.repository.UsersRepository
 import com.example.mysocialandroidapp.samples.Samples
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,6 +28,10 @@ class UsersViewModel @Inject constructor(
             )
         }.asLiveData()
 
+    private val _dataState = MutableLiveData<UsersFeedModelState>()
+    val dataState: LiveData<UsersFeedModelState>
+        get() = _dataState
+
     init {
         loadUsers()
     }
@@ -34,6 +40,18 @@ class UsersViewModel @Inject constructor(
         try {
             repository.getUsers()
         } catch (e: Exception) {
+        }
+    }
+
+    fun clearLocalTable(){
+        viewModelScope.launch {
+            try {
+                _dataState.value = UsersFeedModelState(loading = true)
+                repository.clearLocalTable()
+                _dataState.value = UsersFeedModelState()
+            } catch (e: Exception) {
+                _dataState.value = UsersFeedModelState(error = true)
+            }
         }
     }
 }

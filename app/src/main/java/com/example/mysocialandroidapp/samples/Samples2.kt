@@ -162,12 +162,12 @@ class Samples2 @Inject constructor(
                 "",
                 "When you marooned me on that godforsaken spit of land, you forgot one very important thing, mate. I'm Captain Jack Sparrow.",
                 Instant.now().toString(),
-                true,
+                false,
                 null,
                 null,
-                mutableSetOf(1),
-                true,
-                setOf(1),
+                mutableSetOf(0),
+                false,
+                setOf(0),
                 null
             )
         )
@@ -203,12 +203,12 @@ class Samples2 @Inject constructor(
                 "",
                 "I practice three hours a day so that when I meet a pirate, I can kill it!",
                 Instant.now().toString(),
-                true,
+                false,
                 null,
                 null,
-                mutableSetOf(1),
-                true,
-                setOf(1),
+                mutableSetOf(0),
+                false,
+                setOf(0),
                 null
             )
         )
@@ -220,12 +220,12 @@ class Samples2 @Inject constructor(
                 "",
                 "The blade is folded steel. That's gold filigree laid into the handle. If I may. Perfectly balanced. The tang is nearly the full width of the blade.",
                 Instant.now().toString(),
-                true,
+                false,
                 null,
                 null,
-                mutableSetOf(1),
-                true,
-                setOf(1),
+                mutableSetOf(0),
+                false,
+                setOf(0),
                 null
             )
         )

@@ -38,4 +38,12 @@ class UsersRepositoryImpl @Inject constructor(
             throw UnknownError
         }
     }
+
+    override suspend fun clearLocalTable() {
+        try{
+            userDao.removeAll()
+        } catch (e: Exception) {
+            throw UnknownError
+        }
+    }
 }

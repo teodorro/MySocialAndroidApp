@@ -50,6 +50,7 @@ class WallFragment : Fragment() {
 
             override fun onEdit(post: Post) {
                 viewModel.edit(post)
+                findNavController().navigate(R.id.action_wallFragment_to_newPostFragment)
             }
 
             override fun onLike(post: Post) {
@@ -101,13 +102,6 @@ class WallFragment : Fragment() {
         adapter.refresh()
 
         return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding.fab.setOnClickListener {
-            findNavController().navigate(R.id.action_wallFragment_to_newPostFragment)
-        }
     }
 
     override fun onDestroyView() {

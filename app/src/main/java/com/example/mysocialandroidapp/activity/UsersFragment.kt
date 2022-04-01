@@ -50,8 +50,12 @@ class UsersFragment : Fragment(), OnUserClickListener {
 
         _binding = FragmentUsersBinding.inflate(inflater, container, false)
 
+        viewModel.clearLocalTable()
+
         val adapter = UsersAdapter(this)
         binding.usersList.adapter = adapter
+
+        viewModel.loadUsers()
 
         viewModel.data.observe(viewLifecycleOwner) { x ->
             adapter.submitList(x.users)
