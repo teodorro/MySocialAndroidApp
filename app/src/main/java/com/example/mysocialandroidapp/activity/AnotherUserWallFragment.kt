@@ -17,8 +17,7 @@ import com.example.mysocialandroidapp.adapter.PostsAdapter
 import com.example.mysocialandroidapp.databinding.FragmentAnotherUserWallBinding
 import com.example.mysocialandroidapp.dto.Post
 import com.example.mysocialandroidapp.enumeration.UserListType
-import com.example.mysocialandroidapp.samples.Samples
-import com.example.mysocialandroidapp.viewmodel.AnotherUserWallViewModel
+import com.example.mysocialandroidapp.viewmodel.PostsViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -28,7 +27,7 @@ class AnotherUserWallFragment : Fragment() {
     private var _binding: FragmentAnotherUserWallBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: AnotherUserWallViewModel by hiltNavGraphViewModels(R.id.nav_graph)
+    private val viewModel: PostsViewModel by hiltNavGraphViewModels(R.id.nav_graph)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +44,7 @@ class AnotherUserWallFragment : Fragment() {
         (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.title_wall)
 
         var currentUserId = viewModel.appAuth.userFlow.value.id
-        viewModel.loadPosts()
+        viewModel.loadUserPosts()
 
         val adapter = PostsAdapter(object : OnPostInteractionListener {
             override fun onRemove(post: Post) {
@@ -53,7 +52,7 @@ class AnotherUserWallFragment : Fragment() {
             override fun onEdit(post: Post) {
             }
             override fun onLike(post: Post) {
-                viewModel.likeById(currentUserId, post)
+                viewModel.likeById(post, currentUserId)
             }
             override fun onShowUsers(post: Post, userListType: UserListType) {
                 val userIds = when (userListType) {
@@ -79,18 +78,18 @@ class AnotherUserWallFragment : Fragment() {
             binding.swiperefresh.isRefreshing = state.refreshing
             if (state.error) {
                 Snackbar.make(binding.root, R.string.error_loading, Snackbar.LENGTH_LONG)
-                    .setAction(R.string.retry_loading) { viewModel.loadPosts() }
+                    .setAction(R.string.retry_loading) { viewModel.loadUserPosts() }
                     .show()
             }
         }
 
         binding.swiperefresh.setOnRefreshListener {
-            viewModel.refreshPosts()
+            viewModel.refreshUserPosts()
             adapter.refresh()
         }
 
         lifecycleScope.launchWhenCreated {
-            viewModel.data.collectLatest(adapter::submitData)
+            viewModel.userPosts.collectLatest(adapter::submitData)
         }
 
         viewModel.username.observe(viewLifecycleOwner){

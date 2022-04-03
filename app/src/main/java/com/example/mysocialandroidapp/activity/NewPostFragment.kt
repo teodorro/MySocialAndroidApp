@@ -10,14 +10,13 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
-import androidx.fragment.app.viewModels
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.mysocialandroidapp.R
 import com.example.mysocialandroidapp.databinding.FragmentNewPostBinding
 import com.example.mysocialandroidapp.util.AndroidUtils
 import com.example.mysocialandroidapp.util.StringArg
-import com.example.mysocialandroidapp.viewmodel.WallViewModel
+import com.example.mysocialandroidapp.viewmodel.PostsViewModel
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,7 +30,7 @@ class NewPostFragment : Fragment() {
     private var _binding: FragmentNewPostBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: WallViewModel by hiltNavGraphViewModels(R.id.nav_graph)
+    private val viewModel: PostsViewModel by hiltNavGraphViewModels(R.id.nav_graph)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

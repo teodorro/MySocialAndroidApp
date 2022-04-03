@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
-import androidx.fragment.app.viewModels
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -46,7 +45,7 @@ class PostsFragment : Fragment() {
         (activity as AppCompatActivity).supportActionBar?.title = ""
 
         val userId = viewModel.appAuth.authStateFlow.value.id
-        viewModel.loadPosts()
+        viewModel.loadAllPosts()
 
         val adapter = PostsAdapter(object : OnPostInteractionListener {
             override fun onRemove(post: Post) {
@@ -57,7 +56,7 @@ class PostsFragment : Fragment() {
                 findNavController().navigate(R.id.action_postsFragment_to_newPostFragment)
             }
             override fun onLike(post: Post) {
-                viewModel.likeById(post.id)
+                viewModel.likeById(post)
             }
             override fun onShowUsers(post: Post, userListType: UserListType) {
                 val userIds = when (userListType) {
@@ -90,13 +89,13 @@ class PostsFragment : Fragment() {
             binding.swiperefresh.isRefreshing = state.refreshing
             if (state.error) {
                 Snackbar.make(binding.root, R.string.error_loading, Snackbar.LENGTH_LONG)
-                    .setAction(R.string.retry_loading) { viewModel.loadPosts() }
+                    .setAction(R.string.retry_loading) { viewModel.loadAllPosts() }
                     .show()
             }
         }
 
         binding.swiperefresh.setOnRefreshListener {
-            viewModel.refreshPosts()
+            viewModel.refreshAllPosts()
             adapter.refresh()
             viewModel.updateWasSeen()
         }
@@ -108,7 +107,7 @@ class PostsFragment : Fragment() {
         }
 
         lifecycleScope.launchWhenCreated {
-            viewModel.data.collectLatest(adapter::submitData)
+            viewModel.allPosts.collectLatest(adapter::submitData)
         }
 
         // show indicator

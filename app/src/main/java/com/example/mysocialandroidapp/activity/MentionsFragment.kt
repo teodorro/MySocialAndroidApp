@@ -11,7 +11,7 @@ import com.example.mysocialandroidapp.adapter.CheckUsersAdapter
 import com.example.mysocialandroidapp.adapter.OnUserCheckListener
 import com.example.mysocialandroidapp.databinding.FragmentMentionsBinding
 import com.example.mysocialandroidapp.dto.User
-import com.example.mysocialandroidapp.viewmodel.WallViewModel
+import com.example.mysocialandroidapp.viewmodel.PostsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -20,7 +20,7 @@ class MentionsFragment : Fragment(), OnUserCheckListener {
     private var _binding: FragmentMentionsBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: WallViewModel by hiltNavGraphViewModels(R.id.nav_graph)
+    private val viewModel: PostsViewModel by hiltNavGraphViewModels(R.id.nav_graph)
 
     private var mentionedIds: MutableSet<Long> = mutableSetOf()
 

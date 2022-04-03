@@ -5,14 +5,14 @@ import androidx.work.CoroutineWorker
 import androidx.work.ListenableWorker
 import androidx.work.WorkerFactory
 import androidx.work.WorkerParameters
-import com.example.mysocialandroidapp.repository.PostRepository
+import com.example.mysocialandroidapp.repository.PostsRepository
 import javax.inject.Inject
 import javax.inject.Singleton
 
 class RemovePostWorker(
     applicationContext: Context,
     params: WorkerParameters,
-    private val repository: PostRepository,
+    private val repository: PostsRepository,
 ) : CoroutineWorker(applicationContext, params) {
     companion object {
         const val POST_KEY = "post"
@@ -33,7 +33,7 @@ class RemovePostWorker(
 
     @Singleton
     class Factory @Inject constructor(
-        private val repository: PostRepository,
+        private val repository: PostsRepository,
     ) : WorkerFactory() {
         override fun createWorker(
             appContext: Context,

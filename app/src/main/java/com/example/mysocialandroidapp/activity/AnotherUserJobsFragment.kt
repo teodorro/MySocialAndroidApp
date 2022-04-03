@@ -14,7 +14,7 @@ import com.example.mysocialandroidapp.adapter.JobsAdapter
 import com.example.mysocialandroidapp.adapter.OnJobInteractionListener
 import com.example.mysocialandroidapp.databinding.FragmentAnotherUserJobsBinding
 import com.example.mysocialandroidapp.dto.Job
-import com.example.mysocialandroidapp.viewmodel.AnotherUserJobsViewModel
+import com.example.mysocialandroidapp.viewmodel.JobsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -22,7 +22,7 @@ class AnotherUserJobsFragment : Fragment() {
     private var _binding: FragmentAnotherUserJobsBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: AnotherUserJobsViewModel by hiltNavGraphViewModels(R.id.nav_graph)
+    private val viewModel: JobsViewModel by hiltNavGraphViewModels(R.id.nav_graph)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

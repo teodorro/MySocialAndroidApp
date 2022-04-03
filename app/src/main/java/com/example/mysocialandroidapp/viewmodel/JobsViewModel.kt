@@ -7,6 +7,7 @@ import com.example.mysocialandroidapp.dto.Job
 import com.example.mysocialandroidapp.model.JobsFeedModel
 import com.example.mysocialandroidapp.model.JobsFeedModelState
 import com.example.mysocialandroidapp.repository.JobsRepository
+import com.example.mysocialandroidapp.repository.UsersRepository
 import com.example.mysocialandroidapp.samples.Samples
 import com.example.mysocialandroidapp.util.SingleLiveEvent
 import com.example.mysocialandroidapp.work.RemoveJobWorker
@@ -29,16 +30,25 @@ val emptyJob = Job(
 @HiltViewModel
 class JobsViewModel @Inject constructor(
     private val repository: JobsRepository,
+    private val usersRepository: UsersRepository,
     private val workManager: WorkManager,
     val appAuth: AppAuth,
-) : ViewModel()  {
+) : ViewModel() {
+
     var userId: Long = 0
         set(value) {
             field = value
-            repository.userId = value
+            viewModelScope.launch {
+                usersRepository.data.collect { x ->
+                    var user = x.firstOrNull() { y -> y.id == userId }
+                    _username.value = user?.name
+                    _avatar.value = user?.avatar
+                }
+            }
             viewModelScope.launch {
                 repository.clearLocalTable()
             }
+            repository.userId = value
             viewModelScope.launch {
                 repository.getJobs(userId)
             }
@@ -55,6 +65,14 @@ class JobsViewModel @Inject constructor(
     private val _jobCreated = SingleLiveEvent<Unit>()
     val jobCreated: LiveData<Unit>
         get() = _jobCreated
+
+    private val _username = MutableLiveData("")
+    val username: LiveData<String>
+        get() = _username
+
+    private val _avatar = MutableLiveData<Any?>(null)
+    val avatar: LiveData<Any?>
+        get() = _avatar
 
     val data: LiveData<JobsFeedModel> = repository.data
         .map { jobs ->
@@ -148,5 +166,14 @@ class JobsViewModel @Inject constructor(
         )
     }
 
-
+    fun loadJobs() = viewModelScope.launch {
+        try {
+            _dataState.value = JobsFeedModelState(loading = true)
+            repository.getJobs(userId)
+//            repository.updateWasSeen()
+            _dataState.value = JobsFeedModelState()
+        } catch (e: Exception) {
+            _dataState.value = JobsFeedModelState(error = true)
+        }
+    }
 }

@@ -24,7 +24,6 @@ import com.example.mysocialandroidapp.dto.Event
 import com.example.mysocialandroidapp.dto.Post
 import com.example.mysocialandroidapp.enumeration.UserListType
 import com.example.mysocialandroidapp.viewmodel.EventsViewModel
-import com.example.mysocialandroidapp.viewmodel.WallViewModel
 import com.example.mysocialandroidapp.viewmodel.emptyEvent
 import com.example.mysocialandroidapp.viewmodel.emptyPost
 import com.google.android.material.snackbar.Snackbar

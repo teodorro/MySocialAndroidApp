@@ -15,7 +15,7 @@ import com.example.mysocialandroidapp.entity.toEntity
 import com.example.mysocialandroidapp.error.ApiError
 
 @OptIn(ExperimentalPagingApi::class)
-class PostRemoteMediator(
+class PostsRemoteMediator(
     private val service: DataApiService,
     private val db: AppDb,
     private val postDao: PostDao,

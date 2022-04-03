@@ -8,18 +8,16 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
-import androidx.fragment.app.viewModels
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.mysocialandroidapp.R
 import com.example.mysocialandroidapp.adapter.OnPostInteractionListener
 import com.example.mysocialandroidapp.adapter.PostsAdapter
-import com.example.mysocialandroidapp.auth.AppAuth
 import com.example.mysocialandroidapp.databinding.FragmentWallBinding
 import com.example.mysocialandroidapp.dto.Post
 import com.example.mysocialandroidapp.enumeration.UserListType
-import com.example.mysocialandroidapp.viewmodel.WallViewModel
+import com.example.mysocialandroidapp.viewmodel.PostsViewModel
 import com.example.mysocialandroidapp.viewmodel.emptyPost
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,7 +28,7 @@ class WallFragment : Fragment() {
     private var _binding: FragmentWallBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: WallViewModel by hiltNavGraphViewModels(R.id.nav_graph)
+    private val viewModel: PostsViewModel by hiltNavGraphViewModels(R.id.nav_graph)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -81,18 +79,18 @@ class WallFragment : Fragment() {
             binding.swiperefresh.isRefreshing = state.refreshing
             if (state.error) {
                 Snackbar.make(binding.root, R.string.error_loading, Snackbar.LENGTH_LONG)
-                    .setAction(R.string.retry_loading) { viewModel.loadPosts() }
+                    .setAction(R.string.retry_loading) { viewModel.loadUserPosts() }
                     .show()
             }
         }
 
         binding.swiperefresh.setOnRefreshListener {
-            viewModel.refreshPosts()
+            viewModel.refreshUserPosts()
             adapter.refresh()
         }
 
         lifecycleScope.launchWhenCreated {
-            viewModel.data.collectLatest(adapter::submitData)
+            viewModel.userPosts.collectLatest(adapter::submitData)
         }
 
         binding.fab.setOnClickListener {

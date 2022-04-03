@@ -10,11 +10,9 @@ import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.mysocialandroidapp.R
 import com.example.mysocialandroidapp.databinding.FragmentNewEventBinding
-import com.example.mysocialandroidapp.databinding.FragmentNewPostBinding
 import com.example.mysocialandroidapp.util.AndroidUtils
 import com.example.mysocialandroidapp.util.StringArg
 import com.example.mysocialandroidapp.viewmodel.EventsViewModel
-import com.example.mysocialandroidapp.viewmodel.WallViewModel
 import com.github.dhaval2404.imagepicker.ImagePicker
 import dagger.hilt.android.AndroidEntryPoint
 

@@ -5,7 +5,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.ListenableWorker
 import androidx.work.WorkerFactory
 import androidx.work.WorkerParameters
-import com.example.mysocialandroidapp.repository.PostRepository
+import com.example.mysocialandroidapp.repository.PostsRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -14,7 +14,7 @@ import javax.inject.Singleton
 class RefreshPostsWorker(
     applicationContext: Context,
     params: WorkerParameters,
-    private val repository: PostRepository,
+    private val repository: PostsRepository,
 ) : CoroutineWorker(applicationContext, params) {
     companion object {
         const val NAME = "com.example.work.RefreshPostsWorker"
@@ -22,7 +22,7 @@ class RefreshPostsWorker(
 
     override suspend fun doWork(): Result = withContext(Dispatchers.Default) {
         try {
-            repository.getAll()
+            repository.getAllPosts()
             Result.success()
         } catch (e: Exception) {
             e.printStackTrace()
@@ -32,7 +32,7 @@ class RefreshPostsWorker(
 
     @Singleton
     class Factory @Inject constructor(
-        private val repository: PostRepository,
+        private val repository: PostsRepository,
     ) : WorkerFactory() {
         override fun createWorker(
             appContext: Context,
