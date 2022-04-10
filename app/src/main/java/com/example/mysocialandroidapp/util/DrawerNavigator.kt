@@ -1,19 +1,14 @@
 package com.example.mysocialandroidapp.util
 
-import android.content.Context
-import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import com.example.mysocialandroidapp.R
 import com.example.mysocialandroidapp.activity.*
-import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class DrawerNavigator @Inject constructor(
-    @ApplicationContext private val context: Context,
-){
+class DrawerNavigator @Inject constructor() {
     private lateinit var _fragmentFrom: Fragment
     private lateinit var _navController: NavController
 

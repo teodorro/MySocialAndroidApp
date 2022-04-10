@@ -8,7 +8,6 @@ import com.example.mysocialandroidapp.model.JobsFeedModel
 import com.example.mysocialandroidapp.model.JobsFeedModelState
 import com.example.mysocialandroidapp.repository.JobsRepository
 import com.example.mysocialandroidapp.repository.UsersRepository
-import com.example.mysocialandroidapp.samples.Samples
 import com.example.mysocialandroidapp.util.SingleLiveEvent
 import com.example.mysocialandroidapp.work.RemoveJobWorker
 import com.example.mysocialandroidapp.work.SaveJobWorker
@@ -170,7 +169,6 @@ class JobsViewModel @Inject constructor(
         try {
             _dataState.value = JobsFeedModelState(loading = true)
             repository.getJobs(userId)
-//            repository.updateWasSeen()
             _dataState.value = JobsFeedModelState()
         } catch (e: Exception) {
             _dataState.value = JobsFeedModelState(error = true)

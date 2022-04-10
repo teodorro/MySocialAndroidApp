@@ -46,10 +46,4 @@ data class EventEntity(
 }
 
 fun List<EventEntity>.toDto(): List<Event> = map(EventEntity::toDto)
-fun List<Event>.toEntity(): List<EventEntity> {
-    var eventEntities = mutableListOf<EventEntity>()
-    for (event in this){
-        eventEntities.add(EventEntity.fromDto(event))
-    }
-    return eventEntities
-}
+fun List<Event>.toEntity(): List<EventEntity> = map(EventEntity::fromDto)

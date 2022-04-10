@@ -50,10 +50,4 @@ data class PostEntity(
 }
 
 fun List<PostEntity>.toDto(): List<Post> = map(PostEntity::toDto)
-fun List<Post>.toEntity(wasSeen: Boolean): List<PostEntity> {
-    var postEntities = mutableListOf<PostEntity>()
-    for (post in this){
-        postEntities.add(fromDto(post, wasSeen))
-    }
-    return postEntities
-}
+fun List<Post>.toEntity(wasSeen: Boolean): List<PostEntity> = map { x -> fromDto(x, wasSeen) }

@@ -29,11 +29,11 @@ class SpeakersFragment : Fragment(), OnUserCheckListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.title_mentions)
+        (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.title_speakers)
         _binding = FragmentSpeakersBinding.inflate(inflater, container, false)
 
         val adapter = CheckUsersAdapter(this)
-        binding.mentionsList.adapter = adapter
+        binding.speakersList.adapter = adapter
 
         speakerIds = viewModel.edited.value!!.speakerIds.toMutableSet()
         viewModel.allUsers.observe(viewLifecycleOwner) { x ->
@@ -89,5 +89,10 @@ class SpeakersFragment : Fragment(), OnUserCheckListener {
             else -> super.onOptionsItemSelected(item)
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

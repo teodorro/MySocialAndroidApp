@@ -42,10 +42,11 @@ class NewPostFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentNewPostBinding.inflate(inflater, container, false)
-        (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.title_new_post)
+        (activity as AppCompatActivity).supportActionBar?.title =
+            if (viewModel.edited.value?.id == 0L) getString(R.string.title_new_post)
+            else getString(R.string.title_edit_post)
 
         binding.edit.setText(viewModel.edited.value?.content)
-
         binding.edit.requestFocus()
 
         binding.pickPhoto.setOnClickListener {
@@ -103,7 +104,6 @@ class NewPostFragment : Fragment() {
                     viewModel.changeContent(it.edit.text.toString())
                     viewModel.save()
                     AndroidUtils.hideKeyboard(requireView())
-//                    findNavController().navigateUp()
                 }
                 true
             }
@@ -152,9 +152,8 @@ class NewPostFragment : Fragment() {
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
                     viewModel.edited.value?.let { it ->
-                        it.copy(mentionIds = mutableSetOf(), mentionedMe = false) }
-                    // Leave empty do disable back press or
-                    // write your code which you want
+                        it.copy(mentionIds = mutableSetOf(), mentionedMe = false)
+                    }
                 }
             }
         requireActivity().onBackPressedDispatcher.addCallback(

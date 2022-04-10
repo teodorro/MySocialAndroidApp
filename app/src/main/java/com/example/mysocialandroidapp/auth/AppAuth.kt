@@ -23,17 +23,6 @@ import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Singleton
 
-//region
-//object AppAuth {
-//    var currentAuthorId: Long = 1001
-//    var currentAuthorName: String = "author1"
-//
-//    fun setAuth(id: Long, name: String){
-//        currentAuthorId = id
-//        currentAuthorName = name
-//    }
-//}
-//endregion
 
 @Singleton
 class AppAuth @Inject constructor(

@@ -192,21 +192,6 @@ class PostsRepositoryImpl @Inject constructor(
         }
     }
 
-//    override suspend fun removeById(postId: Long) {
-//        try {
-//            val response = apiService.removePostById(postId)
-//            if (!response.isSuccessful) {
-//                throw ApiError(response.code(), response.message())
-//            }
-//
-//            postDao.removeById(postId)
-//        } catch (e: IOException) {
-//            throw NetworkError
-//        } catch (e: Exception) {
-//            throw UnknownError
-//        }
-//    }
-
     override suspend fun removeWork(postId: Long) {
         try {
             val response = apiService.removePostById(postId)

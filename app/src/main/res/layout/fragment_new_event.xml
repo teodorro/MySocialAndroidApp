@@ -50,28 +50,6 @@
                 <TableRow android:padding="1dp">
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/dateLabel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:padding="@dimen/small_spacing"
-                        android:text="@string/datetime" />
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/date"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="#EEEEEEEE"
-                        android:layout_weight="1"
-                        android:inputType="date"
-                        android:padding="@dimen/small_spacing"
-                        tools:ignore="DuplicateClickableBoundsCheck,SpeakableTextPresentCheck" />
-                </TableRow>
-
-                <TableRow android:padding="1dp">
-
-                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/positionLabel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -180,6 +158,24 @@
             android:contentDescription="@string/menu_speakers"
             android:padding="@dimen/common_spacing"
             app:icon="@drawable/ic_baseline_person_24" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/dateEvent"
+            style="?android:spinnerStyle"
+            android:layout_width="@dimen/event_date_picker_width"
+            android:layout_height="wrap_content"
+            android:textColor="@color/dark_gray"
+            android:contentDescription="@string/datetime"
+            android:padding="@dimen/common_spacing"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/timeEvent"
+            style="?android:spinnerStyle"
+            android:layout_width="@dimen/event_time_picker_width"
+            android:layout_height="wrap_content"
+            android:textColor="@color/dark_gray"
+            android:contentDescription="@string/datetime"
+            android:padding="@dimen/common_spacing"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

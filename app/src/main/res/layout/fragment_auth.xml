@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/login"
-        android:layout_marginLeft="@dimen/small_spacing"
+        android:layout_marginStart="@dimen/small_spacing"
         app:layout_constraintBottom_toTopOf="@+id/editText_login"
         app:layout_constraintStart_toStartOf="@+id/editText_login" />
 
@@ -31,7 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/password"
-        android:layout_marginLeft="@dimen/small_spacing"
+        android:layout_marginStart="@dimen/small_spacing"
         app:layout_constraintStart_toStartOf="@+id/editText_Password"
         app:layout_constraintBottom_toTopOf="@+id/editText_Password"/>
 

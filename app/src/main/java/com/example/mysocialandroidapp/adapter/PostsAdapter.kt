@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mysocialandroidapp.BuildConfig
 import com.example.mysocialandroidapp.R
@@ -71,10 +70,9 @@ class PostsAdapter (
                 } else {
                     avatar.setImageResource(R.mipmap.ic_launcher_round)
                 }
-
                 like.isChecked = post.likedByMe
                 like.text = "${post.likeOwnerIds.size}"
-                published.text = DateStringFormatter.getSimpleFromInstance(post.published)
+                published.text = DateStringFormatter.getDateTimeFromInstance(post.published)
                 link.text = post.link
                 if (post.link.isNullOrBlank()) {
                     link.visibility = View.GONE

@@ -56,11 +56,9 @@ class CheckUsersAdapter (
     class CheckUserViewHolder(
         private val binding: CheckUserItemBinding,
     ) : RecyclerView.ViewHolder(binding.root){
-        var userId: Long = -1
         fun bind(user: User, checkListener: OnUserCheckListener){
             binding.apply {
                 username.text = user.name
-                userId = user.id
                 checked.isVisible = checkListener.isCheckboxVisible(user)
                 checked.isChecked = checkListener.isCheckboxChecked(user)
                 if (user.avatar != null) {

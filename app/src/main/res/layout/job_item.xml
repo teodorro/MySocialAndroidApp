@@ -32,7 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:paddingLeft="@dimen/smaller_spacing"
+                android:paddingStart="@dimen/smaller_spacing"
                 android:paddingTop="12dp"
                 android:textAppearance="?attr/textAppearanceListItem"
                 tools:text="@sample/posts.json/data/content" />
@@ -58,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ellipsize="end"
-                android:paddingLeft="@dimen/smaller_spacing"
+                android:paddingStart="@dimen/smaller_spacing"
                 android:paddingTop="4dp"
                 android:textAppearance="?attr/textAppearanceListItem"
                 tools:text="@sample/posts.json/data/author" />
@@ -71,7 +71,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_marginRight="4dp"
+        android:layout_marginEnd="4dp"
         android:contentDescription="@string/description_job_menu"
         app:icon="@drawable/ic_baseline_more_vert_24"
         app:layout_constraintEnd_toEndOf="parent"

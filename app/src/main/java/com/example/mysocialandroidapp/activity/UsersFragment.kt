@@ -46,7 +46,13 @@ class UsersFragment : Fragment(), OnUserClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.title_users)
+        (activity as AppCompatActivity).supportActionBar?.title = when (userListType){
+            UserListType.PARTICIPANTS -> getString(R.string.title_participants)
+            UserListType.SPEAKERS -> getString(R.string.title_speakers)
+            UserListType.LIKES -> getString(R.string.title_likes)
+            UserListType.MENTIONS -> getString(R.string.title_mentions)
+            else -> getString(R.string.title_users)
+        }
 
         _binding = FragmentUsersBinding.inflate(inflater, container, false)
 
@@ -75,7 +81,6 @@ class UsersFragment : Fragment(), OnUserClickListener {
             )
         }
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

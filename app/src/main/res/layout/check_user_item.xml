@@ -10,7 +10,7 @@
         android:id="@+id/checked"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/common_spacing"
+        android:layout_marginStart="@dimen/common_spacing"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
 
@@ -32,8 +32,8 @@
         android:maxLines="1"
         android:ellipsize="end"
         android:layout_marginTop="@dimen/common_spacing"
-        android:layout_marginRight="@dimen/common_spacing"
-        android:paddingLeft="@dimen/common_spacing"
+        android:layout_marginEnd="@dimen/common_spacing"
+        android:paddingStart="@dimen/common_spacing"
         android:paddingTop="@dimen/smaller_spacing"
         android:paddingBottom="@dimen/smaller_spacing"
         android:textAppearance="?attr/textAppearanceListItem"

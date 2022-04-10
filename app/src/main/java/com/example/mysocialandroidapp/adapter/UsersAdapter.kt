@@ -53,11 +53,9 @@ class UsersAdapter (
     class UserViewHolder(
         private val binding: UserItemBinding,
     ) : RecyclerView.ViewHolder(binding.root){
-        var userId: Long = -1
         fun bind(user: User, clickListener: OnUserClickListener){
             binding.apply {
                 username.text = user.name
-                userId = user.id
                 if (user.avatar != null) {
                     avatar.loadCircleCrop("${BuildConfig.BASE_URL}/avatars/${user.avatar}")
                 } else {

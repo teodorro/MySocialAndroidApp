@@ -42,20 +42,20 @@ class Samples2 @Inject constructor(
 
         user = "Captain Barbossa"
         signUpUser("barbossa", "barbossa", user)
-        Thread.sleep(500)
+        delay(500)
         addPosts2(user, userId++)
         signOut()
 
         user = "Jack Sparrow"
         signUpUser("sparrow", "sparrow", user)
-        Thread.sleep(500)
+        delay(500)
         addPosts1(user, userId++)
         addJobs1(user, userId)
         signOut()
 
         user = "Will Turner"
         signUpUser("turner", "turner", user)
-        Thread.sleep(500)
+        delay(500)
         addPosts3(user, userId++)
         addJobs3(user, userId)
         addEvents3(user, userId)
@@ -165,9 +165,9 @@ class Samples2 @Inject constructor(
                 false,
                 null,
                 null,
-                mutableSetOf(0),
+                mutableSetOf(),
                 false,
-                setOf(0),
+                emptySet(),
                 null
             )
         )
@@ -179,8 +179,8 @@ class Samples2 @Inject constructor(
                 0,
                 "Black Pearl",
                 "Captain",
-                Instant.now().epochSecond - 90000,
-                Instant.now().epochSecond - 40000,
+                Instant.now().epochSecond - 900000,
+                Instant.now().epochSecond - 400000,
                 "http://maps.google.com"
             )
         )
@@ -189,7 +189,7 @@ class Samples2 @Inject constructor(
                 0,
                 "",
                 "Unemployed",
-                Instant.now().epochSecond - 40000,
+                Instant.now().epochSecond - 400000,
             )
         )
     }
@@ -206,9 +206,9 @@ class Samples2 @Inject constructor(
                 false,
                 null,
                 null,
-                mutableSetOf(0),
+                mutableSetOf(),
                 false,
-                setOf(0),
+                emptySet(),
                 null
             )
         )
@@ -223,9 +223,9 @@ class Samples2 @Inject constructor(
                 false,
                 null,
                 null,
-                mutableSetOf(0),
+                mutableSetOf(),
                 false,
-                setOf(0),
+                emptySet(),
                 null
             )
         )
@@ -237,8 +237,8 @@ class Samples2 @Inject constructor(
                 0,
                 "Forge",
                 "Blacksmith",
-                Instant.now().epochSecond - 90000,
-                Instant.now().epochSecond - 80000,
+                Instant.now().epochSecond - 900000,
+                Instant.now().epochSecond - 800000,
             )
         )
         apiService.saveJob(
@@ -246,7 +246,7 @@ class Samples2 @Inject constructor(
                 0,
                 "Sea",
                 "Pirate",
-                Instant.now().epochSecond - 80000,
+                Instant.now().epochSecond - 800000,
             )
         )
     }

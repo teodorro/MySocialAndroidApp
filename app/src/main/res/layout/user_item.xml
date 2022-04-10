@@ -26,7 +26,7 @@
         android:layout_marginEnd="@dimen/common_spacing"
         android:ellipsize="end"
         android:maxLines="1"
-        android:paddingLeft="@dimen/common_spacing"
+        android:paddingStart="@dimen/common_spacing"
         android:paddingTop="@dimen/smaller_spacing"
         android:paddingBottom="@dimen/smaller_spacing"
         android:textAppearance="?attr/textAppearanceListItem"

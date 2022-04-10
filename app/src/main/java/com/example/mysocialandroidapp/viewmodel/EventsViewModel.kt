@@ -3,9 +3,6 @@ package com.example.mysocialandroidapp.viewmodel
 import android.net.Uri
 import androidx.core.net.toFile
 import androidx.lifecycle.*
-import androidx.paging.PagingData
-import androidx.paging.cachedIn
-import androidx.paging.map
 import androidx.work.*
 import com.example.mysocialandroidapp.auth.AppAuth
 import com.example.mysocialandroidapp.dto.Coordinates
@@ -14,14 +11,11 @@ import com.example.mysocialandroidapp.dto.MediaUpload
 import com.example.mysocialandroidapp.enumeration.EventType
 import com.example.mysocialandroidapp.model.*
 import com.example.mysocialandroidapp.repository.EventsRepository
-import com.example.mysocialandroidapp.samples.Samples
 import com.example.mysocialandroidapp.util.SingleLiveEvent
 import com.example.mysocialandroidapp.work.RemoveEventWorker
 import com.example.mysocialandroidapp.work.SaveEventWorker
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.io.File
@@ -267,27 +261,4 @@ class EventsViewModel @Inject constructor(
         _photo.value = PhotoModel(uri, file)
     }
 
-//    val allUsers: LiveData<UsersFeedModel> = repository.allUsers
-//        .map { users ->
-//            UsersFeedModel(users,
-//                users.isEmpty()
-//            )
-//        }.asLiveData()
-
-
-
-//    private val _eventsFeed = MutableLiveData<EventsFeedModel>()
-//    val eventsFeed: LiveData<EventsFeedModel>
-//        get() = _eventsFeed
-//
-//    var userId: Long = 0
-//
-//    init {
-//        loadEvents()
-//    }
-//
-//    fun loadEvents() {
-//        val eventsFeed = Samples.getEvents()
-//        _eventsFeed.value = EventsFeedModel(eventsFeed, eventsFeed?.isEmpty())
-//    }
 }

@@ -152,7 +152,7 @@ class PostsViewModel @Inject constructor(
         try {
             _dataState.value = PostFeedModelState(loading = true)
             repository.getUserPosts(userId)
-//            repository.updateWasSeen()
+            repository.updateWasSeen()
             _dataState.value = PostFeedModelState()
         } catch (e: Exception) {
             _dataState.value = PostFeedModelState(error = true)
@@ -174,7 +174,7 @@ class PostsViewModel @Inject constructor(
         try {
             _dataState.value = PostFeedModelState(refreshing = true)
             repository.getUserPosts(userId)
-//            repository.updateWasSeen()
+            repository.updateWasSeen()
             _dataState.value = PostFeedModelState()
         } catch (e: Exception) {
             _dataState.value = PostFeedModelState(error = true)

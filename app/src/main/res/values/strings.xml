@@ -52,14 +52,19 @@
     <string name="title_registration">Registration</string>
     <string name="title_avatar">Choose avatar</string>
     <string name="title_new_post">New post</string>
+    <string name="title_edit_post">Edit post</string>
     <string name="title_wall">Wall</string>
     <string name="title_mentions">Mentions</string>
     <string name="title_jobs">Jobs</string>
     <string name="title_new_job">New job</string>
+    <string name="title_edit_job">Edit job</string>
     <string name="title_events">Events</string>
     <string name="title_new_event">New event</string>
+    <string name="title_edit_event">Edit event</string>
     <string name="title_users">Users</string>
+    <string name="title_participants">Participants</string>
     <string name="title_speakers">Speakers</string>
+    <string name="title_likes">Likes</string>
 
     <string name="notification_user_liked">User %1$s liked %2$s\'s post</string>
     <string name="description_post_author_avatar">Post author avatar</string>
@@ -97,8 +102,10 @@
     <string name="error_loading">Error loading data</string>
     <string name="take_part">Take part</string>
     <string name="i_am_in">I\'m in</string>
-    <string name="date">Date: </string>
+    <string name="event_date">Date: </string>
+    <string name="event_time">Time: </string>
     <string name="unknown_error">Unknown error</string>
+    <string name="network_error">Network error</string>
     <string name="minus"> - </string>
     <string name="now">Now</string>
 

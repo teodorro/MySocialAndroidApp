@@ -56,21 +56,22 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="Start"
-        app:layout_constraintBottom_toTopOf="@+id/editTextStart"
-        app:layout_constraintStart_toStartOf="@+id/editTextStart"
+        app:layout_constraintBottom_toTopOf="@+id/dateStart"
+        app:layout_constraintStart_toStartOf="@+id/textViewName"
         app:layout_constraintTop_toBottomOf="@+id/editTextPosition" />
 
-    <EditText
-        android:id="@+id/editTextStart"
-        android:layout_width="wrap_content"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/dateStart"
+        android:layout_width="@dimen/job_date_picker_width"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="date"
+        android:textColor="@color/black"
+        android:textSize="@dimen/post_user_text_size"
+        style="?android:spinnerStyle"
         app:layout_constraintBottom_toTopOf="@+id/textViewFinish"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewStart"
-        tools:ignore="SpeakableTextPresentCheck" />
+        android:text="" />
 
     <TextView
         android:id="@+id/textViewFinish"
@@ -78,21 +79,23 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="Finish"
-        app:layout_constraintBottom_toTopOf="@+id/editTextFinish"
-        app:layout_constraintStart_toStartOf="@+id/editTextFinish"
-        app:layout_constraintTop_toBottomOf="@+id/editTextStart" />
+        app:layout_constraintBottom_toTopOf="@+id/dateFinish"
+        app:layout_constraintStart_toStartOf="@+id/textViewName"
+        app:layout_constraintTop_toBottomOf="@+id/dateStart" />
 
-    <EditText
-        android:id="@+id/editTextFinish"
-        android:layout_width="wrap_content"
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/dateFinish"
+        android:layout_width="@dimen/job_date_picker_width"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="date"
+        android:textColor="@color/black"
+        android:textSize="@dimen/post_user_text_size"
+        style="?android:spinnerStyle"
         app:layout_constraintBottom_toTopOf="@+id/textViewLink"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewFinish"
-        tools:ignore="SpeakableTextPresentCheck" />
+        android:text="" />
 
     <TextView
         android:id="@+id/textViewLink"
@@ -102,7 +105,7 @@
         android:text="Link"
         app:layout_constraintBottom_toTopOf="@+id/editTextLink"
         app:layout_constraintStart_toStartOf="@+id/editTextLink"
-        app:layout_constraintTop_toBottomOf="@+id/editTextFinish" />
+        app:layout_constraintTop_toBottomOf="@+id/dateFinish" />
 
     <EditText
         android:id="@+id/editTextLink"

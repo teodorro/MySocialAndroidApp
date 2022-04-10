@@ -3,6 +3,7 @@ package com.example.mysocialandroidapp.viewmodel
 import android.content.Context
 import android.content.res.Resources
 import android.net.Uri
+import android.widget.Toast
 import androidx.core.net.toFile
 import androidx.lifecycle.*
 import com.example.mysocialandroidapp.R
@@ -15,10 +16,7 @@ import com.example.mysocialandroidapp.model.PhotoModel
 import com.example.mysocialandroidapp.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import retrofit2.Response
@@ -76,7 +74,10 @@ class AuthViewModel @Inject constructor(
                 auth.setAuth(0, "")
                 return@launch
             }
-            val body = responseSignIn.body() ?: throw ApiError(responseSignIn.code(), responseSignIn.message())
+            val body = responseSignIn.body() ?: throw ApiError(
+                responseSignIn.code(),
+                responseSignIn.message()
+            )
             auth.setAuth(body.id, body.token ?: "")
 
             initUser(body.id)
@@ -89,11 +90,13 @@ class AuthViewModel @Inject constructor(
                 return@launch
             }
             val responseUser = apiService.getUserById(userId)
-            if (responseUser.isSuccessful){
-                val body = responseUser.body() ?: throw ApiError(responseUser.code(), responseUser.message())
+            if (responseUser.isSuccessful) {
+                val body = responseUser.body() ?: throw ApiError(
+                    responseUser.code(),
+                    responseUser.message()
+                )
                 auth.setUser(body.id, body.login, body.name, body.avatar, body.authorities)
-            }
-            else{
+            } else {
                 auth.setUser(0, "", "", null, emptyList())
             }
         }
@@ -103,7 +106,7 @@ class AuthViewModel @Inject constructor(
         initUser(0)
     }
 
-    fun signUp(login: String, password: String, name: String, uri: Uri?) =
+    fun signUp(login: String, password: String, name: String, uri: Uri?) {
         viewModelScope.async {
             try {
                 var response: Response<AuthState> = if (uri == null)
@@ -113,13 +116,13 @@ class AuthViewModel @Inject constructor(
 
                 if (response.isSuccessful) {
                     signIn(login, password)
-                }
-                else
+                } else
                     throw ApiError(response.code(), response.message())
             } catch (e: Exception) {
-                throw ApiError(e.hashCode(), e.message.toString())
+                throw e
             }
         }
+    }
 
     private suspend fun signUp(
         login: String,
@@ -155,7 +158,12 @@ class AuthViewModel @Inject constructor(
         _avatarWasSelected.value = Unit
     }
 
-    fun validateUserData(login: String, password: String, repeatPassword: String, name: String) : String {
+    suspend fun validateUserData(
+        login: String,
+        password: String,
+        repeatPassword: String,
+        name: String
+    ): String {
         if (login.isBlank())
             return context.getString(R.string.validation_signup_login_blank)
         if (password.isEmpty())
@@ -171,16 +179,16 @@ class AuthViewModel @Inject constructor(
         return ""
     }
 
-    private fun checkUserLoginUnique(login: String) : String =
-        runBlocking {
+    private suspend fun checkUserLoginUnique(login: String): String =
+        viewModelScope.async {
             val response = apiService.getUsersAll()
-            if (!response.isSuccessful){
+            if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }
             val users = response.body() ?: throw ApiError(response.code(), response.message())
             if (users.any { x -> x.login == login })
-                return@runBlocking "Login '$login' already exists"
+                return@async "Login '$login' already exists"
 
-            return@runBlocking ""
-        }
+            return@async ""
+        }.await()
 }

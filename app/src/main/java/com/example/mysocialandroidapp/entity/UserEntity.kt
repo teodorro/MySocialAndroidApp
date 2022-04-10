@@ -22,10 +22,4 @@ data class UserEntity (
 }
 
 fun List<UserEntity>.toDto(): List<User> = map(UserEntity::toDto)
-fun List<User>.toEntity(): List<UserEntity> {
-    var userEntities = mutableListOf<UserEntity>()
-    for (user in this){
-        userEntities.add(UserEntity.fromDto(user))
-    }
-    return userEntities
-}
+fun List<User>.toEntity(): List<UserEntity> = map(UserEntity::fromDto)

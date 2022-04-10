@@ -2,6 +2,7 @@ package com.example.mysocialandroidapp.activity
 
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -13,6 +14,10 @@ import com.example.mysocialandroidapp.databinding.FragmentRegBinding
 import com.example.mysocialandroidapp.util.AndroidUtils
 import com.example.mysocialandroidapp.viewmodel.AuthViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class RegFragment : Fragment() {
@@ -25,10 +30,6 @@ class RegFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-//        binding.buttonSignup.setOnClickListener {
-//            findNavController().navigate(R.id.action_regFragment_to_postsFragment)
-//        }
 
         binding.materialButtonLoadAvatar.setOnClickListener {
             findNavController().navigate(R.id.action_regFragment_to_avatarFragment)
@@ -46,10 +47,6 @@ class RegFragment : Fragment() {
             if (viewModel.authenticated) {
                 AndroidUtils.hideKeyboard(requireView())
                 findNavController().navigateUp()
-            } else {
-                if (binding.editTextLogin.text.toString().isNotBlank())
-                    Toast.makeText(this.context, R.string.errorLoginPassword, Toast.LENGTH_LONG)
-                        .show()
             }
         }
 
@@ -83,16 +80,19 @@ class RegFragment : Fragment() {
                 var repeatPassword = binding.editTextRepeatPassword.text.toString()
                 var name = binding.editTextName.text.toString()
                 try {
-                    var isValid = viewModel.validateUserData(login, password, repeatPassword, name)
+                    CoroutineScope(Dispatchers.Default).launch {
+                        var isValid =
+                            viewModel.validateUserData(login, password, repeatPassword, name)
 
-                    if (isValid.isEmpty()) {
-                        viewModel.signUp(login, password, name, avatarUri)
-                    } else {
-                        Toast.makeText(this.context, isValid, Toast.LENGTH_LONG)
-                            .show()
+                        if (isValid.isEmpty()) {
+                            viewModel.signUp(login, password, name, avatarUri)
+                        } else {
+                            Toast.makeText(requireContext(), isValid, Toast.LENGTH_LONG)
+                                .show()
+                        }
                     }
                 } catch (e: Exception) {
-                    Toast.makeText(this.context, e.message, Toast.LENGTH_LONG)
+                    Toast.makeText(this.context, e.message ?: getString(R.string.network_error), Toast.LENGTH_LONG)
                         .show()
                 }
             }

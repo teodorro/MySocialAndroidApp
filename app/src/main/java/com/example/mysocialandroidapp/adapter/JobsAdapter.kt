@@ -1,7 +1,6 @@
 package com.example.mysocialandroidapp.adapter
 
 import android.content.Context
-import android.opengl.Visibility
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,6 @@ import com.example.mysocialandroidapp.R
 import com.example.mysocialandroidapp.databinding.JobItemBinding
 import com.example.mysocialandroidapp.dto.Job
 import com.example.mysocialandroidapp.util.DateStringFormatter
-import dagger.hilt.android.qualifiers.ApplicationContext
 import java.time.Instant
 
 interface OnJobInteractionListener {
@@ -69,11 +67,11 @@ class JobsAdapter(
                 jobname.text = job.name
                 position.text = job.position
                 menu.visibility = View.VISIBLE
-                start.text = DateStringFormatter.getSimpleFromInstance(Instant.ofEpochSecond(job.start).toString())
+                start.text = DateStringFormatter.getDateFromInstance(Instant.ofEpochSecond(job.start).toString())
                 if (job.finish == null)
                     finish.text = context.getString(R.string.now)
                 else
-                    finish.text = DateStringFormatter.getSimpleFromInstance(Instant.ofEpochSecond(job.finish).toString())
+                    finish.text = DateStringFormatter.getDateFromInstance(Instant.ofEpochSecond(job.finish).toString())
                 if (job.link.isNullOrBlank())
                     link.visibility = View.GONE
                 else

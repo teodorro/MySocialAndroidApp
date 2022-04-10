@@ -85,30 +85,55 @@
         android:id="@+id/constrLayoutDateAndSpeakers"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:paddingTop="@dimen/small_spacing"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/content">
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/dateTimeLabel"
+            android:id="@+id/dateLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/small_spacing"
-            android:text="@string/date"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/dateTime"
+            android:text="@string/event_date"
+            android:textColor="@color/coordinates_text_color"
+            app:layout_constraintBottom_toTopOf="@id/timeLabel"
+            app:layout_constraintEnd_toStartOf="@+id/date"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
         </com.google.android.material.textview.MaterialTextView>
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/dateTime"
+            android:id="@+id/date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/common_spacing"
+            app:layout_constraintBottom_toTopOf="@id/timeLabel"
+            app:layout_constraintEnd_toStartOf="@+id/speakers"
+            app:layout_constraintStart_toEndOf="@+id/dateLabel"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@sample/posts.json/data/published">
+        </com.google.android.material.textview.MaterialTextView>
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/timeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/small_spacing"
+            android:text="@string/event_time"
+            android:textColor="@color/coordinates_text_color"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/time"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dateLabel">
+        </com.google.android.material.textview.MaterialTextView>
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/time"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/common_spacing"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/speakers"
-            app:layout_constraintStart_toEndOf="@+id/dateTimeLabel"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/timeLabel"
+            app:layout_constraintTop_toBottomOf="@+id/dateLabel"
             tools:text="@sample/posts.json/data/published">
         </com.google.android.material.textview.MaterialTextView>
 
@@ -121,7 +146,6 @@
             app:icon="@drawable/ic_baseline_spatial_audio_off_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/dateTime"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="@sample/posts.json/data/likes" />
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -183,7 +207,8 @@
             android:layout_height="wrap_content"
             android:checkable="true"
             android:contentDescription="@string/description_post_like"
-            app:icon="@drawable/ic_baseline_favorite_border_24"
+            app:icon="@drawable/selector_like"
+            app:iconTint="@color/like_checkbox_tint"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/footer"
             tools:checked="@sample/posts.json/data/likedByMe"
@@ -196,7 +221,8 @@
             android:layout_height="wrap_content"
             android:checkable="true"
             android:contentDescription="@string/description_post_like"
-            app:icon="@drawable/ic_baseline_perm_identity_24"
+            app:icon="@drawable/selector_participation"
+            app:iconTint="@color/like_checkbox_tint"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/footer"
             tools:checked="@sample/posts.json/data/participatedByMe"

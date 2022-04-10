@@ -2,11 +2,9 @@ package com.example.mysocialandroidapp.viewmodel
 
 import androidx.lifecycle.*
 import com.example.mysocialandroidapp.auth.AppAuth
-import com.example.mysocialandroidapp.model.PostFeedModelState
 import com.example.mysocialandroidapp.model.UsersFeedModel
 import com.example.mysocialandroidapp.model.UsersFeedModelState
 import com.example.mysocialandroidapp.repository.UsersRepository
-import com.example.mysocialandroidapp.samples.Samples
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch

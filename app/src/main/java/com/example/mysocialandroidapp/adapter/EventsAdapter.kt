@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
-import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +14,6 @@ import com.example.mysocialandroidapp.dto.Event
 import com.example.mysocialandroidapp.enumeration.UserListType
 import com.example.mysocialandroidapp.util.DateStringFormatter
 import com.example.mysocialandroidapp.util.loadCircleCrop
-import java.time.format.DateTimeFormatter
 
 
 interface OnEventInteractionListener {
@@ -82,9 +80,11 @@ class EventsAdapter (
                 like.isChecked = event.likedByMe
                 like.text = "${event.likeOwnerIds.size}"
                 if (!event.published.isNullOrBlank())
-                    published.text = DateStringFormatter.getSimpleFromInstance(event.published)
+                    published.text = DateStringFormatter.getDateTimeFromInstance(event.published)
                 if (!event.datetime.isNullOrBlank())
-                    dateTime.text = DateStringFormatter.getSimpleFromInstance(event.datetime)
+                    date.text = DateStringFormatter.getDateFromInstance(event.datetime)
+                if (!event.datetime.isNullOrBlank())
+                    time.text = DateStringFormatter.getTimeFromInstance(event.datetime)
                 speakers.text = "${event.speakerIds.size}"
                 participate.text = "${event.participantsIds.size}"
                 participate.isChecked = event.participatedByMe

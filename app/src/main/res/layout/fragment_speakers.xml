@@ -7,7 +7,7 @@
     tools:context=".activity.SpeakersFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/mentionsList"
+        android:id="@+id/speakers_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

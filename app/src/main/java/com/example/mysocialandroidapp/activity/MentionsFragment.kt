@@ -90,4 +90,9 @@ class MentionsFragment : Fragment(), OnUserCheckListener {
         }
         return super.onOptionsItemSelected(item)
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

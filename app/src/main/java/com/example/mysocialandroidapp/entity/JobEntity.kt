@@ -24,10 +24,4 @@ data class JobEntity(
 }
 
 fun List<JobEntity>.toDto(): List<Job> = map(JobEntity::toDto)
-fun List<Job>.toEntity(): List<JobEntity> {
-    var jobEntities = mutableListOf<JobEntity>()
-    for (job in this){
-        jobEntities.add(JobEntity.fromDto(job))
-    }
-    return jobEntities
-}
+fun List<Job>.toEntity(): List<JobEntity> = map(JobEntity::fromDto)
