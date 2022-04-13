@@ -111,7 +111,7 @@ class EventsViewModel @Inject constructor(
         }
     }
 
-    fun refreshPosts() = viewModelScope.launch {
+    fun refreshEvents() = viewModelScope.launch {
         try {
             _dataState.value = EventsFeedModelState(refreshing = true)
             repository.getAll()
@@ -187,7 +187,8 @@ class EventsViewModel @Inject constructor(
             datetime = date,
             link = link,
             author = appAuth.userFlow.value.name,
-            authorId = appAuth.userFlow.value.id
+            authorId = appAuth.userFlow.value.id,
+            authorAvatar = appAuth.userFlow.value.avatar,
         )
     }
 

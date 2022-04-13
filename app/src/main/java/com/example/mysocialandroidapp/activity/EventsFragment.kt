@@ -98,10 +98,10 @@ class EventsFragment : Fragment() {
             }
         }
 
-//        binding.swiperefresh.setOnRefreshListener {
-//            viewModel.refreshPosts()
+        binding.swiperefresh.setOnRefreshListener {
+            viewModel.refreshEvents()
 //            adapter.refresh()
-//        }
+        }
 
         viewModel.data.observe(viewLifecycleOwner) { x ->
             adapter.submitList(x.events)
@@ -114,13 +114,6 @@ class EventsFragment : Fragment() {
 //        adapter.refresh()
 
         return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding.fab.setOnClickListener {
-            findNavController().navigate(R.id.action_eventsFragment_to_newEventFragment)
-        }
     }
 
     override fun onDestroyView() {

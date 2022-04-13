@@ -3,6 +3,7 @@ package com.example.mysocialandroidapp.api
 import com.example.mysocialandroidapp.auth.AuthState
 import com.example.mysocialandroidapp.dto.*
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
 

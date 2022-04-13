@@ -24,7 +24,7 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             manifestPlaceholders.usesCleartextTraffic = false
-            buildConfigField "String", "BASE_URL", '"https://teodorro.herokuapp.com"'
+            buildConfigField "String", "BASE_URL", '"https://and-dimploma.herokuapp.com"'
         }
         debug {
             manifestPlaceholders.usesCleartextTraffic = true

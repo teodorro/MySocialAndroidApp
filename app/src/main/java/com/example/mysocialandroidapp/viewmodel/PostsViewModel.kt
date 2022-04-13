@@ -259,7 +259,8 @@ class PostsViewModel @Inject constructor(
         _edited.value = edited.value?.copy(
             content = text,
             author = appAuth.userFlow.value.name,
-            authorId = appAuth.userFlow.value.id
+            authorId = appAuth.userFlow.value.id,
+            authorAvatar = appAuth.userFlow.value.avatar,
         )
     }
 
