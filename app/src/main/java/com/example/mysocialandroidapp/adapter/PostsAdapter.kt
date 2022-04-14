@@ -78,9 +78,9 @@ class PostsAdapter (
                     link.visibility = View.GONE
                 }
                 if (post.coords != null){
-                    coords.text = "${post.coords!!.lat}° N, ${post.coords!!.long}° E"
+                    coords.text = "http://www.google.com/maps/place/${post.coords!!.lat},${post.coords!!.long}"
                 } else{
-                    coords.visibility = View.GONE
+                    coordsLine.visibility = View.GONE
                 }
                 if (attachment != null){
                     //TODO set attachment source

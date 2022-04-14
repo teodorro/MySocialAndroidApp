@@ -154,41 +154,36 @@ class EventsViewModel @Inject constructor(
     }
 
     fun changeContent(content: String,
-                      position: String,
                       date: String,
                       link: String,) {
         val content = content.trim()
-        val position = position.trim()
         val date = date.trim()
         val link = if (link.isNullOrBlank()) null else link.trim()
 
         if (_edited.value?.content == content
-            && _edited.value?.coords.toString() == position
             && _edited.value?.datetime == date
             && _edited.value?.link == link
         ) {
             return
         }
 
-        val coordsStr = position.trim().split(" ")
-        val coordsLong = coordsStr.map { x ->
-            try{
-                x.trim().toDouble()
-            } catch (ex: Exception ){
-                0.0
-            }}
-        val coords = Coordinates(
-            if (coordsLong.count() > 0) coordsLong[0] else 0.0,
-            if (coordsLong.count() > 1) coordsLong[1] else 0.0)
-
         _edited.value = edited.value?.copy(
             content = content,
-            coords = coords,
             datetime = date,
             link = link,
             author = appAuth.userFlow.value.name,
             authorId = appAuth.userFlow.value.id,
             authorAvatar = appAuth.userFlow.value.avatar,
+        )
+    }
+
+    fun changeLocation(latitude: Double?, longitude: Double?) {
+        var coords = if (latitude != null && longitude != null){
+            Coordinates(latitude, longitude)
+        } else null
+
+        _edited.value = edited.value?.copy(
+            coords = coords,
         )
     }
 

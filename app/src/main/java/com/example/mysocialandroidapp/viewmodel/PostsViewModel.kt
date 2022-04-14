@@ -8,6 +8,7 @@ import androidx.paging.cachedIn
 import androidx.paging.map
 import androidx.work.*
 import com.example.mysocialandroidapp.auth.AppAuth
+import com.example.mysocialandroidapp.dto.Coordinates
 import com.example.mysocialandroidapp.dto.MediaUpload
 import com.example.mysocialandroidapp.dto.Post
 import com.example.mysocialandroidapp.model.PhotoModel
@@ -261,6 +262,16 @@ class PostsViewModel @Inject constructor(
             author = appAuth.userFlow.value.name,
             authorId = appAuth.userFlow.value.id,
             authorAvatar = appAuth.userFlow.value.avatar,
+        )
+    }
+
+    fun changeLocation(latitude: Double?, longitude: Double?) {
+        var coords = if (latitude != null && longitude != null){
+            Coordinates(latitude, longitude)
+        } else null
+
+        _edited.value = edited.value?.copy(
+            coords = coords,
         )
     }
 

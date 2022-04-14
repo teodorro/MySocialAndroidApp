@@ -29,7 +29,7 @@ class MainApplication : Application()  {
         setupAuth()
         setupWork()
 
-        //loadSamples()
+//        loadSamples()
     }
 
     private fun loadSamples() {

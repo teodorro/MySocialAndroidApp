@@ -13,7 +13,7 @@ import com.example.mysocialandroidapp.entity.*
         JobEntity::class, JobWorkEntity::class,
         EventEntity::class, EventRemoteKeyEntity::class, EventWorkEntity::class,
     ],
-    version = 1, exportSchema = false
+    version = 2, exportSchema = false
 )
 @TypeConverters(Converters::class)
 abstract class AppDb : RoomDatabase() {

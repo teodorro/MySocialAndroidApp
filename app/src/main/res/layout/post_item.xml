@@ -93,6 +93,20 @@
             tools:text="@sample/posts.json/data/link" />
         />
 
+        <LinearLayout
+            android:id="@+id/coordsLine"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/link">
+
+        <ImageView
+            android:layout_width="@dimen/common_spacing"
+            android:layout_height="@dimen/common_spacing"
+            android:layout_marginVertical="@dimen/small_spacing"
+            android:layout_marginRight="@dimen/small_spacing"
+            app:srcCompat="@drawable/ic_baseline_location_on_24" />
         <TextView
             android:id="@+id/coords"
             android:layout_width="match_parent"
@@ -101,10 +115,13 @@
             android:textSize="@dimen/coords_text_size"
             android:textColor="@color/coordinates_text_color"
             android:paddingVertical="@dimen/small_spacing"
+            android:autoLink="web"
+            android:ellipsize="end"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/link"
             tools:text="@sample/posts.json/data/coords"  />
+        </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constrLayoutAttachment"
@@ -112,7 +129,7 @@
             android:layout_height="0dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/coords">
+            app:layout_constraintTop_toBottomOf="@+id/coordsLine">
 
             <ImageView
                 android:id="@+id/attachment"

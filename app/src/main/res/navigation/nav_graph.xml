@@ -261,6 +261,9 @@
             app:destination="@id/eventsFragment"
             app:popUpTo="@id/eventsFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_newPostFragment_to_mapPostFragment"
+            app:destination="@id/mapPostFragment" />
     </fragment>
     <fragment
         android:id="@+id/eventsFragment"
@@ -317,6 +320,9 @@
         <action
             android:id="@+id/action_newEventFragment_to_speakersFragment"
             app:destination="@id/speakersFragment" />
+        <action
+            android:id="@+id/action_newEventFragment_to_mapEventFragment"
+            app:destination="@id/mapEventFragment" />
     </fragment>
     <fragment
         android:id="@+id/mentionsFragment"
@@ -366,6 +372,58 @@
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_speakersFragment_to_jobsFragment"
+            app:destination="@id/jobsFragment"
+            app:popUpTo="@id/jobsFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/mapEventFragment"
+        android:name="com.example.mysocialandroidapp.activity.MapEventFragment"
+        android:label="fragment_map_event"
+        tools:layout="@layout/fragment_map_event" >
+        <action
+            android:id="@+id/action_mapEventFragment_to_eventsFragment"
+            app:destination="@id/eventsFragment"
+            app:popUpTo="@id/eventsFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_mapEventFragment_to_wallFragment"
+            app:destination="@id/wallFragment"
+            app:popUpTo="@id/wallFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_mapEventFragment_to_postsFragment"
+            app:destination="@id/postsFragment"
+            app:popUpTo="@id/postsFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_mapEventFragment_to_jobsFragment"
+            app:destination="@id/jobsFragment"
+            app:popUpTo="@id/jobsFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/mapPostFragment"
+        android:name="com.example.mysocialandroidapp.activity.MapPostFragment"
+        android:label="fragment_map_post"
+        tools:layout="@layout/fragment_map_post" >
+        <action
+            android:id="@+id/action_mapPostFragment_to_eventsFragment"
+            app:destination="@id/eventsFragment"
+            app:popUpTo="@id/eventsFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_mapPostFragment_to_wallFragment"
+            app:destination="@id/wallFragment"
+            app:popUpTo="@id/wallFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_mapPostFragment_to_postsFragment"
+            app:destination="@id/postsFragment"
+            app:popUpTo="@id/postsFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_mapPostFragment_to_jobsFragment"
             app:destination="@id/jobsFragment"
             app:popUpTo="@id/jobsFragment"
             app:popUpToInclusive="true" />

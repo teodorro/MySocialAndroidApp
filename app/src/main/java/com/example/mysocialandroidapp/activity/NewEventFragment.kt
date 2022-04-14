@@ -67,7 +67,6 @@ class NewEventFragment : Fragment() {
             if (it != null) DateStringFormatter.getTimeFromInstance(it)
             else DateStringFormatter.getTimeFromInstance(Instant.now().toString())
         })
-        binding.position.setText(viewModel.edited.value?.coords?.toString())
         binding.link.setText(viewModel.edited.value?.link)
 
         binding.content.requestFocus()
@@ -97,6 +96,16 @@ class NewEventFragment : Fragment() {
 
         binding.removePhoto.setOnClickListener {
             viewModel.changePhoto(null, null)
+        }
+
+        binding.editSpeakers.setOnClickListener {
+            var userIds = setOf<Long>()
+            val listTypeBundle = bundleOf(USER_IDS to userIds)
+            findNavController().navigate(R.id.action_newEventFragment_to_speakersFragment, listTypeBundle)
+        }
+
+        binding.editLocation.setOnClickListener {
+            findNavController().navigate(R.id.action_newEventFragment_to_mapEventFragment)
         }
 
         viewModel.eventCreated.observe(viewLifecycleOwner) {
@@ -181,7 +190,6 @@ class NewEventFragment : Fragment() {
                 binding.let{
                     viewModel.changeContent(
                         it.content.text.toString(),
-                        it.position.text.toString(),
                         DateStringFormatter.getEpochFromDateTime(
                             "${it.dateEvent.text} ${it.timeEvent.text}:00"),
                         it.link.text.toString(),
@@ -195,15 +203,6 @@ class NewEventFragment : Fragment() {
             else -> super.onOptionsItemSelected(item)
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding.editSpeakers.setOnClickListener {
-            var userIds = setOf<Long>()
-            val listTypeBundle = bundleOf(USER_IDS to userIds)
-            findNavController().navigate(R.id.action_newEventFragment_to_speakersFragment, listTypeBundle)
-        }
     }
 
     override fun onDestroyView() {

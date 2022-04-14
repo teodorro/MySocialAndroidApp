@@ -65,6 +65,7 @@
     <string name="title_participants">Participants</string>
     <string name="title_speakers">Speakers</string>
     <string name="title_likes">Likes</string>
+    <string name="title_location">Location</string>
 
     <string name="notification_user_liked">User %1$s liked %2$s\'s post</string>
     <string name="description_post_author_avatar">Post author avatar</string>
@@ -108,5 +109,6 @@
     <string name="network_error">Network error</string>
     <string name="minus"> - </string>
     <string name="now">Now</string>
+    <string name="location">Location</string>
 
 </resources>

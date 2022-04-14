@@ -93,9 +93,9 @@ class EventsAdapter (
                     link.visibility = View.GONE
                 }
                 if (event.coords != null){
-                    coords.text = "${event.coords!!.lat}° N, ${event.coords!!.long}° E"
+                    coords.text = "http://www.google.com/maps/place/${event.coords!!.lat},${event.coords!!.long}"
                 } else{
-                    coords.visibility = View.GONE
+                    coordsLine.visibility = View.GONE
                 }
                 if (attachment != null){
                     //TODO set attachment source

@@ -3,16 +3,16 @@ package com.example.mysocialandroidapp.entity
 import com.example.mysocialandroidapp.dto.Coordinates
 
 data class CoordinatesEmbeddable(
-    var lat: Double? = null,
-    var long: Double? = null,
+    var latitude: Double? = null,
+    var longitude: Double? = null,
 ) {
 
-    fun toDto(): Coordinates = Coordinates(lat = lat ?: 0.0, long = long ?: 0.0)
+    fun toDto(): Coordinates = Coordinates(lat = latitude ?: 0.0, long = longitude ?: 0.0)
 
     companion object {
         fun fromDto(coordinates: Coordinates?): CoordinatesEmbeddable? =
             with(coordinates) {
-                CoordinatesEmbeddable(lat = this?.lat, long = this?.long)
+                CoordinatesEmbeddable(latitude = this?.lat, longitude = this?.long)
             }
     }
 }

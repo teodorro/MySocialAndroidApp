@@ -75,6 +75,10 @@ class NewPostFragment : Fragment() {
             viewModel.changePhoto(null, null)
         }
 
+        binding.editLocation.setOnClickListener {
+            findNavController().navigate(R.id.action_newPostFragment_to_mapPostFragment)
+        }
+
         viewModel.postCreated.observe(viewLifecycleOwner) {
             findNavController().navigateUp()
         }
