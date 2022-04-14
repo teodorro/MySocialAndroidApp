@@ -1,6 +1,7 @@
 package com.example.mysocialandroidapp.activity
 
 import android.content.Context
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -17,6 +18,7 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.example.mysocialandroidapp.R
 import com.example.mysocialandroidapp.auth.AppAuth
 import com.example.mysocialandroidapp.databinding.ActivityMainBinding
@@ -109,9 +111,18 @@ class MainActivity @Inject constructor(
             navView.menu.setGroupVisible(R.id.authenticated, it.id > 0)
             if (authViewModel.authenticated) {
                 with(headerBinding){
-                    textViewName.text = authViewModel.user.value?.name
-                    textViewLogin.text = authViewModel.user.value?.login
-                    imageViewAvatar.setImageURI(authViewModel.photo.value!!.uri )
+                    textViewName.text = it.name
+                    textViewLogin.text = it.login
+                    if (it.avatar != null) {
+                        Glide.with(imageViewAvatar)
+                            .load(it.avatar)
+                            .placeholder(R.mipmap.ic_launcher_round)
+                            .error(R.mipmap.ic_launcher_round)
+                            .timeout(10_000)
+                            .into(imageViewAvatar)
+                    }
+                    else
+                        imageViewAvatar.setImageResource(R.mipmap.ic_launcher_round)
                 }
             } else {
                 with(headerBinding){

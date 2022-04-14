@@ -7,10 +7,12 @@ import android.widget.PopupMenu
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.mysocialandroidapp.BuildConfig
 import com.example.mysocialandroidapp.R
 import com.example.mysocialandroidapp.databinding.PostItemBinding
 import com.example.mysocialandroidapp.dto.Post
+import com.example.mysocialandroidapp.enumeration.AttachmentType
 import com.example.mysocialandroidapp.enumeration.UserListType
 import com.example.mysocialandroidapp.util.DateStringFormatter
 import com.example.mysocialandroidapp.util.loadCircleCrop
@@ -82,8 +84,18 @@ class PostsAdapter (
                 } else{
                     coordsLine.visibility = View.GONE
                 }
-                if (attachment != null){
-                    //TODO set attachment source
+                post.attachment?.let {
+                    if (it.type == AttachmentType.IMAGE) {
+                        Glide.with(attachment)
+                            .load(post.attachment?.url)
+                            .placeholder(R.drawable.ic_baseline_downloading_24)
+                            .error(R.drawable.ic_baseline_error_24)
+                            .timeout(10_000)
+                            .into(attachment)
+//                    imageViewAttachment.setOnClickListener {
+//                        onInteractionListener.onShowPicAttachment(post)
+//                    }
+                    }
                 }
 
                 author.setOnClickListener {
