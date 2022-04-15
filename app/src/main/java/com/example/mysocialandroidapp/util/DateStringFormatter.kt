@@ -47,14 +47,4 @@ object DateStringFormatter {
             .toInstant().epochSecond
             .toString()
     }
-
-//    fun getEpochFromDateTime(date: String): String {
-//        if (date.contains("T"))
-//            return date
-//        else
-//        return LocalDateTime.parse(date, backDateTimeFormatter)
-//            .atZone(ZoneId.systemDefault())
-//            .toInstant()
-//            .toString()
-//    }
 }

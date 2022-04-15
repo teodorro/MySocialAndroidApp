@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.mysocialandroidapp.BuildConfig
 import com.example.mysocialandroidapp.R
+import com.example.mysocialandroidapp.api.TIMEOUT
 import com.example.mysocialandroidapp.databinding.PostItemBinding
 import com.example.mysocialandroidapp.dto.Post
 import com.example.mysocialandroidapp.enumeration.AttachmentType
@@ -24,6 +25,8 @@ interface OnPostInteractionListener {
     fun onShowUsers(post: Post, userListType: UserListType){}
     fun onUserClick(post: Post) {}
 }
+
+
 
 class PostsAdapter (
     private val onInteractionListener: OnPostInteractionListener,
@@ -78,19 +81,22 @@ class PostsAdapter (
                 link.text = post.link
                 if (post.link.isNullOrBlank()) {
                     link.visibility = View.GONE
+                } else{
+                    link.visibility = View.VISIBLE
                 }
                 if (post.coords != null){
                     coords.text = "http://www.google.com/maps/place/${post.coords!!.lat},${post.coords!!.long}"
+                    coordsLine.visibility = View.VISIBLE
                 } else{
                     coordsLine.visibility = View.GONE
                 }
                 post.attachment?.let {
                     if (it.type == AttachmentType.IMAGE) {
                         Glide.with(attachment)
-                            .load(post.attachment?.url)
+                            .load(it.url)
                             .placeholder(R.drawable.ic_baseline_downloading_24)
                             .error(R.drawable.ic_baseline_error_24)
-                            .timeout(10_000)
+                            .timeout(TIMEOUT)
                             .into(attachment)
 //                    imageViewAttachment.setOnClickListener {
 //                        onInteractionListener.onShowPicAttachment(post)
@@ -103,7 +109,6 @@ class PostsAdapter (
                 }
 
                 menu.visibility = View.VISIBLE
-
                 menu.setOnClickListener {
                     PopupMenu(it.context, it).apply {
                         inflate(R.menu.options_post)

@@ -7,10 +7,13 @@ import android.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.mysocialandroidapp.BuildConfig
 import com.example.mysocialandroidapp.R
+import com.example.mysocialandroidapp.api.TIMEOUT
 import com.example.mysocialandroidapp.databinding.EventItemBinding
 import com.example.mysocialandroidapp.dto.Event
+import com.example.mysocialandroidapp.enumeration.AttachmentType
 import com.example.mysocialandroidapp.enumeration.UserListType
 import com.example.mysocialandroidapp.util.DateStringFormatter
 import com.example.mysocialandroidapp.util.loadCircleCrop
@@ -21,10 +24,10 @@ interface OnEventInteractionListener {
     fun onParticipate(event: Event) {}
     fun onEdit(event: Event) {}
     fun onRemove(event: Event) {}
-    fun onShowUsers(event: Event, userListType: UserListType){}
+    fun onShowUsers(event: Event, userListType: UserListType) {}
 }
 
-class EventsAdapter (
+class EventsAdapter(
     private val onInteractionListener: OnEventInteractionListener,
     private val userId: Long
 //) : PagingDataAdapter<Event, EventsAdapter.EventViewHolder>(EventDiffCallback()) {
@@ -61,7 +64,6 @@ class EventsAdapter (
     }
 
 
-
     class EventViewHolder(
         private val binding: EventItemBinding,
         private val onInteractionListener: OnEventInteractionListener,
@@ -81,24 +83,44 @@ class EventsAdapter (
                 like.text = "${event.likeOwnerIds.size}"
                 if (!event.published.isNullOrBlank())
                     published.text = DateStringFormatter.getDateTimeFromInstance(event.published)
+                else
+                    published.text = ""
                 if (!event.datetime.isNullOrBlank())
                     date.text = DateStringFormatter.getDateFromInstance(event.datetime)
+                else
+                    date.text = ""
                 if (!event.datetime.isNullOrBlank())
                     time.text = DateStringFormatter.getTimeFromInstance(event.datetime)
+                else
+                    time.text = ""
                 speakers.text = "${event.speakerIds.size}"
                 participate.text = "${event.participantsIds.size}"
                 participate.isChecked = event.participatedByMe
                 link.text = event.link
                 if (event.link.isNullOrBlank()) {
                     link.visibility = View.GONE
+                } else {
+                    link.visibility = View.VISIBLE
                 }
-                if (event.coords != null){
-                    coords.text = "http://www.google.com/maps/place/${event.coords!!.lat},${event.coords!!.long}"
-                } else{
+                if (event.coords != null) {
+                    coords.text =
+                        "http://www.google.com/maps/place/${event.coords!!.lat},${event.coords!!.long}"
+                    coordsLine.visibility = View.VISIBLE
+                } else {
                     coordsLine.visibility = View.GONE
                 }
-                if (attachment != null){
-                    //TODO set attachment source
+                event.attachment?.let {
+                    if (it.type == AttachmentType.IMAGE) {
+                        Glide.with(attachment)
+                            .load(it.url)
+                            .placeholder(R.drawable.ic_baseline_downloading_24)
+                            .error(R.drawable.ic_baseline_error_24)
+                            .timeout(TIMEOUT)
+                            .into(attachment)
+//                    imageViewAttachment.setOnClickListener {
+//                        onInteractionListener.onShowPicAttachment(post)
+//                    }
+                    }
                 }
                 menu.visibility = View.VISIBLE
 
@@ -122,7 +144,10 @@ class EventsAdapter (
                                     true
                                 }
                                 R.id.participants -> {
-                                    onInteractionListener.onShowUsers(event, UserListType.PARTICIPANTS)
+                                    onInteractionListener.onShowUsers(
+                                        event,
+                                        UserListType.PARTICIPANTS
+                                    )
                                     true
                                 }
                                 R.id.speakers -> {

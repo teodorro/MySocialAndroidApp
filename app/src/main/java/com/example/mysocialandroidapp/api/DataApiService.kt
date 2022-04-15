@@ -7,6 +7,9 @@ import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
 
+const val TIMEOUT: Int = 10_000
+
+
 interface DataApiService {
 
     //region USERLIST

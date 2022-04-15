@@ -74,12 +74,14 @@ class JobsAdapter(
                     finish.text = DateStringFormatter.getDateFromInstance(Instant.ofEpochSecond(job.finish).toString())
                 if (job.link.isNullOrBlank())
                     link.visibility = View.GONE
-                else
+                else {
                     link.text = job.link
+                    link.visibility = View.VISIBLE
+                }
 
                 if (!showPopupMenu)
                     menu.visibility = View.GONE
-                else
+                else {
                     menu.setOnClickListener {
                         PopupMenu(it.context, it).apply {
                             inflate(R.menu.options_job)
@@ -99,6 +101,8 @@ class JobsAdapter(
                             }
                         }.show()
                     }
+                    menu.visibility = View.VISIBLE
+                }
             }
 
         }

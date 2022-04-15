@@ -53,6 +53,10 @@ class DrawerNavigator @Inject constructor() {
                 R.id.action_newEventFragment_to_eventsFragment)
             is JobsFragment -> _navController.navigate(
                 R.id.action_jobsFragment_to_eventsFragment)
+            is MapEventFragment -> _navController.navigate(
+                R.id.action_mapEventFragment_to_eventsFragment)
+            is MapPostFragment -> _navController.navigate(
+                R.id.action_mapPostFragment_to_eventsFragment)
         }
     }
 
@@ -78,6 +82,10 @@ class DrawerNavigator @Inject constructor() {
                 R.id.action_newEventFragment_to_jobsFragment)
             is EventsFragment -> _navController.navigate(
                 R.id.action_eventsFragment_to_jobsFragment)
+            is MapEventFragment -> _navController.navigate(
+                R.id.action_mapEventFragment_to_jobsFragment)
+            is MapPostFragment -> _navController.navigate(
+                R.id.action_mapPostFragment_to_jobsFragment)
         }
     }
 
@@ -103,6 +111,10 @@ class DrawerNavigator @Inject constructor() {
                 R.id.action_newEventFragment_to_wallFragment)
             is EventsFragment -> _navController.navigate(
                 R.id.action_eventsFragment_to_wallFragment)
+            is MapEventFragment -> _navController.navigate(
+                R.id.action_mapEventFragment_to_wallFragment)
+            is MapPostFragment -> _navController.navigate(
+                R.id.action_mapPostFragment_to_wallFragment)
         }
     }
 
@@ -128,6 +140,10 @@ class DrawerNavigator @Inject constructor() {
                 R.id.action_newEventFragment_to_postsFragment)
             is EventsFragment -> _navController.navigate(
                 R.id.action_eventsFragment_to_postsFragment)
+            is MapEventFragment -> _navController.navigate(
+                R.id.action_mapEventFragment_to_postsFragment)
+            is MapPostFragment -> _navController.navigate(
+                R.id.action_mapPostFragment_to_postsFragment)
         }
     }
 }
