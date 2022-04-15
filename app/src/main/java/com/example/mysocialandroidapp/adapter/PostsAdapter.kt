@@ -16,6 +16,7 @@ import com.example.mysocialandroidapp.dto.Post
 import com.example.mysocialandroidapp.enumeration.AttachmentType
 import com.example.mysocialandroidapp.enumeration.UserListType
 import com.example.mysocialandroidapp.util.DateStringFormatter
+import com.example.mysocialandroidapp.util.ImageSetter
 import com.example.mysocialandroidapp.util.loadCircleCrop
 
 interface OnPostInteractionListener {
@@ -71,7 +72,7 @@ class PostsAdapter (
                 author.text = post.author
                 content.text = post.content
                 if (post.authorAvatar != null) {
-                    avatar.loadCircleCrop("${BuildConfig.BASE_URL}/avatars/${post.authorAvatar}")
+                    ImageSetter.set(avatar, post.authorAvatar, circleCrop = true)
                 } else {
                     avatar.setImageResource(R.mipmap.ic_launcher_round)
                 }
@@ -92,15 +93,7 @@ class PostsAdapter (
                 }
                 post.attachment?.let {
                     if (it.type == AttachmentType.IMAGE) {
-                        Glide.with(attachment)
-                            .load(it.url)
-                            .placeholder(R.drawable.ic_baseline_downloading_24)
-                            .error(R.drawable.ic_baseline_error_24)
-                            .timeout(TIMEOUT)
-                            .into(attachment)
-//                    imageViewAttachment.setOnClickListener {
-//                        onInteractionListener.onShowPicAttachment(post)
-//                    }
+                        ImageSetter.set(attachment, it.url, circleCrop = false)
                     }
                 }
 

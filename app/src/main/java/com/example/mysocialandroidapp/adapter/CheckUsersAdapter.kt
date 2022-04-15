@@ -10,6 +10,7 @@ import com.example.mysocialandroidapp.BuildConfig
 import com.example.mysocialandroidapp.R
 import com.example.mysocialandroidapp.databinding.CheckUserItemBinding
 import com.example.mysocialandroidapp.dto.User
+import com.example.mysocialandroidapp.util.ImageSetter
 import com.example.mysocialandroidapp.util.loadCircleCrop
 
 interface OnUserCheckListener {
@@ -62,7 +63,7 @@ class CheckUsersAdapter (
                 checked.isVisible = checkListener.isCheckboxVisible(user)
                 checked.isChecked = checkListener.isCheckboxChecked(user)
                 if (user.avatar != null) {
-                    avatar.loadCircleCrop("${BuildConfig.BASE_URL}/avatars/${user.avatar}")
+                    ImageSetter.set(avatar, user.avatar, circleCrop = true)
                 } else {
                     avatar.setImageResource(R.mipmap.ic_launcher_round)
                 }

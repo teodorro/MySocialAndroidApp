@@ -20,10 +20,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.mysocialandroidapp.R
+import com.example.mysocialandroidapp.api.TIMEOUT
 import com.example.mysocialandroidapp.auth.AppAuth
 import com.example.mysocialandroidapp.databinding.ActivityMainBinding
 import com.example.mysocialandroidapp.databinding.NavHeaderMainBinding
 import com.example.mysocialandroidapp.util.DrawerNavigator
+import com.example.mysocialandroidapp.util.ImageSetter
 import com.example.mysocialandroidapp.viewmodel.AuthViewModel
 import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
@@ -114,15 +116,10 @@ class MainActivity @Inject constructor(
                     textViewName.text = it.name
                     textViewLogin.text = it.login
                     if (it.avatar != null) {
-                        Glide.with(imageViewAvatar)
-                            .load(it.avatar)
-                            .placeholder(R.mipmap.ic_launcher_round)
-                            .error(R.mipmap.ic_launcher_round)
-                            .timeout(10_000)
-                            .into(imageViewAvatar)
-                    }
-                    else
+                        ImageSetter.set(imageViewAvatar, it.avatar, circleCrop = true)
+                    } else {
                         imageViewAvatar.setImageResource(R.mipmap.ic_launcher_round)
+                    }
                 }
             } else {
                 with(headerBinding){

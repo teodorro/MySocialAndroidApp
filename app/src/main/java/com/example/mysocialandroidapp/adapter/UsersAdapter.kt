@@ -9,6 +9,7 @@ import com.example.mysocialandroidapp.BuildConfig
 import com.example.mysocialandroidapp.R
 import com.example.mysocialandroidapp.databinding.UserItemBinding
 import com.example.mysocialandroidapp.dto.User
+import com.example.mysocialandroidapp.util.ImageSetter
 import com.example.mysocialandroidapp.util.loadCircleCrop
 
 interface OnUserClickListener {
@@ -57,7 +58,7 @@ class UsersAdapter (
             binding.apply {
                 username.text = user.name
                 if (user.avatar != null) {
-                    avatar.loadCircleCrop("${BuildConfig.BASE_URL}/avatars/${user.avatar}")
+                    ImageSetter.set(avatar, user.avatar, circleCrop = true)
                 } else {
                     avatar.setImageResource(R.mipmap.ic_launcher_round)
                 }
