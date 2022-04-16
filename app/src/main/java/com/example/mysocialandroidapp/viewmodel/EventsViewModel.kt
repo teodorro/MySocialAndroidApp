@@ -41,7 +41,7 @@ val emptyEvent = Event(
     type = EventType.OFFLINE
 )
 
-private val noPhoto = PhotoModel()
+private val noPhoto = MediaModel()
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
@@ -94,7 +94,7 @@ class EventsViewModel @Inject constructor(
         get() = _eventCreated
 
     private val _photo = MutableLiveData(noPhoto)
-    val photo: LiveData<PhotoModel>
+    val media: LiveData<MediaModel>
         get() = _photo
 
     init {
@@ -254,7 +254,7 @@ class EventsViewModel @Inject constructor(
     }
 
     fun changePhoto(uri: Uri?, file: File?) {
-        _photo.value = PhotoModel(uri, file)
+        _photo.value = MediaModel(uri, file)
     }
 
 }

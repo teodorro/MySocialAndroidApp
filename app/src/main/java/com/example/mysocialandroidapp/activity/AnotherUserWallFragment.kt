@@ -17,6 +17,7 @@ import com.example.mysocialandroidapp.adapter.PostsAdapter
 import com.example.mysocialandroidapp.databinding.FragmentAnotherUserWallBinding
 import com.example.mysocialandroidapp.dto.Post
 import com.example.mysocialandroidapp.enumeration.UserListType
+import com.example.mysocialandroidapp.observers.MediaLifecycleObserver
 import com.example.mysocialandroidapp.viewmodel.PostsViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,6 +29,8 @@ class AnotherUserWallFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: PostsViewModel by hiltNavGraphViewModels(R.id.nav_graph)
+
+    private lateinit var mediaObserver: MediaLifecycleObserver
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +49,7 @@ class AnotherUserWallFragment : Fragment() {
         var currentUserId = viewModel.appAuth.userFlow.value.id
         viewModel.loadUserPosts()
 
+        mediaObserver = MediaLifecycleObserver(binding.root.context)
         val adapter = PostsAdapter(object : OnPostInteractionListener {
             override fun onRemove(post: Post) {
             }
@@ -70,7 +74,7 @@ class AnotherUserWallFragment : Fragment() {
                     listTypeBundle
                 )
             }
-        }, 0) // 0 to hide author menu items
+        }, 0, mediaObserver) // 0 to hide author menu items
         binding.postsList.adapter = adapter
 
         viewModel.dataState.observe(viewLifecycleOwner) { state ->
@@ -97,6 +101,7 @@ class AnotherUserWallFragment : Fragment() {
         }
 
         adapter.refresh()
+        lifecycle.addObserver(mediaObserver)
 
         return binding.root
     }

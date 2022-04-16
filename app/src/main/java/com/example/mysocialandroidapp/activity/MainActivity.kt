@@ -17,6 +17,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.mysocialandroidapp.R
@@ -37,8 +38,10 @@ class MainActivity @Inject constructor(
 
     @Inject
     lateinit var appAuth: AppAuth
+
     @Inject
     lateinit var firebaseMessaging: FirebaseMessaging
+
     @Inject
     lateinit var drawerNavigator: DrawerNavigator
 
@@ -60,7 +63,8 @@ class MainActivity @Inject constructor(
 
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.postsFragment, R.id.wallFragment, R.id.eventsFragment, R.id.jobsFragment), drawerLayout
+            setOf(R.id.postsFragment, R.id.wallFragment, R.id.eventsFragment, R.id.jobsFragment),
+            drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
@@ -74,7 +78,7 @@ class MainActivity @Inject constructor(
                 .navigate(R.id.action_postsFragment_to_authFragment)
         }
 
-        authViewModel.moveToSignUpEvent.observe(this){
+        authViewModel.moveToSignUpEvent.observe(this) {
             findNavController(R.id.nav_host_fragment_content_main)
                 .navigate(R.id.action_postsFragment_to_regFragment)
         }
@@ -97,12 +101,19 @@ class MainActivity @Inject constructor(
             Log.d(null, token)
         }
 
-        with(authViewModel){
-            if (authenticated) {
-                val prefs = getSharedPreferences(
-                    "auth",
-                    Context.MODE_PRIVATE)
-                initUser(prefs.getLong("id", 0))
+        if (authViewModel.authenticated) {
+            val prefs = getSharedPreferences(
+                "auth",
+                Context.MODE_PRIVATE
+            )
+            try {
+                authViewModel.initUser(prefs.getLong("id", 0))
+            } catch (e: Exception) {
+                Toast.makeText(
+                    this.applicationContext,
+                    getString(R.string.network_error),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 
@@ -112,7 +123,7 @@ class MainActivity @Inject constructor(
             invalidateOptionsMenu() //??
             navView.menu.setGroupVisible(R.id.authenticated, it.id > 0)
             if (authViewModel.authenticated) {
-                with(headerBinding){
+                with(headerBinding) {
                     textViewName.text = it.name
                     textViewLogin.text = it.login
                     if (it.avatar != null) {
@@ -122,13 +133,14 @@ class MainActivity @Inject constructor(
                     }
                 }
             } else {
-                with(headerBinding){
+                with(headerBinding) {
                     textViewName.text = "Not authenticated"
                     textViewLogin.text = ""
                     imageViewAvatar.setImageResource(R.mipmap.ic_launcher_round)
                 }
             }
         }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -170,7 +182,7 @@ class MainActivity @Inject constructor(
         }
     }
 
-    private fun getCurrentFragment() : Fragment? {
+    private fun getCurrentFragment(): Fragment? {
         val navHostFragment: Fragment? =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main)
         return navHostFragment?.childFragmentManager?.fragments?.get(0)
@@ -185,8 +197,7 @@ class MainActivity @Inject constructor(
                 findNavController(R.id.nav_host_fragment_content_main)
             )
             binding.drawerLayout.close()
-        }
-        else
+        } else
             Toast.makeText(this, getString(R.string.unknown_error), Toast.LENGTH_SHORT).show()
         return true
     }

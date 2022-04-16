@@ -8,7 +8,6 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
-import androidx.fragment.app.viewModels
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.mysocialandroidapp.R
@@ -18,7 +17,6 @@ import com.example.mysocialandroidapp.util.DateStringFormatter
 import com.example.mysocialandroidapp.util.StringArg
 import com.example.mysocialandroidapp.viewmodel.EventsViewModel
 import com.github.dhaval2404.imagepicker.ImagePicker
-import com.google.android.material.button.MaterialButton
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.time.Instant
@@ -112,7 +110,7 @@ class NewEventFragment : Fragment() {
             findNavController().navigateUp()
         }
 
-        viewModel.photo.observe(viewLifecycleOwner) {
+        viewModel.media.observe(viewLifecycleOwner) {
             if (it.uri == null) {
                 binding.photoContainer.visibility = View.GONE
                 return@observe

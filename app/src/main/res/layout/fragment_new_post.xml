@@ -68,25 +68,26 @@
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/pickPhoto"
-            style="@style/Widget.AppTheme.IconButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/description_select_photo"
-            android:padding="@dimen/common_spacing"
-            app:icon="@drawable/ic_baseline_photo_24" />
+        <!--        <com.google.android.material.button.MaterialButton-->
+        <!--            android:id="@+id/pickPhoto"-->
+        <!--            style="@style/Widget.AppTheme.IconButton"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:contentDescription="@string/description_select_photo"-->
+        <!--            android:padding="@dimen/common_spacing"-->
+        <!--            app:icon="@drawable/ic_baseline_photo_24" />-->
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/takePhoto"
-            style="@style/Widget.AppTheme.IconButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/description_take_photo"
-            android:padding="@dimen/common_spacing"
-            app:icon="@drawable/ic_baseline_photo_camera_24" />
+        <!--        <com.google.android.material.button.MaterialButton-->
+        <!--            android:id="@+id/takePhoto"-->
+        <!--            style="@style/Widget.AppTheme.IconButton"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:contentDescription="@string/description_take_photo"-->
+        <!--            android:padding="@dimen/common_spacing"-->
+        <!--            app:icon="@drawable/ic_baseline_photo_camera_24" />-->
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/editMentions"
@@ -105,6 +106,23 @@
             android:contentDescription="@string/location"
             android:padding="@dimen/common_spacing"
             app:icon="@drawable/ic_baseline_location_on_24" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/attach"
+            style="@style/Widget.AppTheme.IconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/location"
+            android:padding="@dimen/common_spacing"
+            app:icon="@drawable/ic_baseline_attach_file_24" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/attachedFile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="@dimen/smaller_spacing"
+            tools:text="@sample/posts.json/data/link" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

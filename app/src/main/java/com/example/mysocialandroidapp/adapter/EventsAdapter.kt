@@ -112,7 +112,7 @@ class EventsAdapter(
                 }
                 event.attachment?.let {
                     if (it.type == AttachmentType.IMAGE) {
-                        ImageSetter.set(attachment, it.url, circleCrop = false)
+                        ImageSetter.set(imageAttachment, it.url, circleCrop = false)
                     }
                 }
                 menu.visibility = View.VISIBLE

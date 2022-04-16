@@ -1,9 +1,7 @@
 package com.example.mysocialandroidapp.viewmodel
 
 import android.content.Context
-import android.content.res.Resources
 import android.net.Uri
-import android.widget.Toast
 import androidx.core.net.toFile
 import androidx.lifecycle.*
 import com.example.mysocialandroidapp.R
@@ -11,16 +9,16 @@ import com.example.mysocialandroidapp.api.DataApiService
 import com.example.mysocialandroidapp.auth.AppAuth
 import com.example.mysocialandroidapp.auth.AuthState
 import com.example.mysocialandroidapp.dto.MediaUpload
+import com.example.mysocialandroidapp.enumeration.AttachmentType
 import com.example.mysocialandroidapp.error.ApiError
-import com.example.mysocialandroidapp.model.PhotoModel
+import com.example.mysocialandroidapp.model.MediaModel
 import com.example.mysocialandroidapp.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.*
-import okhttp3.MediaType
-import okhttp3.MediaType.Companion.toMediaType
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import retrofit2.Response
 import java.io.File
@@ -55,10 +53,10 @@ class AuthViewModel @Inject constructor(
     val moveToSignUpEvent: LiveData<Unit>
         get() = _moveToSignUpEvent
 
-    private val noPhoto = PhotoModel()
+    private val noPhoto = MediaModel()
 
     private val _photo = MutableLiveData(noPhoto)
-    val photo: LiveData<PhotoModel>
+    val photo: LiveData<MediaModel>
         get() = _photo
 
     private val _avatarWasSelected = SingleLiveEvent<Unit>()
@@ -157,7 +155,7 @@ class AuthViewModel @Inject constructor(
     }
 
     fun changePhoto(uri: Uri?, file: File?) {
-        _photo.value = PhotoModel(uri, file)
+        _photo.value = MediaModel(uri, file)
         _avatarWasSelected.value = Unit
     }
 

@@ -17,6 +17,7 @@ import com.example.mysocialandroidapp.adapter.PostsAdapter
 import com.example.mysocialandroidapp.databinding.FragmentWallBinding
 import com.example.mysocialandroidapp.dto.Post
 import com.example.mysocialandroidapp.enumeration.UserListType
+import com.example.mysocialandroidapp.observers.MediaLifecycleObserver
 import com.example.mysocialandroidapp.viewmodel.PostsViewModel
 import com.example.mysocialandroidapp.viewmodel.emptyPost
 import com.google.android.material.snackbar.Snackbar
@@ -30,6 +31,8 @@ class WallFragment : Fragment() {
 
     private val viewModel: PostsViewModel by hiltNavGraphViewModels(R.id.nav_graph)
 
+    private lateinit var mediaObserver: MediaLifecycleObserver
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -41,6 +44,7 @@ class WallFragment : Fragment() {
 
         viewModel.userId = viewModel.appAuth.userFlow.value.id
 
+        mediaObserver = MediaLifecycleObserver(binding.root.context)
         val adapter = PostsAdapter(object : OnPostInteractionListener {
             override fun onRemove(post: Post) {
                 viewModel.removeById(post.id)
@@ -71,7 +75,7 @@ class WallFragment : Fragment() {
                     listTypeBundle
                 )
             }
-        }, viewModel.userId)
+        }, viewModel.userId, mediaObserver)
         binding.postsList.adapter = adapter
 
         viewModel.dataState.observe(viewLifecycleOwner) { state ->
@@ -98,6 +102,7 @@ class WallFragment : Fragment() {
             findNavController().navigate(R.id.action_wallFragment_to_newPostFragment)
         }
         adapter.refresh()
+        lifecycle.addObserver(mediaObserver)
 
         return binding.root
     }

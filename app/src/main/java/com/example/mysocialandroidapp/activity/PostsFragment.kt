@@ -19,6 +19,7 @@ import com.example.mysocialandroidapp.adapter.PostsAdapter
 import com.example.mysocialandroidapp.databinding.FragmentPostsBinding
 import com.example.mysocialandroidapp.dto.Post
 import com.example.mysocialandroidapp.enumeration.UserListType
+import com.example.mysocialandroidapp.observers.MediaLifecycleObserver
 import com.example.mysocialandroidapp.viewmodel.PostsViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,6 +38,8 @@ class PostsFragment : Fragment() {
 
     private val viewModel: PostsViewModel by hiltNavGraphViewModels(R.id.nav_graph)
 
+    private lateinit var mediaObserver: MediaLifecycleObserver
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -47,6 +50,7 @@ class PostsFragment : Fragment() {
         val userId = viewModel.appAuth.authStateFlow.value.id
         viewModel.loadAllPosts()
 
+        mediaObserver = MediaLifecycleObserver(binding.root.context)
         val adapter = PostsAdapter(object : OnPostInteractionListener {
             override fun onRemove(post: Post) {
                 viewModel.removeById(post.id)
@@ -81,7 +85,7 @@ class PostsFragment : Fragment() {
                     )
                 }
             }
-        }, userId)
+        }, userId, mediaObserver)
         binding.postsList.adapter = adapter
 
         viewModel.dataState.observe(viewLifecycleOwner) { state ->
@@ -123,6 +127,7 @@ class PostsFragment : Fragment() {
         }
 
         adapter.refresh()
+        lifecycle.addObserver(mediaObserver)
 
         return binding.root
     }

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:id="@+id/attachments">
+        <item
+            android:id="@+id/gallery"
+            android:icon="@drawable/ic_baseline_photo_24"
+            android:title="@string/menu_gallery" />
+        <item
+            android:id="@+id/camera"
+            android:icon="@drawable/ic_baseline_photo_camera_24"
+            android:title="@string/menu_camera" />
+        <item
+            android:id="@+id/audio"
+            android:icon="@drawable/ic_baseline_music_note_24"
+            android:title="@string/menu_audio" />
+        <item
+            android:id="@+id/audioTest"
+            android:icon="@drawable/ic_baseline_music_note_24"
+            android:title="@string/menu_audio_test" />
+    </group>>
+</menu>

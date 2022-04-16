@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.*
+import android.widget.PopupMenu
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
@@ -14,9 +15,11 @@ import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.mysocialandroidapp.R
 import com.example.mysocialandroidapp.databinding.FragmentNewPostBinding
+import com.example.mysocialandroidapp.dto.Attachment
+import com.example.mysocialandroidapp.enumeration.AttachmentType
 import com.example.mysocialandroidapp.util.AndroidUtils
-import com.example.mysocialandroidapp.util.StringArg
 import com.example.mysocialandroidapp.viewmodel.PostsViewModel
+import com.example.mysocialandroidapp.viewmodel.emptyPost
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,6 +29,8 @@ import java.io.File
 class NewPostFragment : Fragment() {
     private val photoRequestCode = 1
     private val cameraRequestCode = 2
+    private val audioRequestCode = 3
+    private val audioTestRequestCode = 4
 
     private var _binding: FragmentNewPostBinding? = null
     private val binding get() = _binding!!
@@ -49,30 +54,54 @@ class NewPostFragment : Fragment() {
         binding.edit.setText(viewModel.edited.value?.content)
         binding.edit.requestFocus()
 
-        binding.pickPhoto.setOnClickListener {
-            ImagePicker.with(this)
-                .crop()
-                .compress(2048)
-                .galleryOnly()
-                .galleryMimeTypes(
-                    arrayOf(
-                        "image/png",
-                        "image/jpeg",
-                    )
-                )
-                .start(photoRequestCode)
-        }
-
-        binding.takePhoto.setOnClickListener {
-            ImagePicker.with(this)
-                .crop()
-                .compress(2048)
-                .cameraOnly()
-                .start(cameraRequestCode)
-        }
-
         binding.removePhoto.setOnClickListener {
-            viewModel.changePhoto(null, null)
+            viewModel.changeMedia(null, null)
+            binding.attachedFile.text = ""
+        }
+
+        binding.attach.setOnClickListener {
+            val fragm = this
+            PopupMenu(it.context, it).apply {
+                inflate(R.menu.options_attach)
+                setOnMenuItemClickListener{ item ->
+                    when (item.itemId) {
+                        R.id.gallery -> {
+                            ImagePicker.with(fragm)
+                                .crop()
+                                .compress(2048)
+                                .galleryOnly()
+                                .galleryMimeTypes(
+                                    arrayOf(
+                                        "image/png",
+                                        "image/jpeg",
+                                    )
+                                )
+                                .start(photoRequestCode)
+                            true
+                        }
+                        R.id.camera -> {
+                            ImagePicker.with(fragm)
+                                .crop()
+                                .compress(2048)
+                                .cameraOnly()
+                                .start(cameraRequestCode)
+                            true
+                        }
+                        R.id.audio -> {
+                            val intent = Intent()
+                                .setType("*/*")
+                                .setAction(Intent.ACTION_GET_CONTENT)
+                            startActivityForResult(Intent.createChooser(intent, "Select a file"), audioRequestCode)
+                            true
+                        }
+                        R.id.audioTest -> {
+                            viewModel.setTestAudioAttachment()
+                            true
+                        }
+                        else -> false
+                    }
+                }
+            }.show()
         }
 
         binding.editLocation.setOnClickListener {
@@ -83,14 +112,15 @@ class NewPostFragment : Fragment() {
             findNavController().navigateUp()
         }
 
-        viewModel.photo.observe(viewLifecycleOwner) {
+        viewModel.media.observe(viewLifecycleOwner) {
             if (it.uri == null) {
                 binding.photoContainer.visibility = View.GONE
                 return@observe
             }
-
-            binding.photoContainer.visibility = View.VISIBLE
-            binding.photo.setImageURI(it.uri)
+            if (it.type == AttachmentType.IMAGE) {
+                binding.photoContainer.visibility = View.VISIBLE
+                binding.photo.setImageURI(it.uri)
+            }
         }
 
         return binding.root
@@ -139,13 +169,22 @@ class NewPostFragment : Fragment() {
         if (resultCode == Activity.RESULT_OK && requestCode == photoRequestCode) {
             val uri: Uri? = data?.data
             val file: File? = ImagePicker.getFile(data)
-            viewModel.changePhoto(uri, file)
+            viewModel.changeMedia(uri, file)
+            binding.attachedFile.text = file?.name.toString()
             return
         }
         if (resultCode == Activity.RESULT_OK && requestCode == cameraRequestCode) {
             val uri: Uri? = data?.data
             val file: File? = ImagePicker.getFile(data)
-            viewModel.changePhoto(uri, file)
+            viewModel.changeMedia(uri, file)
+            binding.attachedFile.text = file?.name.toString()
+            return
+        }
+        if (resultCode == Activity.RESULT_OK && requestCode == audioRequestCode) {
+            val uri: Uri? = data?.data
+            val file: File? = File(uri?.path)
+            viewModel.changeMedia(uri, file, AttachmentType.AUDIO)
+            binding.attachedFile.text = file?.name.toString()
             return
         }
     }

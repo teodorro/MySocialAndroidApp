@@ -218,14 +218,14 @@ class PostsRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun processWork(postId: Long) {
+    override suspend fun processWork(postId: Long, attachmentType: AttachmentType?) {
         try {
             val entity = postWorkDao.getById(postId)
             var post = entity.toDto()
             if (entity.uri != null) {
                 val upload = MediaUpload(Uri.parse(entity.uri).toFile())
                 val media = upload(upload)
-                post = post.copy(attachment = Attachment(media.url, AttachmentType.IMAGE))
+                post = post.copy(attachment = Attachment(media.url, attachmentType ?: AttachmentType.IMAGE))
             }
             save(post)
 
@@ -252,21 +252,21 @@ class PostsRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun saveWithAttachment(post: Post, upload: MediaUpload) {
-        try {
-            val media = upload(upload)
-            // TODO: add support for other types
-            val postWithAttachment =
-                post.copy(attachment = Attachment(media.url, AttachmentType.IMAGE))
-            save(postWithAttachment)
-        } catch (e: AppError) {
-            throw e
-        } catch (e: java.io.IOException) {
-            throw NetworkError
-        } catch (e: Exception) {
-            throw UnknownError
-        }
-    }
+//    override suspend fun saveWithAttachment(post: Post, upload: MediaUpload) {
+//        try {
+//            val media = upload(upload)
+//            // TODO: add support for other types
+//            val postWithAttachment =
+//                post.copy(attachment = Attachment(media.url, AttachmentType.IMAGE))
+//            save(postWithAttachment)
+//        } catch (e: AppError) {
+//            throw e
+//        } catch (e: java.io.IOException) {
+//            throw NetworkError
+//        } catch (e: Exception) {
+//            throw UnknownError
+//        }
+//    }
 
     override suspend fun upload(upload: MediaUpload): Media {
         try {

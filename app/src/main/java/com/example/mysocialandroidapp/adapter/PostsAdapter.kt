@@ -7,17 +7,14 @@ import android.widget.PopupMenu
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.example.mysocialandroidapp.BuildConfig
 import com.example.mysocialandroidapp.R
-import com.example.mysocialandroidapp.api.TIMEOUT
 import com.example.mysocialandroidapp.databinding.PostItemBinding
 import com.example.mysocialandroidapp.dto.Post
 import com.example.mysocialandroidapp.enumeration.AttachmentType
 import com.example.mysocialandroidapp.enumeration.UserListType
+import com.example.mysocialandroidapp.observers.MediaLifecycleObserver
 import com.example.mysocialandroidapp.util.DateStringFormatter
 import com.example.mysocialandroidapp.util.ImageSetter
-import com.example.mysocialandroidapp.util.loadCircleCrop
 
 interface OnPostInteractionListener {
     fun onLike(post: Post) {}
@@ -31,11 +28,12 @@ interface OnPostInteractionListener {
 
 class PostsAdapter (
     private val onInteractionListener: OnPostInteractionListener,
-    private val userId: Long
+    private val userId: Long,
+    private val mediaObserver: MediaLifecycleObserver,
 ) : PagingDataAdapter<Post, PostsAdapter.PostViewHolder>(PostDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         val binding = PostItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return PostViewHolder(binding, onInteractionListener, userId)
+        return PostViewHolder(binding, onInteractionListener, userId, mediaObserver)
     }
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
@@ -65,8 +63,8 @@ class PostsAdapter (
         private val binding: PostItemBinding,
         private val onInteractionListener: OnPostInteractionListener,
         private val userId: Long,
+        private val mediaObserver: MediaLifecycleObserver,
     ) : RecyclerView.ViewHolder(binding.root) {
-
         fun bind(post: Post) {
             binding.apply {
                 author.text = post.author
@@ -93,8 +91,17 @@ class PostsAdapter (
                 }
                 post.attachment?.let {
                     if (it.type == AttachmentType.IMAGE) {
-                        ImageSetter.set(attachment, it.url, circleCrop = false)
+                        ImageSetter.set(imageAttachment, it.url, circleCrop = false)
+                        audioAttachment.visibility = View.GONE
                     }
+                    if (it.type == AttachmentType.AUDIO) {
+                        audioAttachment.visibility = View.VISIBLE
+                        audioTrackName.text = it.url.substringAfterLast('/')
+                    }
+                }
+                if (post.attachment == null){
+                    audioAttachment.visibility = View.GONE
+                    imageAttachment.visibility = View.GONE
                 }
 
                 author.setOnClickListener {
@@ -134,6 +141,42 @@ class PostsAdapter (
                 like.setOnClickListener {
                     onInteractionListener.onLike(post)
                     like.isChecked = !like.isChecked
+                }
+
+                playPauseAudio.setOnClickListener {
+                    mediaObserver.player?.let{
+                        var url = post.attachment!!.url
+                        if (mediaObserver.currentUrl.isNotBlank() && mediaObserver.currentUrl != url) {
+                            mediaObserver.onStop()
+                        }
+                        if (mediaObserver.player == null || mediaObserver.player?.isPlaying!!) {
+                            mediaObserver?.onPause()
+                        } else {
+                            if (mediaObserver.currentUrl != url) {
+                                mediaObserver.apply {
+                                    player?.setDataSource(url)
+                                    player?.prepare()
+                                    currentUrl = url
+                                    trackButton = playPauseAudio
+                                }.onPlay()
+                            } else
+                                mediaObserver.onPlay()
+                        }
+//                        if (it.isPlaying)
+//                            mediaObserver.onPause()
+//                        else {
+//                            if (mediaObserver.currentUrl != post.attachment!!.url)
+//                            mediaObserver.onPlay()
+//                        }
+                    }
+//                    if (mediaObserver.player != null) {
+//                        var a = mediaObserver
+//                        if (mediaObserver.player!!.isPlaying) {
+//                            mediaObserver.onPause()
+//                        } else {
+//                            mediaObserver.onPlay()
+//                        }
+//                    }
                 }
             }
 

@@ -8,10 +8,13 @@ import androidx.paging.cachedIn
 import androidx.paging.map
 import androidx.work.*
 import com.example.mysocialandroidapp.auth.AppAuth
+import com.example.mysocialandroidapp.dto.Attachment
 import com.example.mysocialandroidapp.dto.Coordinates
 import com.example.mysocialandroidapp.dto.MediaUpload
 import com.example.mysocialandroidapp.dto.Post
-import com.example.mysocialandroidapp.model.PhotoModel
+import com.example.mysocialandroidapp.enumeration.AttachmentType
+import com.example.mysocialandroidapp.error.AppError
+import com.example.mysocialandroidapp.model.MediaModel
 import com.example.mysocialandroidapp.model.PostFeedModelState
 import com.example.mysocialandroidapp.model.UsersFeedModel
 import com.example.mysocialandroidapp.repository.PostsRepository
@@ -22,6 +25,7 @@ import com.example.mysocialandroidapp.work.SavePostWorker
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -38,7 +42,6 @@ val emptyPost = Post(
     authorAvatar = "",
     likedByMe = false,
     published = Instant.now().toString(),
-//    published = DateStringFormatter.getSimpleFromInstance(Instant.now().toString()),
     coords = null,
     link = null,
     mentionIds = mutableSetOf(),
@@ -47,7 +50,7 @@ val emptyPost = Post(
     attachment = null
 )
 
-private val noPhoto = PhotoModel()
+private val noPhoto = MediaModel()
 
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -81,6 +84,7 @@ class PostsViewModel @Inject constructor(
 
     private val cachedAllPosts = repository
         .allPosts
+        .catch { e -> throw AppError.from(e) }
         .cachedIn(viewModelScope)
 
     val allPosts: Flow<PagingData<Post>> = appAuth.authStateFlow
@@ -113,9 +117,9 @@ class PostsViewModel @Inject constructor(
             )
         }.asLiveData()
 
-    private val _photo = MutableLiveData(noPhoto)
-    val photo: LiveData<PhotoModel>
-        get() = _photo
+    private val _media = MutableLiveData(noPhoto)
+    val media: LiveData<MediaModel>
+        get() = _media
 
     private val _dataState = MutableLiveData<PostFeedModelState>()
     val dataState: LiveData<PostFeedModelState>
@@ -248,8 +252,8 @@ class PostsViewModel @Inject constructor(
         }
     }
 
-    fun changePhoto(uri: Uri?, file: File?) {
-        _photo.value = PhotoModel(uri, file)
+    fun changeMedia(uri: Uri?, file: File?, type: AttachmentType = AttachmentType.IMAGE) {
+        _media.value = MediaModel(uri, file, type)
     }
 
     fun changeContent(content: String) {
@@ -266,7 +270,7 @@ class PostsViewModel @Inject constructor(
     }
 
     fun changeLocation(latitude: Double?, longitude: Double?) {
-        var coords = if (latitude != null && longitude != null){
+        var coords = if (latitude != null && longitude != null) {
             Coordinates(latitude, longitude)
         } else null
 
@@ -281,7 +285,10 @@ class PostsViewModel @Inject constructor(
             viewModelScope.launch {
                 try {
                     val id = repository.saveWork(
-                        it, _photo.value?.uri?.let { MediaUpload(it.toFile()) }
+                        it,
+                        if (_media.value?.type == AttachmentType.IMAGE)
+                            _media.value?.uri?.let { MediaUpload(it.toFile()) }
+                        else _media.value?.uri?.let { MediaUpload(File(it.path)) }
                     )
                     val data = workDataOf(SavePostWorker.POST_KEY to id)
                     val constraints = Constraints.Builder()
@@ -303,6 +310,13 @@ class PostsViewModel @Inject constructor(
         _edited.value?.let { it ->
             it.copy(mentionIds = mutableSetOf(), mentionedMe = false)
         }
-        _photo.value = noPhoto
+        _media.value = noPhoto
+    }
+
+    fun setTestAudioAttachment(){
+        _edited.value = edited.value?.copy(attachment = Attachment(
+            "https://raw.githubusercontent.com/netology-code/andad-homeworks/master/09_multimedia/data/1.mp3",
+            AttachmentType.AUDIO)
+        )
     }
 }

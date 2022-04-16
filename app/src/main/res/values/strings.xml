@@ -85,6 +85,10 @@
     <string name="menu_participants">Participants</string>
     <string name="menu_edit">Edit</string>
     <string name="menu_save">Save</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_camera">Camera</string>
+    <string name="menu_audio">Audio</string>
+    <string name="menu_audio_test">AudioTest</string>
     <string name="post_text">Post Text</string>
     <string name="users">Users</string>
 
@@ -110,5 +114,6 @@
     <string name="minus"> - </string>
     <string name="now">Now</string>
     <string name="location">Location</string>
+    <string name="play">Play</string>
 
 </resources>
